@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Progress Chart</title>
+    <style>.progress-chart-container {
+        text-align: center;
+        width: 200px;
+        margin: 20px auto;
+    }
+    
+    .progress-circle {
+        position: relative;
+        width: 100px;
+        height: 100px;
+    }
+    
+    .progress-circle svg {
+        width: 100px;
+        height: 100px;
+        transform: rotate(-90deg); /* Поворот, чтобы начиналось сверху */
+    }
+    
+    .progress-circle circle {
+        fill: none;
+        stroke-linecap: round;
+    }
+    
+    .progress-circle circle:first-child {
+        stroke: #e6e6e6; /* Цвет фона */
+        stroke-width: 10; /* Ширина фона */
+    }
+    
+    #progress-bar {
+        stroke: #4caf50; /* Цвет прогресса */
+        stroke-width: 10; /* Ширина прогресса */
+        stroke-dasharray: 251.2; /* Длина окружности (расчет: 2 * π * 40%) */
+        stroke-dashoffset: 251.2; /* Прогресс по умолчанию - 0 */
+        transition: stroke-dashoffset 1s ease; /* Плавный переход */
+    }
+    
+    .progress-percentage {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 1.5em;
+        font-weight: bold;
+    }
+    
+    #task-info {
+        font-size: 0.9em;
+        margin-top: 10px;
+    }
+    </style>
+</head>
+<body>
+    <div class="progress-chart-container">
+        <h2>Progress Chart</h2>
+        <div class="progress-circle">
+            <span class="progress-percentage" id="progress-percentage">0%</span>
+            <svg>
+                <circle cx="50%" cy="50%" r="40%"></circle>
+                <circle cx="50%" cy="50%" r="40%" id="progress-bar"></circle>
+            </svg>
+        </div>
+        <p id="task-info">Completed: 0 of 0 tasks</p>
+    </div>
+    <script>document.addEventListener('DOMContentLoaded', () => {
+        const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+        updateProgressChart(tasks);
+    });
+    
+    function updateProgressChart(tasks) {
+        const totalTasks = tasks.length;
+        const completedTasks = tasks.filter(task => task.progress === 100).length;
+    
+        // Общий прогресс
+        const totalProgress = tasks.reduce((sum, task) => sum + task.progress, 0);
+        const averageProgress = totalTasks > 0 ? totalProgress / totalTasks : 0;
+    
+        const progressPercentage = averageProgress; // Используем средний прогресс
+    
+        // Обновление прогресс-диаграммы
+        const progressBar = document.querySelector('#progress-bar');
+        const progressLabel = document.querySelector('#progress-percentage');
+        const taskInfo = document.querySelector('#task-info');
+    
+        if (progressBar) {
+            progressBar.style.strokeDasharray = `${progressPercentage} 100`;
+        }
+    
+        if (progressLabel) {
+            progressLabel.textContent = `${Math.round(progressPercentage)}%`;
+        }
+    
+        if (taskInfo) {
+            taskInfo.textContent = `Completed: ${completedTasks} of ${totalTasks} tasks`;
+        }
+    }
+</script>
+</body>
+</html>
+

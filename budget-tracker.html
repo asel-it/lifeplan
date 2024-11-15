@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Budget Tracker</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Exo 2', sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: row;
+            align-items: flex-start;
+            overflow-y: auto;
+        }
+        h1 {
+            color: #007777;
+            margin-top: 20px;
+        }
+        .container {
+            display: flex;
+            width: 100%;
+            height: 100vh;
+        }
+        .sidebar {
+            width: 20%;
+            padding: 20px;
+            background-color: #e0f7f7;
+            text-align: left;
+        }
+        .content {
+            width: 60%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .recommendations {
+            width: 20%;
+            padding: 20px;
+            background-color: #e0f7f7;
+            text-align: left;
+        }
+        .chart-container {
+            width: 80%;
+            height: 60%;
+            margin: 20px 0;
+        }
+        canvas {
+            max-width: 100%;
+            max-height: 100%;
+        }
+        .form {
+            margin: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        table {
+            width: 80%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background-color: #007777;
+            color: white;
+        }
+        button {
+            padding: 5px 10px;
+            background-color: #007777;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #005555;
+        }
+    </style>
+</head>
+<body>
+    <h1>Budget Tracker</h1>
+    <div class="container">
+        <div class="sidebar">
+            <h2>Menu</h2>
+            <button onclick="showForm('incomeForm')">Add Income</button>
+            <button onclick="showForm('expenseForm')">Add Expense</button>
+            <button onclick="showForm('budgetForm')">Set Budget</button>
+            <button onclick="showForm('goalForm')">Set Savings Goal</button>
+            <button onclick="showTransactions()">View Transactions</button>
+        </div>
+        <div class="content">
+            <div class="form" id="incomeForm" style="display:none;">
+                <h3>Add Income</h3>
+                <input type="date" id="incomeDate" placeholder="Date">
+                <input type="text" id="incomeCategory" placeholder="Category">
+                <input type="text" id="incomeTags" placeholder="Tags">
+                <select id="incomeCurrency">
+                    <option value="USD">USD</option>
+                    <option value="EUR">EUR</option>
+                    <option value="KGS">KGS</option>
+                    <option value="RUB">RUB</option>
+                </select>
+                <input type="number" id="incomeAmount" placeholder="Amount">
+                <button onclick="addIncome()">Add Income</button>
+            </div>
+            <div class="form" id="expenseForm" style="display:none;">
+                <h3>Add Expense</h3>
+                <input type="date" id="expenseDate" placeholder="Date">
+                <input type="text" id="expenseCategory" placeholder="Category">
+                <input type="text" id="expenseTags" placeholder="Tags">
+                <select id="expenseCurrency">
+                    <option value="USD">USD</option>
+                    <option value="EUR">EUR</option>
+                    <option value="KGS">KGS</option>
+                    <option value="RUB">RUB</option>
+                </select>
+                <input type="number" id="expenseAmount" placeholder="Amount">
+                <button onclick="addExpense()">Add Expense</button>
+            </div>
+            <div class="form" id="budgetForm" style="display:none;">
+                <h3>Set Monthly Budget</h3>
+                <input type="text" id="budgetCategory" placeholder="Category">
+                <input type="number" id="budgetAmount" placeholder="Amount">
+                <select id="budgetCurrency">
+                    <option value="USD">USD</option>
+                    <option value="EUR">EUR</option>
+                    <option value="KGS">KGS</option>
+                    <option value="RUB">RUB</option>
+                </select>
+                <button onclick="setBudget()">Set Budget</button>
+            </div>
+            <div class="form" id="goalForm" style="display:none;">
+                <h3>Set Savings Goal</h3>
+                <input type="text" id="goalName" placeholder="Goal Name">
+                <input type="number" id="goalAmount" placeholder="Goal Amount">
+                <input type="date" id="goalDeadline" placeholder="Deadline">
+                <button onclick="setSavingsGoal()">Set Goal</button>
+            </div>
+            <div class="chart-container">
+                <canvas id="budgetChart"></canvas>
+            </div>
+            <h2>Current Balance: <span id="currentBalance">0</span></h2>
+            <h2>Transaction History</h2>
+            <table id="transactionTable">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Category</th>
+                        <th>Tags</th>
+                        <th>Amount</th>
+                        <th>Type</th>
+                        <th>Balance</th>
+                    </tr>
+                </thead>
+                <tbody id="transactionBody"></tbody>
+            </table>
+        </div>
+        <div class="recommendations">
+            <h2>Recommendations</h2>
+            <p id="budgetRecommendation">Set a budget to manage your expenses effectively!</p>
+        </div>
+    </div>
+    <script>
+        let incomes = [];
+        let expenses = [];
+        let budgets = {};
+        let savingsGoals = [];
+        const ctx = document.getElementById('budgetChart').getContext('2d');
+        const currentBalanceDisplay = document.getElementById('currentBalance');
+        const transactionBody = document.getElementById('transactionBody');
+        
+        function showForm(formId) {
+            const forms = ['incomeForm', 'expenseForm', 'budgetForm', 'goalForm'];
+            forms.forEach(form => {
+                document.getElementById(form).style.display = form === formId ? 'block' : 'none';
+            });
+        }
+    
+    
+        function addIncome() {
+            const date = document.getElementById('incomeDate').value;
+            const category = document.getElementById('incomeCategory').value;
+            const amount = parseFloat(document.getElementById('incomeAmount').value);
+            const tags = document.getElementById('incomeTags').value;
+            if (date && category && !isNaN(amount)) {
+                incomes.push({ date, category, amount, tags: tags.split(',').map(tag => tag.trim()) });
+                updateBalance();
+                addTransactionToTable(date, category, amount, 'Income', tags.split(',').map(tag => tag.trim()));
+                showChart();
+                document.getElementById('incomeForm').reset();
+            }
+        }
+    
+    
+        function addExpense() {
+            const date = document.getElementById('expenseDate').value;
+            const category = document.getElementById('expenseCategory').value;
+            const amount = parseFloat(document.getElementById('expenseAmount').value);
+            const tags = document.getElementById('expenseTags').value;
+            if (date && category && !isNaN(amount)) {
+                expenses.push({ date, category, amount, tags: tags.split(',').map(tag => tag.trim()) });
+                updateBalance();
+                addTransactionToTable(date, category, -amount, 'Expense', tags.split(',').map(tag => tag.trim()));
+                showChart();
+                document.getElementById('expenseForm').reset();
+            }
+        }
+    
+    
+        function setBudget() {
+            const category = document.getElementById('budgetCategory').value;
+            const amount = parseFloat(document.getElementById('budgetAmount').value);
+            if (category && !isNaN(amount)) {
+                budgets[category] = amount;
+                document.getElementById('budgetForm').reset();
+                showChart();
+            }
+        }
+    
+    
+        function setSavingsGoal() {
+            const name = document.getElementById('goalName').value;
+            const amount = parseFloat(document.getElementById('goalAmount').value);
+            const deadline = document.getElementById('goalDeadline').value;
+            if (name && !isNaN(amount) && deadline) {
+                savingsGoals.push({ name, amount, deadline });
+                document.getElementById('goalForm').reset();
+            }
+        }
+    
+    
+        let currentCurrency = 'KGS'; // По умолчанию - сомы
+let exchangeRate = 1; // Курс обмена по умолчанию
+
+
+// Объект для хранения информации о валюте
+const currencies = {
+    KGS: { symbol: 'сом', position: 'end' },  // Сомы
+    KZT: { symbol: 'тг', position: 'end' },   // Тенге
+    RUB: { symbol: 'руб', position: 'end' },  // Рубли
+    USD: { symbol: '$', position: 'start' },  // Доллары
+    EUR: { symbol: '€', position: 'start' },  // Евро
+    GBP: { symbol: '£', position: 'start' }    // Фунты
+};
+
+
+// Функция для обновления текущей валюты
+function setCurrency(currencyCode) {
+    currentCurrency = currencyCode;
+    updateBalance();
+}
+
+
+// Функция для обновления баланса
+function updateBalance() {
+    const totalIncome = incomes.reduce((sum, income) => sum + income.amount, 0);
+    const totalExpenses = expenses.reduce((sum, expense) => sum + expense.amount, 0);
+    const currentBalance = totalIncome - totalExpenses;
+
+
+    // Получаем символ и позицию для текущей валюты
+    const { symbol, position } = currencies[currentCurrency];
+
+
+    // Форматируем строку с балансом в зависимости от позиции символа
+    const formattedBalance = position === 'start' ? `${symbol}${(currentBalance * exchangeRate).toFixed(2)}` : `${(currentBalance * exchangeRate).toFixed(2)} ${symbol}`;
+    
+    currentBalanceDisplay.innerText = formattedBalance;
+}
+
+
+// Пример выбора валюты
+document.getElementById('currencySelector').addEventListener('change', function() {
+    setCurrency(this.value); // this.value - код выбранной валюты (например, 'KGS', 'USD' и т.д.)
+});
+
+    
+        function addTransactionToTable(date, category, amount, type, tags) {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${date}</td>
+                <td>${category}</td>
+                <td>${tags.join(', ')}</td>
+                <td>${currencySymbol}${amount.toFixed(2)}</td>
+                <td>${type}</td>
+                <td>${currencySymbol}${(parseFloat(currentBalanceDisplay.innerText.replace(currencySymbol, '')) + amount).toFixed(2)}</td>
+            `;
+            transactionBody.appendChild(row);
+        }
+    
+    
+        function showChart() {
+            const chartLabels = [...new Set([...incomes.map(i => i.category), ...expenses.map(e => e.category)])];
+            const chartData = {
+                labels: chartLabels,
+                datasets: [{
+                    label: 'Income & Expenses',
+                    data: chartLabels.map(label => {
+                        const incomeTotal = incomes.filter(i => i.category === label).reduce((sum, i) => sum + i.amount, 0);
+                        const expenseTotal = expenses.filter(e => e.category === label).reduce((sum, e) => sum + e.amount, 0);
+                        return incomeTotal + expenseTotal;
+                    }),
+                    backgroundColor: 'rgba(75, 192, 192, 0.6)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                }]
+            };
+    
+    
+            // Clear the previous chart if it exists
+            if (window.budgetChart) {
+                window.budgetChart.destroy();
+            }
+    
+    
+            window.budgetChart = new Chart(ctx, {
+                type: 'bar',
+                data: chartData,
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+    </script>
+    
