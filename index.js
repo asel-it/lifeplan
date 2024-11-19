@@ -33,6 +33,45 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
+// Проверяем состояние авторизации
+function checkAuthStatus() {
+    const isAuthenticated = localStorage.getItem('isAuthenticated') === 'true';
+    
+    const dashboardLink = document.getElementById('dashboard-link');
+    const myPlansLink = document.getElementById('my-plans-link');
+    const myProfileLink = document.getElementById('my-profile-link');
+    const signUpLoginLink = document.getElementById('sign-up-login-link');
+    const signOutLink = document.getElementById('sign-out-link');
+    
+    // Для авторизованных пользователей показываем ссылки на страницы и ссылку на выход
+    if (isAuthenticated) {
+        dashboardLink.style.display = 'block';
+        myPlansLink.style.display = 'block';
+        myProfileLink.style.display = 'block';
+        signUpLoginLink.style.display = 'none';
+        signOutLink.style.display = 'block';
+    } else {
+        // Для неавторизованных показываем ссылку на вход и скрываем другие
+        dashboardLink.style.display = 'none';
+        myPlansLink.style.display = 'none';
+        myProfileLink.style.display = 'none';
+        signUpLoginLink.style.display = 'block';
+        signOutLink.style.display = 'none';
+    }
+}
+
+// Функция для выхода
+function signOut() {
+    // Удаляем информацию о том, что пользователь авторизован
+    localStorage.removeItem('isAuthenticated');
+    // Перезагружаем меню
+    checkAuthStatus();
+}
+
+// Вызываем функцию при загрузке страницы
+document.addEventListener('DOMContentLoaded', function() {
+    checkAuthStatus();
+});
 
     // Animating blocks
     const allBlocks = document.querySelectorAll('.large, .small');
@@ -63,9 +102,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Chatbot and AI dialogues
     const dialogues = [
-        { text: "AI: Let's create a plan for your day. What do you need to accomplish?", image: "image1.png" },
-        { text: "AI: Don't forget your meeting at 3 PM.", image: "image2.png" },
-        { text: "AI: How can I assist you with family event planning?", image: "image3.png" }
+        { text: "AI: Let's create a plan for your day. What do you need to accomplish?", image: "/images/image1.png" },
+        { text: "AI: Don't forget your meeting at 3 PM.", image: "/images/image2.png" },
+        { text: "AI: How can I assist you with family event planning?", image: "/images/image3.png" }
     ];
     const chatBox = document.getElementById('animation-box');
     const imageContainer = document.getElementById('image-container');
