@@ -102,7 +102,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Chatbot and AI dialogues
     const dialogues = [
-        { text: "AI: Let's create a plan for your day. What do you need to accomplish?", image: "image1.png" },
+        { text: "AI: Let's create a plan for your day. What do you need to accomplish?", image: "./image1.png" },
         { text: "AI: Don't forget your meeting at 3 PM.", image: "image2.png" },
         { text: "AI: How can I assist you with family event planning?", image: "image3.png" }
     ];
