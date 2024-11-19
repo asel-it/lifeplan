@@ -497,3 +497,8 @@ select:focus {
         max-height: 70vh; /* Ограничиваем максимальную высоту */
     }
 }
+
+.tab-button.active {
+    background-color: #4CAF50; /* Цвет для активной кнопки */
+    color: white; /* Белый текст для активной кнопки */
+}
