@@ -147,7 +147,7 @@ html, body {
     min-width: 100px;
 }
 
-.myplansTitle {
+.main-Title {
     margin-top: 80px;
     color: #00a9a9;
     font-size: 36px;
@@ -180,8 +180,8 @@ html, body {
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
     transition: transform 0.3s, box-shadow 0.3s;
     text-align: center;
-    height: 700px;
-    width: 95%;
+    height: 700px; /* Высота карточек */
+    width: 95%; /* Ширина карточек */
     padding: 20px;
     box-sizing: border-box;
     margin: 0 auto;
@@ -201,7 +201,31 @@ html, body {
     transform: scale(1.1);
 }
 
-/* Модальное окно занимает всю ширину и высоту экрана */
+
+/* Стили карточек в модальном окне */
+.modal .card-container {
+    grid-template-columns: repeat(3, 1fr); /* 3 карточки в ряду */
+    gap: 10px; /* Увеличенные отступы между карточками */
+    padding: 10px;
+}
+
+
+.modal .card {
+    height: 150px; /* Уменьшенная высота карточек */
+    width: 100%; /* Увеличенная ширина для адаптации */
+    font-size: 1.2em; /* Уменьшенный текст */
+}
+
+
+/* Подсветка карточек */
+.card.highlighted {
+    box-shadow: 0 0 30px rgba(0, 255, 255, 0.9), 0 0 30px rgba(255, 215, 0, 0.7);
+    transform: scale(1.1);
+}
+
+
+
+/* Модальное окно */
 .modal {
     display: none;
     position: fixed;
@@ -215,7 +239,7 @@ html, body {
 }
 
 
-/* Контент модального окна центрирован */
+/* Контент модального окна */
 .modal-content {
     background-color: #fff;
     margin: 0 auto;
@@ -232,7 +256,7 @@ html, body {
 }
 
 
-/* Кнопка закрытия расположена в верхнем углу */
+/* Кнопка закрытия */
 .close {
     position: absolute;
     top: 20px;
@@ -247,23 +271,3 @@ html, body {
 .close:hover {
     color: #000;
 }
-
-.card {
-    padding: 10px;
-    border: 1px solid #ccc;
-    cursor: pointer;
-    margin: 5px;
-    border-radius: 4px;
-    transition: background-color 0.3s;
-}
-
-
-.card.highlight {
-    background-color: #f0e68c; /* Подсветка */
-}
-
-.highlight {
-    background-color: #f0e68c; /* Добавить желтый фон для подсвеченных инструментов */
-    transform: scale(1.05); /* Немного увеличивать подсвеченные элементы */
-}
-
