@@ -33,7 +33,7 @@ function checkAuthStatus() {
     const signOutLink = document.getElementById('sign-out-link');
 
     // Check if we're already on the dashboard page and hide the dashboard link
-    if (currentPage === '/dashboard.html') {
+    if (currentPage === 'dashboard.html') {
         dashboardLink.style.display = 'none';
     } else {
         dashboardLink.style.display = isAuthenticated ? 'block' : 'none';
