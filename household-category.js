@@ -97,10 +97,10 @@ document.addEventListener('DOMContentLoaded', function() {
   
 // Функция для перехода на страницу tools.html с параметром selectedTool
 function goToToolsPage(selectedTool) {
-    window.location.href = '/tools.html?selectedTool=' + selectedTool;
+    window.location.href = 'tools.html?selectedTool=' + selectedTool;
 }
 
 // Функция для перехода на страницу tools.html с параметром selectedTemplate
 function goToToolsPage(selectedTemplate) {
-    window.location.href = '/tools.html?selectedTemplate=' + selectedTemplate;
+    window.location.href = 'tools.html?selectedTemplate=' + selectedTemplate;
 }
