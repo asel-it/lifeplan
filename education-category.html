@@ -7,7 +7,7 @@
     <link rel="manifest" href="/manifest.json">
     <script src="/service-worker.js" defer></script>
     <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;600&family=Orbitron&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/education-category.css">
+    <link rel="stylesheet" href="education-category.css">
 </head>
 <body>
     <div id="time-date">
@@ -16,19 +16,19 @@
     </div>    
     <div class="container">
         <div class="header">  
-            <img src="/images/logo.png" alt="LifePlan Logo" class="logo">  
+            <img src="logo.png" alt="LifePlan Logo" class="logo">  
                 
             <!-- Navigation Menu -->
 <div id="side-menu" class="side-menu">
     <ul>
-        <li><a href="/index.html">Home</a></li>
-        <li><a href="/categories.html">Categories</a></li>
-        <li><a href="/tools.html">Tools</a></li>
-        <li id="dashboard-link" style="display:none;"><a href="/dashboard.html">Dashboard</a></li>
-        <li id="my-plans-link" style="display:none;"><a href="/my-plans.html">My Plans</a></li>
-        <li id="my-profile-link" style="display:none;"><a href="/my-profile.html">My Profile</a></li>        
-        <li><a href="/community.html">Community</a></li>
-        <li id="sign-up-login-link"><a href="/login.html">Sign Up/Login</a></li>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="categories.html">Categories</a></li>
+        <li><a href="tools.html">Tools</a></li>
+        <li id="dashboard-link" style="display:none;"><a href="dashboard.html">Dashboard</a></li>
+        <li id="my-plans-link" style="display:none;"><a href="my-plans.html">My Plans</a></li>
+        <li id="my-profile-link" style="display:none;"><a href="my-profile.html">My Profile</a></li>        
+        <li><a href="community.html">Community</a></li>
+        <li id="sign-up-login-link"><a href="login.html">Sign Up/Login</a></li>
         <li id="sign-out-link" style="display:none;"><a href="#" onclick="signOut()">Sign Out</a></li>
     </ul>
 </div>
@@ -46,43 +46,43 @@
 <!-- Горизонтальное меню иконок -->
 <nav class="icon-menu">
     <div class="icon-item">
-        <img src="images/category1.png" alt="School">
+        <img src="category1.png" alt="School">
         <p>School</p>
     </div>
     <div class="icon-item">
-        <img src="images/category2.png" alt="College/University">
+        <img src="category2.png" alt="College/University">
         <p>College/University</p>
     </div>
     <div class="icon-item">
-        <img src="images/category3.png" alt="Professional Development">
+        <img src="category3.png" alt="Professional Development">
         <p>Professional Development</p>
     </div>
     <div class="icon-item">
-        <img src="images/category4.png" alt="Courses & Training">
+        <img src="category4.png" alt="Courses & Training">
         <p>Courses & Training</p>
     </div>
     <div class="icon-item">
-        <img src="images/category5.png" alt="Online Learning">
+        <img src="category5.png" alt="Online Learning">
         <p>Online Learning</p>
     </div>
     <div class="icon-item">
-        <img src="images/category6.png" alt="Study Projects">
+        <img src="category6.png" alt="Study Projects">
         <p>Study Projects</p>
     </div>
     <div class="icon-item">
-        <img src="images/category7.png" alt="Academic Achievements">
+        <img src="category7.png" alt="Academic Achievements">
         <p>Academic Achievements</p>
     </div>
     <div class="icon-item">
-        <img src="images/category8.png" alt="Research Activities">
+        <img src="category8.png" alt="Research Activities">
         <p>Research Activities</p>
     </div>
     <div class="icon-item">
-        <img src="images/category9.png" alt="Internships & Practicum">
+        <img src="category9.png" alt="Internships & Practicum">
         <p>Internships & Practicum</p>
     </div>
     <div class="icon-item">
-        <img src="images/category10.png" alt="Exam Preparation">
+        <img src="category10.png" alt="Exam Preparation">
         <p>Exam Preparation</p>
     </div>
 </nav>
@@ -92,11 +92,11 @@
 <div class="carousel-wrapper">
   <button class="carousel-button left" onclick="scrollCarousel('carousel1', -1)">&#10094;</button>
   <div class="carousel" id="carousel1">
-    <div class="carousel-item" onclick="goToToolsPage(1)"><img src="images/tool1.jpeg" alt="Tool 1"></div>
-    <div class="carousel-item" onclick="goToToolsPage(2)"><img src="images/tool2.jpeg" alt="Tool 2"></div>
-    <div class="carousel-item" onclick="goToToolsPage(3)"><img src="images/tool3.jpeg" alt="Tool 3"></div>
-    <div class="carousel-item" onclick="goToToolsPage(4)"><img src="images/tool4.jpeg" alt="Tool 4"></div>
-    <div class="carousel-item" onclick="goToToolsPage(5)"><img src="images/tool5.jpeg" alt="Tool 5"></div>
+    <div class="carousel-item" onclick="goToToolsPage(1)"><img src="tool1.jpeg" alt="Tool 1"></div>
+    <div class="carousel-item" onclick="goToToolsPage(2)"><img src="tool2.jpeg" alt="Tool 2"></div>
+    <div class="carousel-item" onclick="goToToolsPage(3)"><img src="tool3.jpeg" alt="Tool 3"></div>
+    <div class="carousel-item" onclick="goToToolsPage(4)"><img src="tool4.jpeg" alt="Tool 4"></div>
+    <div class="carousel-item" onclick="goToToolsPage(5)"><img src="tool5.jpeg" alt="Tool 5"></div>
   </div>
   <button class="carousel-button right" onclick="scrollCarousel('carousel1', 1)">&#10095;</button>
 </div>
@@ -108,16 +108,16 @@
     <div class="carousel-wrapper">
         <button class="carousel-button left" onclick="scrollCarousel('carousel2', -1)">&#10094;</button>
         <div class="carousel" id="carousel2">
-            <div class="carousel-item" onclick="goToToolsPage(1)"><img src="images/template1.jpeg" alt="Template 1"></div>
-            <div class="carousel-item" onclick="goToToolsPage(2)"><img src="images/template2.jpeg" alt="Template 2"></div>
-            <div class="carousel-item" onclick="goToToolsPage(3)"><img src="images/template3.jpeg" alt="Template 3"></div>
-            <div class="carousel-item" onclick="goToToolsPage(4)"><img src="images/template4.jpeg" alt="Template 4"></div>
-            <div class="carousel-item" onclick="goToToolsPage(5)"><img src="images/template5.jpeg" alt="Template 5"></div>
+            <div class="carousel-item" onclick="goToToolsPage(1)"><img src="template1.jpeg" alt="Template 1"></div>
+            <div class="carousel-item" onclick="goToToolsPage(2)"><img src="template2.jpeg" alt="Template 2"></div>
+            <div class="carousel-item" onclick="goToToolsPage(3)"><img src="template3.jpeg" alt="Template 3"></div>
+            <div class="carousel-item" onclick="goToToolsPage(4)"><img src="template4.jpeg" alt="Template 4"></div>
+            <div class="carousel-item" onclick="goToToolsPage(5)"><img src="template5.jpeg" alt="Template 5"></div>
         </div>
         <button class="carousel-button right" onclick="scrollCarousel('carousel2', 1)">&#10095;</button>
     </div>
 </div>
 
-    <script src="/education-category.js"></script>
+    <script src="education-category.js"></script>
 </body>
 </html>
