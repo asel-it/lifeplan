@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment</title>
+    <link rel="manifest" href="/manifest.json">
+    <script src="/service-worker.js" defer></script>
+    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;600&family=Orbitron&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="payment.css">
+</head>
+<body>
+    <div id="time-date">
+        <span class="date" id="date"></span> <!-- Date -->
+        <span class="time" id="time"></span> <!-- Time -->
+    </div>
+
+    <div class="container">
+        <div class="header">
+            <img src="logo.png" alt="LifePlan Logo" class="logo">
+            
+           <!-- Navigation Menu -->
+<div id="side-menu" class="side-menu">
+    <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="categories.html">Categories</a></li>
+        <li><a href="tools.html">Tools</a></li>
+        <li id="dashboard-link" style="display:none;"><a href="dashboard.html">Dashboard</a></li>
+        <li id="my-plans-link" style="display:none;"><a href="my-plans.html">My Plans</a></li>
+        <li id="my-profile-link" style="display:none;"><a href="my-profile.html">My Profile</a></li>        
+        <li><a href="community.html">Community</a></li> 
+        <li id="sign-up-login-link"><a href="login.html">Sign Up/Login</a></li>
+        <li id="sign-out-link" style="display:none;"><a href="#" onclick="signOut()">Sign Out</a></li>
+    </ul>
+</div>
+
+            <!-- Menu Icon to Open/Close the Sidebar -->
+            <div id="menu-icon" class="menu-icon">
+                <span>&#9776;</span> <!-- Hamburger Menu Icon -->
+            </div>
+        </div>
+
+       
+            <h1>Payment</h1>
+            <p>Complete your purchase to access premium features.</p>
+       
+
+        <!-- Pricing Plans -->
+        <section class="pricing-plans">
+            <div class="plan">
+                <h3>Basic Plan</h3>
+                <p>$9.99/month</p>
+                <button onclick="selectPlan('basic')">Select</button>
+            </div>
+            <div class="plan">
+                <h3>Premium Plan</h3>
+                <p>$19.99/month</p>
+                <button onclick="selectPlan('premium')">Select</button>
+            </div>
+            <div class="plan">
+                <h3>Ultimate Plan</h3>
+                <p>$29.99/month</p>
+                <button onclick="selectPlan('ultimate')">Select</button>
+            </div>
+        </section>
+
+        <!-- Payment Method Selection -->
+        <section class="payment-methods">
+            <h2>Select a Payment Method</h2>
+            <form id="payment-form">
+                <label for="credit-card">Credit/Debit Card</label>
+                <input type="text" id="credit-card" placeholder="Enter your card number" required>
+
+                <label for="expiry-date">Expiry Date</label>
+                <input type="text" id="expiry-date" placeholder="MM/YY" required>
+
+                <label for="cvv">CVV</label>
+                <input type="text" id="cvv" placeholder="CVV" required>
+
+                <button type="submit" id="pay-button">Pay Now</button>
+            </form>
+        </section>
+
+        <!-- Order Summary -->
+        <section class="order-summary">
+            <h2>Order Summary</h2>
+            <div id="order-details">
+                <p>Plan: <span id="selected-plan">None</span></p>
+                <p>Total: $<span id="total-price">0</span></p>
+            </div>
+        </section>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="payment.js"></script>
+</body>
+</html>
