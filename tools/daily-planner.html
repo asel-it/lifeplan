@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Planner</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Exo 2', sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow-y: auto;
+        }
+        h1 {
+            color: #007777;
+            margin-top: 20px;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            width: 80%;
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .sidebar {
+            width: 100%;
+            padding: 20px;
+            background-color: #e0f7f7;
+            text-align: left;
+            margin-bottom: 20px;
+            border-radius: 8px;
+        }
+        .sidebar button {
+            width: 100%;
+            padding: 12px;
+            background-color: #007777;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            margin: 10px 0;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+        .sidebar button:hover {
+            background-color: #005555;
+        }
+        .form {
+            margin: 20px 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .form input, .form select {
+            padding: 10px;
+            margin: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            width: 100%;
+            max-width: 300px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #007777;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        button:hover {
+            background-color: #005555;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background-color: #007777;
+            color: white;
+        }
+        .recommendations {
+            background-color: #f0f0f0;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 30px;
+        }
+        .recommendations h2 {
+            color: #007777;
+        }
+        .recommendations p {
+            font-size: 1.2rem;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <h1>Daily Planner</h1>
+    <div class="container">
+        <div class="sidebar">
+            <h2>Menu</h2>
+            <button onclick="showForm('taskForm')">Add Task</button>
+            <button onclick="showForm('scheduleForm')">Add Schedule</button>
+            <button onclick="showForm('goalForm')">Set Goal</button>
+            <button onclick="viewTasks()">View Tasks</button>
+        </div>
+        <div class="content">
+            <div class="form" id="taskForm" style="display:none;">
+                <h3>Add Task</h3>
+                <input type="text" id="taskName" placeholder="Task Name">
+                <input type="text" id="taskCategory" placeholder="Category">
+                <input type="date" id="taskDate" placeholder="Date">
+                <button onclick="addTask()">Add Task</button>
+            </div>
+            <div class="form" id="scheduleForm" style="display:none;">
+                <h3>Add Schedule</h3>
+                <input type="time" id="startTime" placeholder="Start Time">
+                <input type="time" id="endTime" placeholder="End Time">
+                <input type="text" id="scheduleDescription" placeholder="Description">
+                <button onclick="addSchedule()">Add Schedule</button>
+            </div>
+            <div class="form" id="goalForm" style="display:none;">
+                <h3>Set Goal</h3>
+                <input type="text" id="goalName" placeholder="Goal Name">
+                <input type="date" id="goalDeadline" placeholder="Deadline">
+                <button onclick="setGoal()">Set Goal</button>
+            </div>
+            <h2>Today's Tasks</h2>
+            <table id="taskTable">
+                <thead>
+                    <tr>
+                        <th>Task Name</th>
+                        <th>Category</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+                <tbody id="taskBody"></tbody>
+            </table>
+            <h2>Today's Schedule</h2>
+            <table id="scheduleTable">
+                <thead>
+                    <tr>
+                        <th>Start Time</th>
+                        <th>End Time</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody id="scheduleBody"></tbody>
+            </table>
+        </div>
+        <div class="recommendations">
+            <h2>Recommendations</h2>
+            <p id="goalRecommendation">Set a goal to stay focused and productive!</p>
+        </div>
+    </div>
+    <script>
+        let tasks = [];
+        let schedules = [];
+        let goals = [];
+        
+        function showForm(formId) {
+            const forms = ['taskForm', 'scheduleForm', 'goalForm'];
+            forms.forEach(form => {
+                document.getElementById(form).style.display = form === formId ? 'block' : 'none';
+            });
+        }
+
+
+        function addTask() {
+            const name = document.getElementById('taskName').value;
+            const category = document.getElementById('taskCategory').value;
+            const date = document.getElementById('taskDate').value;
+            if (name && category && date) {
+                tasks.push({ name, category, date });
+                updateTaskTable();
+                document.getElementById('taskForm').reset();
+            }
+        }
+
+
+        function addSchedule() {
+            const startTime = document.getElementById('startTime').value;
+            const endTime = document.getElementById('endTime').value;
+            const description = document.getElementById('scheduleDescription').value;
+            if (startTime && endTime && description) {
+                schedules.push({ startTime, endTime, description });
+                updateScheduleTable();
+                document.getElementById('scheduleForm').reset();
+            }
+        }
+
+
+        function setGoal() {
+            const name = document.getElementById('goalName').value;
+            const deadline = document.getElementById('goalDeadline').value;
+            if (name && deadline) {
+                goals.push({ name, deadline });
+                document.getElementById('goalForm').reset();
+                updateGoalRecommendation();
+            }
+        }
+
+
+        function updateTaskTable() {
+            const taskBody = document.getElementById('taskBody');
+            taskBody.innerHTML = '';
+            tasks.forEach(task => {
+                const row = document.createElement('tr');
+                row.innerHTML = `<td>${task.name}</td><td>${task.category}</td><td>${task.date}</td>`;
+                taskBody.appendChild(row);
+            });
+        }
+
+
+        function updateScheduleTable() {
+            const scheduleBody = document.getElementById('scheduleBody');
+            scheduleBody.innerHTML = '';
+            schedules.forEach(schedule => {
+                const row = document.createElement('tr');
+                row.innerHTML = `<td>${schedule.startTime}</td><td>${schedule.endTime}</td><td>${schedule.description}</td>`;
+                scheduleBody.appendChild(row);
+            });
+        }
+
+
+        function updateGoalRecommendation() {
+            const recommendation = document.getElementById('goalRecommendation');
+            if (goals.length > 0) {
+                recommendation.textContent = `You have set a goal: ${goals[goals.length - 1].name}!`;
+            } else {
+                recommendation.textContent = 'Set a goal to stay focused and productive!';
+            }
+        }
+    </script>
+</body>
+</html>
