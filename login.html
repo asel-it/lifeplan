@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="manifest" href="/manifest.json">
+    <script src="/service-worker.js" defer></script>
+    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;600&family=Orbitron&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/login.css">
+</head>
+<body>
+    <div id="time-date">
+        <span class="date" id="date"></span>
+        <span class="time" id="time"></span>
+    </div>    
+
+
+    <div class="container">
+        <div class="header">  
+            <img src="/images/logo.png" alt="LifePlan Logo" class="logo">  
+            
+            <!-- Navigation Menu -->
+            <div id="side-menu" class="side-menu">
+                <ul>        
+                    <li><a href="/index.html">Home</a></li>
+                    <li><a href="/categories.html">Categories</a></li>
+                    <li><a href="/tools.html">Tools</a></li>
+                    <li id="dashboard-link" style="display:none;"><a href="/dashboard.html">Dashboard</a></li>
+                    <li id="my-plans-link" style="display:none;"><a href="/my-plans.html">My Plans</a></li>
+                    <li id="my-profile-link" style="display:none;"><a href="/my-profile.html">My Profile</a></li>                        
+                    <li><a href="/community.html">Community</a></li>
+                    <li id="sign-up-login-link"><a href="/login.html">Sign Up/Login</a></li>
+                    <li id="sign-out-link" style="display:none;"><a href="#" onclick="signOut()">Sign Out</a></li>
+                </ul>
+            </div>               
+
+<!-- Menu Icon to Open/Close the Sidebar -->
+<div id="menu-icon" class="menu-icon">
+<span>&#9776;</span> <!-- Hamburger Menu Icon -->
+</div>
+
+
+<h2 class="main-Title">Welcome to LifePlan!</h2>
+
+
+        <!-- Login Form -->
+        <div id="loginForm" style="display: block;">
+            <h3>Login</h3>
+            <form id="loginFormSubmit">
+                <input type="email" id="loginEmail" placeholder="Email" required>
+                <input type="password" id="loginPassword" placeholder="Password" required>
+                <button type="submit">Login</button>
+            </form>
+            <p>Don't have an account? <a href="#" onclick="showRegister()">Sign Up</a></p>
+        </div>
+
+
+        <!-- Register Form -->
+        <div id="registerForm" style="display: none;">
+            <h3>Sign Up</h3>
+            <form id="registerFormSubmit">
+                <input type="email" id="registerEmail" placeholder="Email" required>
+                <input type="password" id="registerPassword" placeholder="Password" required>
+                <input type="password" id="confirmPassword" placeholder="Confirm Password" required>
+                <button type="submit">Sign Up</button>
+            </form>
+            <p>Already have an account? <a href="#" onclick="showLogin()">Login</a></p>
+        </div>
+
+
+    </div>
+
+        
+        
+          <script src="/js/login.js"></script>
+        </body>
+        </html>
+        
