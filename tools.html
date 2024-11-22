@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tools</title>
     <link rel="manifest" href="/manifest.json">
-    <script src="/service-worker.js" defer></script>
+    <script src="service-worker.js" defer></script>
     <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;600&family=Orbitron&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/css/tools.css">
+    <link rel="stylesheet" href="css/tools.css">
 </head>
 <body>
     <div id="time-date">
@@ -16,19 +16,19 @@
     </div>    
     <div class="container">
         <div class="header">  
-            <img src="/images/logo.png" alt="LifePlan Logo" class="logo">  
+            <img src="images/logo.png" alt="LifePlan Logo" class="logo">  
             
             <!-- Navigation Menu -->
             <div id="side-menu" class="side-menu">
                 <ul>        
-                    <li><a href="/index.html">Home</a></li>
-                    <li><a href="/categories.html">Categories</a></li>                    
-                    <li id="dashboard-link" style="display:none;"><a href="/dashboard.html">Dashboard</a></li>
-                    <li id="my-plans-link" style="display:none;"><a href="/my-plans.html">My Plans</a></li>
-                    <li id="my-profile-link" style="display:none;"><a href="/my-profile.html">My Profile</a></li>
-                    <li id="sign-up-login-link"><a href="/login.html">Sign Up/Login</a></li>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="categories.html">Categories</a></li>                    
+                    <li id="dashboard-link" style="display:none;"><a href="dashboard.html">Dashboard</a></li>
+                    <li id="my-plans-link" style="display:none;"><a href="my-plans.html">My Plans</a></li>
+                    <li id="my-profile-link" style="display:none;"><a href="my-profile.html">My Profile</a></li>
+                    <li id="sign-up-login-link"><a href="login.html">Sign Up/Login</a></li>
                     <li id="sign-out-link" style="display:none;"><a href="#" onclick="signOut()">Sign Out</a></li>
-                    <li><a href="/community.html">Community</a></li>
+                    <li><a href="community.html">Community</a></li>
                 </ul>
             </div>               
             <!-- Menu Icon to Open/Close the Sidebar -->
@@ -67,22 +67,22 @@
             <!-- Карточки инструментов -->
             <div id="toolsTab" class="tab-content">
                 <div class="card-container">
-                    <div class="card" data-tool="balance-wheel" onclick="openTool('/tools/balance-wheel.html')">Life Balance Wheel</div>
-                    <div class="card" data-tool="budget-tracker" onclick="openTool('/tools/budget-tracker.html')">Budget Tracker</div>
-                    <div class="card" data-tool="daily-planner" onclick="openTool('/tools/daily-planner.html')">Daily Planner</div>
-                    <div class="card" data-tool="eisenhower-matrix" onclick="openTool('/tools/eis-matrix.html')">Eisenhower Matrix</div>
-                    <div class="card" data-tool="fitness-tracker" onclick="openTool('/tools/fitness-tracker.html')">Fitness Tracker</div>
-                    <div class="card" data-tool="geotask" onclick="openTool('/tools/geotask.html')">Geo Task</div>
-                    <div class="card" data-tool="goal-tracker" onclick="openTool('/tools/goal-tracker.html')">Goal Tracker</div>
-                    <div class="card" data-tool="habits-tracker" onclick="openTool('/tools/habits-tracker.html')">Habits Tracker</div>
-                    <div class="card" data-tool="kanban" onclick="openTool('/tools/kanban.html')">Kanban Board</div>
-                    <div class="card" data-tool="lists" onclick="openTool('/tools/lists.html')">Lists</div>
-                    <div class="card" data-tool="progress-chart" onclick="openTool('/tools/progress-chart.html')">Progress Chart</div>
-                    <div class="card" data-tool="roadmap" onclick="openTool('/tools/roadmap.html')">Roadmap</div>
-                    <div class="card" data-tool="schedules" onclick="openTool('/tools/schedules.html')">Schedules</div>
-                    <div class="card" data-tool="task-calendar" onclick="openTool('/tools/task-calendar.html')">Task Calendar</div>
-                    <div class="card" data-tool="task-tracker" onclick="openTool('/tools/task-tracker.html')">Task Tracker</div>
-                    <div class="card" data-tool="todo-list" onclick="openTool('/tools/todo-list.html')">To Do List</div>
+                    <div class="card" data-tool="balance-wheel" onclick="openTool('tools/balance-wheel.html')">Life Balance Wheel</div>
+                    <div class="card" data-tool="budget-tracker" onclick="openTool('tools/budget-tracker.html')">Budget Tracker</div>
+                    <div class="card" data-tool="daily-planner" onclick="openTool('tools/daily-planner.html')">Daily Planner</div>
+                    <div class="card" data-tool="eisenhower-matrix" onclick="openTool('tools/eis-matrix.html')">Eisenhower Matrix</div>
+                    <div class="card" data-tool="fitness-tracker" onclick="openTool('tools/fitness-tracker.html')">Fitness Tracker</div>
+                    <div class="card" data-tool="geotask" onclick="openTool('tools/geotask.html')">Geo Task</div>
+                    <div class="card" data-tool="goal-tracker" onclick="openTool('tools/goal-tracker.html')">Goal Tracker</div>
+                    <div class="card" data-tool="habits-tracker" onclick="openTool('tools/habits-tracker.html')">Habits Tracker</div>
+                    <div class="card" data-tool="kanban" onclick="openTool('tools/kanban.html')">Kanban Board</div>
+                    <div class="card" data-tool="lists" onclick="openTool('tools/lists.html')">Lists</div>
+                    <div class="card" data-tool="progress-chart" onclick="openTool('tools/progress-chart.html')">Progress Chart</div>
+                    <div class="card" data-tool="roadmap" onclick="openTool('tools/roadmap.html')">Roadmap</div>
+                    <div class="card" data-tool="schedules" onclick="openTool('tools/schedules.html')">Schedules</div>
+                    <div class="card" data-tool="task-calendar" onclick="openTool('tools/task-calendar.html')">Task Calendar</div>
+                    <div class="card" data-tool="task-tracker" onclick="openTool('tools/task-tracker.html')">Task Tracker</div>
+                    <div class="card" data-tool="todo-list" onclick="openTool('tools/todo-list.html')">To Do List</div>
                     <!-- Добавьте другие карточки по аналогии -->
                 </div>
             </div>
@@ -104,7 +104,7 @@
             <p>Templates content will be here...</p>
         </div>
     </div>
-    <script src="/js/tools.js"></script>
+    <script src="js/tools.js"></script>
     <script>
         function openTab(tabId) {
             // Закрываем все вкладки
