@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Life Balance Wheel</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: 'Orbitron', sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: row;
+            align-items: flex-start;
+            overflow-y: auto;
+        }
+        h1 {
+            color: #007777;
+            margin-top: 20px;
+        }
+        .container {
+            display: flex;
+            width: 100%;
+            height: 100vh;
+        }
+        .sidebar {
+            width: 20%;
+            padding: 20px;
+            background-color: #e0f7f7;
+            text-align: left;
+        }
+        .content {
+            width: 60%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .recommendations {
+            width: 20%;
+            padding: 20px;
+            background-color: #e0f7f7;
+            text-align: left;
+        }
+        .chart-container {
+            width: 80%;
+            height: 60%;
+            margin: 20px 0;
+        }
+        canvas {
+            max-width: 100%;
+            max-height: 100%;
+        }
+        .form {
+            margin: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        table {
+            width: 80%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background-color: #007777;
+            color: white;
+        }
+        button {
+            padding: 5px 10px;
+            background-color: #007777;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #005555;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <h2>Instructions</h2>
+            <p>1. Adjust ratings for each life category on a scale of 1-10.</p>
+            <p>2. Add custom relationships by entering a name and rating.</p>
+            <p>3. Click "Add" to add a category to the wheel and "Remove" to take it out.</p>
+            <p>4. View recommendations on the right after updating the wheel.</p>
+            <h3>Example of a Full Balance Wheel</h3>
+            <img src="images/wheel-example.png" alt="Filled Life Balance Wheel" style="width: 200%; max-width: 500px; align-items: center;">
+        </div>
+
+
+        <div class="content">
+            <h1>Life Balance Wheel</h1>
+            <div class="chart-container">
+                <canvas id="userBalanceWheel"></canvas>
+            </div>
+
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Category</th>
+                        <th>Description</th>
+                        <th>Rating (1-10)</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="categoryTable">
+                    <tr>
+                        <td>Household</td>
+                        <td>Household responsibilities and management.</td>
+                        <td><input type="number" min="1" max="10" id="Household" value="0"></td>
+                        <td><button onclick="toggleCategory('Household')">Add</button></td>
+                    </tr>
+                    <tr>
+                        <td>Family</td>
+                        <td>Time spent with family and relationships.</td>
+                        <td><input type="number" min="1" max="10" id="Family" value="0"></td>
+                        <td><button onclick="toggleCategory('Family')">Add</button></td>
+                    </tr>
+                    <tr>
+                        <td>Health</td>
+                        <td>Physical and mental health management.</td>
+                        <td><input type="number" min="1" max="10" id="Health" value="0"></td>
+                        <td><button onclick="toggleCategory('Health')">Add</button></td>
+                    </tr>
+                    <tr>
+                        <td>Work</td>
+                        <td>Professional life and career satisfaction.</td>
+                        <td><input type="number" min="1" max="10" id="Work" value="0"></td>
+                        <td><button onclick="toggleCategory('Work')">Add</button></td>
+                    </tr>
+                    <tr>
+                        <td>Finances</td>
+                        <td>Financial health and money management.</td>
+                        <td><input type="number" min="1" max="10" id="Finances" value="0"></td>
+                        <td><button onclick="toggleCategory('Finances')">Add</button></td>
+                    </tr>
+                    <tr>
+                        <td>Education</td>
+                        <td>Continuous learning and personal growth.</td>
+                        <td><input type="number" min="1" max="10" id="Education" value="0"></td>
+                        <td><button onclick="toggleCategory('Education')">Add</button></td>
+                    </tr>
+                    <tr>
+                        <td>Personal Development</td>
+                        <td>Self-improvement and skill development.</td>
+                        <td><input type="number" min="1" max="10" id="Personal Development" value="0"></td>
+                        <td><button onclick="toggleCategory('Personal Development')">Add</button></td>
+                    </tr>
+                    <tr>
+                        <td>Relationships</td>
+                        <td>Your connections with others.</td>
+                        <td>
+                            <input type="text" id="RelationshipName" placeholder="Enter name">
+                            <input type="number" min="1" max="10" id="Relationships" value="0" placeholder="Rating">
+                        </td>
+                        <td><button onclick="addCustomRelationship()">Add</button></td>
+                    </tr>
+                    <tr>
+                        <td>Beauty/Style</td>
+                        <td>Personal style and aesthetics.</td>
+                        <td><input type="number" min="1" max="10" id="Beauty/Style" value="0"></td>
+                        <td><button onclick="toggleCategory('Beauty/Style')">Add</button></td>
+                    </tr>
+                    <tr>
+                        <td>Recreation</td>
+                        <td>Leisure activities and relaxation.</td>
+                        <td><input type="number" min="1" max="10" id="Recreation" value="0"></td>
+                        <td><button onclick="toggleCategory('Recreation')">Add</button></td>
+                    </tr>
+                    <tr>
+                        <td>Life Brightness</td>
+                        <td>Joy and satisfaction in life.</td>
+                        <td><input type="number" min="1" max="10" id="Life Brightness" value="0"></td>
+                        <td><button onclick="toggleCategory('Life Brightness')">Add</button></td>
+                    </tr>
+                    <tr>
+                        <td>Hobbies</td>
+                        <td>Passions and leisure interests.</td>
+                        <td><input type="number" min="1" max="10" id="Hobbies" value="0"></td>
+                        <td><button onclick="toggleCategory('Hobbies')">Add</button></td>
+                    </tr>
+                    <tr>
+                        <td>Environment</td>
+                        <td>Your living environment.</td>
+                        <td><input type="number" min="1" max="10" id="Environment" value="0"></td>
+                        <td><button onclick="toggleCategory('Environment')">Add</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+
+        <div class="recommendations">
+            <h2>Recommendations</h2>
+            <p id="resultMessage">Fill out your wheel to see personalized recommendations.</p>
+        </div>
+    </div>
+
+
+    <script>
+        const userCtx = document.getElementById('userBalanceWheel').getContext('2d');
+        let userCategories = [];
+        let userRatings = [];
+
+
+        const userBalanceWheel = new Chart(userCtx, {
+            type: 'radar',
+            data: {
+                labels: userCategories,
+                datasets: [{
+                    label: 'Your Balance',
+                    data: userRatings,
+                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scale: {
+                    ticks: {
+                        beginAtZero: true,
+                        max: 10
+                    }
+                }
+            }
+        });
+
+
+        function toggleCategory(category) {
+            const rating = document.getElementById(category).value;
+
+
+            if (userCategories.includes(category)) {
+                // Remove category
+                const index = userCategories.indexOf(category);
+                userCategories.splice(index, 1);
+                userRatings.splice(index, 1);
+                updateChart();
+            } else {
+                // Add category
+                userCategories.push(category);
+                userRatings.push(rating);
+                updateChart();
+            }
+        }
+
+
+        function addCustomRelationship() {
+            const relationshipName = document.getElementById('RelationshipName').value;
+            const relationshipRating = document.getElementById('Relationships').value;
+
+
+            if (relationshipName && relationshipRating) {
+                userCategories.push(relationshipName);
+                userRatings.push(relationshipRating);
+                updateChart();
+            }
+        }
+
+
+        function updateChart() {
+            userBalanceWheel.data.labels = userCategories;
+            userBalanceWheel.data.datasets[0].data = userRatings;
+            userBalanceWheel.update();
+
+
+            if (userCategories.length === 0) {
+                document.getElementById('resultMessage').innerText = "Fill out your wheel to see personalized recommendations.";
+            } else {
+                document.getElementById('resultMessage').innerText = "Your ratings have been updated. Check your balance!";
+            }
+        }
+    </script>
+</body>
+</html>
+
+
