@@ -1,0 +1,504 @@
+/* Основной стиль */
+* {
+    font-family: 'Exo 2', sans-serif;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+
+
+
+html, body {
+    height: 100%;
+    margin: 0;
+    overflow-y: auto;
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+
+
+/* Стиль для бокового меню */
+.side-menu {
+    position: fixed;
+    left: -250px;
+    top: 0;
+    width: 250px;
+    height: 100%;
+    background-color: #2c3e50;
+    color: #ecf0f1;
+    transition: left 0.3s ease;
+    padding-top: 50px;
+}
+
+
+.side-menu ul {
+    list-style: none;
+    padding: 0;
+}
+
+
+.side-menu ul li {
+    padding: 15px;
+    border-bottom: 1px solid #34495e;
+}
+
+
+.side-menu ul li a {
+    color: #ecf0f1;
+    text-decoration: none;
+    font-size: 18px;
+}
+
+
+/* Стиль для иконки гамбургер-меню */
+.menu-icon {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    font-size: 24px;
+    color: #34495e;
+    cursor: pointer;
+}
+
+
+/* Основная область контента */
+.content {
+    padding-top: 20px;
+    transition: margin-left 0.3s ease;
+}
+
+
+/* Когда меню открыто */
+.side-menu.open {
+    left: 0;
+}
+
+
+.content.menu-open {
+    margin-left: 250px;
+}
+
+
+/* Стиль для мобильных устройств */
+@media (max-width: 768px) {
+    .side-menu {
+        width: 100%;
+    }
+    .content.menu-open {
+        margin-left: 0;
+    }
+}
+
+
+/* Контейнер */
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+
+/* Шапка */
+.header {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 10px;
+    z-index: 1;
+}
+
+
+/* Логотип */
+.logo {
+    width: 150px;
+    height: auto;
+    position: fixed;
+    top: 20px;
+}
+
+
+/* Стили для виджетов даты и времени */
+#time-date {
+    color: #00a9a9;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 20px;
+    margin-top: 20px;
+    position: absolute;
+    right: 30px;
+}
+
+
+.date {
+    display: block;
+    margin-bottom: 10px;
+}
+
+
+.time {
+    display: block;
+    min-width: 100px;
+}
+
+/* Дополним контейнеры для выравнивания */
+header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+
+
+
+
+
+
+
+h1 {
+    color: #007777;
+    margin-top: 80px;
+    margin-bottom: 40px;
+}
+
+
+
+
+
+
+
+
+/* Горизонтальная организация элементов */
+.dropdowns {
+    display: flex;
+    flex-direction: row; /* Горизонтальное расположение */
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+
+
+
+
+
+
+
+select {
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+}
+
+
+
+
+
+
+
+
+.tabs {
+    display: flex;
+    flex-direction: row; /* Горизонтальное расположение */
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+
+
+
+
+
+
+
+.tab-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border: 1px solid #007777;
+    background-color: #fff;
+    border-radius: 5px;
+    margin-right: 10px;
+}
+
+
+
+
+
+
+
+
+.tab-button:hover {
+    background-color: #007777;
+    color: white;
+}
+
+
+
+
+
+
+
+
+.tab-content {
+    display: none;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+
+
+
+
+
+
+
+/* Контейнер для карточек */
+.card-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 4 карточки в ряду */
+    gap: 5px; /* Уменьшаем отступы между карточками */
+    grid-auto-rows: auto;
+    padding: 0 15px; /* Отступы от левого и правого краев */
+    box-sizing: border-box;
+    width: 100vw; /* Занимаем всю ширину экрана */
+    max-width: 100vw; /* Ограничиваем максимальную ширину экраном */
+    overflow-x: hidden; /* Убираем горизонтальный скроллинг */
+}
+
+
+
+
+
+
+
+
+/* Стили для карточек */
+.card {
+    background-color: #f5f5f5;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4em; /* Размер текста */
+    font-family: 'Exo 2', sans-serif;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Усиленная тень */
+    transition: transform 0.3s, box-shadow 0.3s;
+    text-align: center;
+    height: 700px; /* Увеличиваем высоту карточек */
+    width: 95%; /* Уменьшаем ширину карточек, чтобы поместилось 4 в ряду */
+    padding: 20px;
+    box-sizing: border-box;
+    margin: 0 auto; /* Центрируем карточки */
+}
+
+
+
+
+
+
+
+
+/* Эффект при наведении */
+.card:hover {
+    transform: scale(1.08); /* Легкое увеличение */
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2), 0 0 15px rgba(255, 215, 0, 0.6); /* Усиленное свечение */
+}
+
+
+
+
+
+
+
+
+/* Подсветка выбранных карточек */
+.card.selected {
+    box-shadow: 0 0 30px rgba(0, 255, 255, 0.9), 0 0 30px rgba(255, 215, 0, 0.7); /* Яркое свечение */
+    transform: scale(1.1); /* Легкое увеличение */
+}
+
+
+
+
+
+
+
+
+/* Стили для выпадающих списков категорий и подкатегорий */
+.select-container {
+    margin-bottom: 20px;
+}
+
+
+
+
+
+
+
+
+select {
+    padding: 10px;
+    font-size: 1.1em;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+
+
+
+
+
+
+
+select:focus {
+    border-color: #ffcc00;
+    outline: none;
+}
+
+
+
+
+/* Стили для модального окна */
+.modal {
+    display: none; /* Модальное окно скрыто по умолчанию */
+    position: fixed;
+    z-index: 1; /* Отображается поверх остального контента */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Темный фон */
+    overflow: auto; /* Добавляем прокрутку, если контент выходит за пределы */
+}
+
+
+
+
+
+
+
+
+/* Контент модального окна */
+.modal-content {
+    background-color: white;
+    margin: 5% auto; /* Отступ сверху и снизу */
+    padding: 40px;
+    border: 1px solid #888;
+    width: 80%; /* Ширина модального окна 80% от ширины экрана */
+    max-width: 1200px; /* Максимальная ширина окна */
+    border-radius: 12px; /* Закругленные углы */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Тень для красивого эффекта */
+}
+
+
+
+
+
+
+
+
+/* Закрыть кнопку */
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 32px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+
+
+
+
+
+
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+}
+
+
+
+
+
+
+/* Стиль для страницы tools */
+.tools-page {
+    position: relative;
+    transition: filter 0.3s ease;
+}
+
+
+/* Контейнер модального окна */
+#toolContainer {
+    display: none; /* Модальное окно скрыто по умолчанию */
+    position: fixed;
+    z-index: 1; /* Отображается поверх остального контента */
+    left: 0;
+    top: 0;
+    width: 100%; /* Занимает всю ширину экрана */
+    height: 100vh; /* Заполняет весь экран по высоте */
+    background-color: rgba(0, 0, 0, 0.5); /* Полупрозрачный фон */
+    overflow: auto; /* Добавляем прокрутку, если контент выходит за пределы */
+}
+
+
+/* Контент модального окна */
+#toolContent {
+    background-color: white;
+    margin: 5% auto; /* Отступ сверху и снизу */
+    padding: 40px;
+    border: 1px solid #888;
+    width: 80%; /* Ширина модального окна 80% от ширины экрана */
+    max-width: 1200px; /* Максимальная ширина окна */
+    border-radius: 12px; /* Закругленные углы */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Тень для красивого эффекта */
+}
+
+
+/* Кнопка закрытия */
+.close-btn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    padding: 10px;
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+
+.close-btn:hover {
+    background-color: #ff3333;
+}
+
+
+/* Адаптация для мобильных устройств */
+@media (max-width: 768px) {
+    #toolContent {
+        width: 90%; /* Уменьшаем ширину для мобильных устройств */
+        max-width: 100%;
+        max-height: 70vh; /* Ограничиваем максимальную высоту */
+    }
+}
+
+.tab-button.active {
+    background-color: #4CAF50; /* Цвет для активной кнопки */
+    color: white; /* Белый текст для активной кнопки */
+}
