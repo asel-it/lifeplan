@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // Service Worker Registration
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', function () {
-            navigator.serviceWorker.register('/service-worker.js')
+            navigator.serviceWorker.register('service-worker.js')
                 .then(function (registration) {
                     console.log('Service Worker registered with scope:', registration.scope);
                 })
@@ -102,9 +102,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Chatbot and AI dialogues
     const dialogues = [
-        { text: "AI: Let's create a plan for your day. What do you need to accomplish?", image: "/images/image1.png" },
-        { text: "AI: Don't forget your meeting at 3 PM.", image: "/images/image2.png" },
-        { text: "AI: How can I assist you with family event planning?", image: "/images/image3.png" }
+        { text: "AI: Let's create a plan for your day. What do you need to accomplish?", image: "images/image1.png" },
+        { text: "AI: Don't forget your meeting at 3 PM.", image: "images/image2.png" },
+        { text: "AI: How can I assist you with family event planning?", image: "images/image3.png" }
     ];
     const chatBox = document.getElementById('animation-box');
     const imageContainer = document.getElementById('image-container');
