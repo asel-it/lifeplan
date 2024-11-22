@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roadmap</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;600&family=Orbitron&display=swap" rel="stylesheet">
+    <style>
+   /* Основной стиль */
+* {
+    font-family: 'Orbitron', sans-serif;
+    box-sizing: border-box; /* Включаем box-sizing для всех элементов */
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    height: 100%;
+    margin: 0;
+    overflow-y: auto; /* Позволяем вертикальную прокрутку */
+    background-color: #f4f4f4; /* Цвет фона */
+    color: #333; /* Цвет текста по умолчанию */
+}
+
+.roadmapTitle {
+    font-size: 3.5em; /* Увеличиваем размер шрифта */
+    margin-top: 20px; /* Увеличиваем отступ сверху, чтобы избежать перекрытия с фиксированными элементами */
+    text-align: center; /* Центрируем текст */
+    color: #007777; /* Цвет заголовка */
+    margin-bottom: 20px;
+}
+
+/* Контейнер */
+.container {
+    display: flex;
+    flex-direction: column; /* Вертикальное расположение элементов */
+    justify-content: flex-start; /* Начинаем распределение с верхней части */
+    align-items: stretch; /* Растягиваем элементы на всю ширину контейнера */
+    width: 90%; /* Ширина контейнера 90% */
+    max-width: 1200px; /* Максимальная ширина контейнера */
+    margin: 0 auto; /* Центрируем контейнер по горизонтали */
+    height: auto; /* Высота контейнера */
+    padding: 20px; /* Отступы внутри контейнера */  
+}
+
+/* Поля ввода */
+.input-field {
+    width: 100%; /* Поля ввода занимают 100% ширины контейнера */
+    padding: 10px; /* Отступы внутри полей */
+    border: 1px solid #007777; /* Рамка с цветом */
+    border-radius: 10px; /* Округлые углы */
+    margin-bottom: 10px; /* Отступ снизу */
+}
+
+/* Стили для выпадающих полей */
+.step-inputs {
+    display: flex;
+    align-items: center; /* Центрируем элементы по вертикали */
+    margin-bottom: 10px; /* Отступ снизу */
+}
+
+.step-select {
+    margin-left: 10px; /* Отступ между меткой и выпадающим списком */
+    padding: 10px; /* Отступы внутри выпадающих списков */
+    border: 1px solid #007777; /* Рамка с цветом */
+    border-radius: 10px; /* Округлые углы */
+    width: auto; /* Убираем ширину по умолчанию, чтобы не превышала длину текста */
+}
+
+/* Временная шкала */
+.timeline-content {
+    position: relative;
+    height: 50px; /* Высота временной шкалы */
+    background: #e0e7e8; /* Фоновый цвет временной шкалы */
+    margin-top: 20px;
+    border-radius: 10px; /* Округлые углы для временной шкалы */
+}
+
+/* Индикаторы задач и ключевых точек */
+.task-indicator, .milestone-indicator {
+    position: absolute;
+    bottom: 0;
+    width: 10px; /* Ширина индикаторов */
+    height: 20px; /* Высота индикаторов */
+    border-radius: 5px; /* Округлые углы индикаторов */
+}
+
+/* Метки задач и ключевых точек */
+.task-label, .milestone-label {
+    position: absolute;
+    bottom: 25px; /* Высота метки относительно индикатора */
+    font-size: 12px; /* Размер шрифта для меток */
+    transform: translateX(-50%);
+}
+
+/* Стили для карточек задач */
+.card {
+    padding: 10px;
+    border: 1px solid #ccc;
+    margin: 5px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 10px; /* Округлые углы для карточек */
+    background-color: #ffffff; /* Белый фон для карточек */
+}
+
+/* Цвет для ключевых точек */
+.milestone {
+    background-color: #ffeb3b; /* Цвет для ключевых точек */
+}
+
+/* Кнопка */
+.button {
+    padding: 10px 20px;
+    background-color: #007777; /* Изменяем цвет кнопок */
+    color: white;
+    border: none;
+    border-radius: 10px; /* Округлые углы */
+    cursor: pointer;
+    font-size: 1em;
+    margin: 10px 0; /* Отступ между кнопками */
+    transition: background-color 0.3s ease;
+    width: 100%; /* Кнопки занимают 100% ширины */
+}
+
+.button:hover {
+    background-color: #005e5e; /* Цвет при наведении */
+}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="roadmapTitle">Roadmap</h1>
+    
+        <div class="project-name-input">
+            <input type="text" id="project-name" class="input-field" placeholder="Enter Project Name" required>
+        </div>
+    
+        <div class="date-selection">
+            <input type="text" id="start-date" class="input-field" placeholder="Set a start date" required>
+            <input type="text" id="end-date" class="input-field" placeholder="Set a deadline" required>
+        </div>
+    
+        <div class="step-selection">
+            <div class="step-inputs">
+                <label for="step-size">Set a step:</label>
+                <select id="step-size" class="step-select">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                </select>
+                <label for="step-unit" style="margin-left: 20px;">Unit:</label>
+                <select id="step-unit" class="step-select">
+                    <option value="day">Day</option>
+                    <option value="week">Week</option>
+                    <option value="month">Month</option>
+                    <option value="year">Year</option>
+                </select>
+            </div>
+            <button id="set-timeline-button" class="button">Set up timeline</button>
+        </div>
+    
+        <div class="task-input">
+            <input type="text" id="task-input" class="input-field" placeholder="Enter Task" required>
+            <input type="text" id="task-date" class="input-field" placeholder="Set Task Date" required>
+            <button id="add-task-button" class="button">Add Task</button>
+        </div>
+    
+        <div class="milestone-input">
+            <input type="text" id="milestone-input" class="input-field" placeholder="Enter Milestone" required>
+            <input type="text" id="milestone-date" class="input-field" placeholder="Set Milestone Date" required>
+            <button id="add-milestone-button" class="button">Add Milestone</button>
+        </div>
+    
+        <div id="timeline">
+            <div class="timeline-content"></div>
+        </div>
+    
+        <div class="task-container"></div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script>
+       // Получаем элементы из DOM
+const addTaskButton = document.getElementById('add-task-button');
+const addMilestoneButton = document.getElementById('add-milestone-button');
+const taskInput = document.getElementById('task-input');
+const milestoneInput = document.getElementById('milestone-input');
+const taskContainer = document.querySelector('.task-container');
+const timelineContent = document.querySelector('.timeline-content');
+const startDateInput = document.getElementById('start-date');
+const endDateInput = document.getElementById('end-date');
+const setTimelineButton = document.getElementById('set-timeline-button');
+const stepSizeInput = document.getElementById('step-size');
+const stepUnitInput = document.getElementById('step-unit');
+const taskDateInput = document.getElementById('task-date');
+const milestoneDateInput = document.getElementById('milestone-date');
+
+let taskCounter = 0; // Счетчик задач
+let milestoneCounter = 0; // Счетчик ключевых точек
+const taskColor = '#33FF57'; // Зеленый цвет для задач
+const milestoneColor = '#FF5733'; // Красный цвет для ключевых точек
+
+// Инициализируем flatpickr для выбора дат
+flatpickr(startDateInput, {
+    dateFormat: "Y-m-d",
+    onChange: function (selectedDates) {
+        if (selectedDates.length > 0) {
+            startDateInput.value = selectedDates[0].toISOString().split('T')[0];
+        }
+    }
+});
+
+flatpickr(endDateInput, {
+    dateFormat: "Y-m-d",
+    onChange: function (selectedDates) {
+        if (selectedDates.length > 0) {
+            endDateInput.value = selectedDates[0].toISOString().split('T')[0];
+        }
+    }
+});
+
+// Функция для настройки временной шкалы
+setTimelineButton.addEventListener('click', () => {
+    const startDate = new Date(startDateInput.value);
+    const endDate = new Date(endDateInput.value);
+
+    // Очистить предыдущие метки
+    timelineContent.innerHTML = '';
+
+    // Устанавливаем шаг и отображаем метки на временной шкале
+    const stepSize = parseInt(stepSizeInput.value);
+    const stepUnit = stepUnitInput.value;
+    let currentDate = new Date(startDate);
+
+    while (currentDate <= endDate) {
+        addDateIndicator(currentDate, currentDate.toLocaleDateString(), 'step');
+
+        if (stepUnit === 'day') {
+            currentDate.setDate(currentDate.getDate() + stepSize);
+        } else if (stepUnit === 'week') {
+            currentDate.setDate(currentDate.getDate() + stepSize * 7);
+        } else if (stepUnit === 'month') {
+            currentDate.setMonth(currentDate.getMonth() + stepSize);
+        } else if (stepUnit === 'year') {
+            currentDate.setFullYear(currentDate.getFullYear() + stepSize);
+        }
+    }
+
+    // Добавляем стартовую и конечную даты на шкалу
+    addStartAndEndDates(startDate, endDate);
+});
+
+// Функция для добавления индикатора даты
+function addDateIndicator(date, label, type) {
+    const dateIndicator = document.createElement('div');
+    dateIndicator.classList.add('timeline-indicator', type);
+    dateIndicator.style.left = `${calculatePosition(date)}%`;
+    timelineContent.appendChild(dateIndicator);
+
+    // Добавляем текст метки
+    const labelElement = document.createElement('span');
+    labelElement.innerText = label;
+    labelElement.classList.add('label');
+    labelElement.style.position = 'absolute';
+    labelElement.style.top = '15px';
+    labelElement.style.transform = 'translateX(-50%)';
+    dateIndicator.appendChild(labelElement);
+}
+
+// Функция для расчета позиции индикатора на шкале
+function calculatePosition(date) {
+    const startDate = new Date(startDateInput.value);
+    const endDate = new Date(endDateInput.value);
+    const totalDuration = endDate - startDate;
+    const currentDuration = date - startDate;
+    return ((currentDuration / totalDuration) * 100).toFixed(2);
+}
+
+// Функция для добавления задачи
+addTaskButton.addEventListener('click', () => {
+    const taskText = taskInput.value;
+    const taskDate = new Date(taskDateInput.value);
+    if (taskText && taskDateInput.value) {
+        taskCounter++; // Увеличиваем счетчик задач
+        const taskCard = createCard(`Задача ${taskCounter}: ${taskText}`, 'task');
+        taskContainer.appendChild(taskCard);
+        addTaskToTimeline(taskCounter, taskDate); // Передаем номер задачи и дату
+        taskInput.value = '';
+        taskDateInput.value = ''; // Очищаем поле даты задачи
+    }
+});
+
+// Функция для добавления ключевой точки
+addMilestoneButton.addEventListener('click', () => {
+    const milestoneText = milestoneInput.value;
+    const milestoneDate = new Date(milestoneDateInput.value);
+    if (milestoneText && milestoneDateInput.value) {
+        milestoneCounter++; // Увеличиваем счетчик ключевых точек
+        const milestoneCard = createCard(`Ключевая точка ${milestoneCounter}: ${milestoneText}`, 'milestone');
+        taskContainer.appendChild(milestoneCard);
+        addMilestoneToTimeline(milestoneCounter, milestoneDate); // Передаем номер ключевой точки и дату
+        milestoneInput.value = '';
+        milestoneDateInput.value = ''; // Очищаем поле даты ключевой точки
+    }
+});
+
+// Функция для создания карточки
+function createCard(text, type) {
+    const card = document.createElement('div');
+    card.classList.add('card', type);
+    card.innerHTML = `${text} <button class="remove-button">Удалить</button>`;
+
+    // Обработчик для удаления карточки
+    card.querySelector('.remove-button').addEventListener('click', () => {
+        card.remove();
+    });
+
+    return card;
+}
+
+// Функция для добавления задачи на временную шкалу
+function addTaskToTimeline(taskNumber, taskDate) {
+    const taskIndicator = document.createElement('div');
+    taskIndicator.classList.add('task-indicator');
+    taskIndicator.style.left = `${calculatePosition(taskDate)}%`;
+    taskIndicator.style.backgroundColor = taskColor; // Устанавливаем зеленый цвет
+    taskIndicator.style.borderRadius = '50%';
+    taskIndicator.style.width = '15px';
+    taskIndicator.style.height = '15px';
+    timelineContent.appendChild(taskIndicator);
+
+    // Добавляем номер задачи как текст метки
+    const taskLabel = document.createElement('span');
+    taskLabel.innerText = `Task ${taskNumber}`; // Добавляем текст "Task" перед номером
+    taskLabel.style.color = '#FFFFFF'; // Цвет текста метки
+    taskLabel.style.fontSize = '12px'; // Уменьшаем размер шрифта
+    taskLabel.style.position = 'absolute';
+    taskLabel.style.top = '-20px'; // Сдвигаем метку вверх
+    taskLabel.style.left = '50%';
+    taskLabel.style.transform = 'translateX(-50%)';
+    taskIndicator.appendChild(taskLabel);
+}
+
+// Функция для добавления ключевой точки на временную шкалу
+function addMilestoneToTimeline(milestoneNumber, milestoneDate) {
+    const milestoneIndicator = document.createElement('div');
+    milestoneIndicator.classList.add('milestone-indicator');
+    milestoneIndicator.style.left = `${calculatePosition(milestoneDate)}%`;
+    milestoneIndicator.style.backgroundColor = milestoneColor; // Устанавливаем красный цвет
+    milestoneIndicator.style.width = '15px'; // Форма индикатора
+    milestoneIndicator.style.height = '15px';
+    milestoneIndicator.style.borderRadius = '50%'; // Круглая форма для ключевой точки
+    timelineContent.appendChild(milestoneIndicator);
+
+    // Добавляем номер ключевой точки как текст метки
+    const milestoneLabel = document.createElement('span');
+    milestoneLabel.innerText = `Milestone ${milestoneNumber}`; // Добавляем текст "Milestone" перед номером
+    milestoneLabel.style.color = '#FFFFFF'; // Цвет текста метки
+    milestoneLabel.style.fontSize = '12px'; // Уменьшаем размер шрифта
+    milestoneLabel.style.position = 'absolute';
+    milestoneLabel.style.top = '-20px'; // Сдвигаем метку вверх
+    milestoneLabel.style.left = '50%';
+    milestoneLabel.style.transform = 'translateX(-50%)';
+    milestoneIndicator.appendChild(milestoneLabel);
+}
+
+// Инициализация flatpickr для поля выбора даты задачи
+flatpickr('#task-date', {
+    dateFormat: "Y-m-d",
+    onChange: function (selectedDates) {
+        if (selectedDates.length > 0) {
+            taskDateInput.value = selectedDates[0].toISOString().split('T')[0];
+        }
+    }
+});
+
+// Инициализация flatpickr для поля выбора даты ключевой точки
+flatpickr('#milestone-date', {
+    dateFormat: "Y-m-d",
+    onChange: function (selectedDates) {
+        if (selectedDates.length > 0) {
+            milestoneDateInput.value = selectedDates[0].toISOString().split('T')[0];
+        }
+    }
+});
+
+ // Функция для расчета и отображения шагов на временной шкале
+ function calculateStepUnits(startDate, endDate, stepIntervalMonths) {
+    let currentStepDate = new Date(startDate);
+    const stepDates = [];
+
+    // Пока текущий шаг не превышает конечную дату
+    while (currentStepDate <= endDate) {
+        stepDates.push(new Date(currentStepDate));
+        currentStepDate.setMonth(currentStepDate.getMonth() + stepIntervalMonths);
+    }
+
+    renderTimeline(startDate, endDate, stepDates);
+}
+
+// Функция для отображения шкалы с метками и шагами
+function renderTimeline(startDate, endDate, stepDates) {
+    const timeline = document.getElementById('timeline');
+    timeline.innerHTML = '';
+
+    // Вычисляем общее количество дней между стартом и дедлайном
+    const totalDays = (endDate - startDate) / (1000 * 60 * 60 * 24);
+
+    // Функция для вычисления позиции на шкале для каждой точки
+    function calculatePosition(date) {
+        const daysFromStart = (date - startDate) / (1000 * 60 * 60 * 24);
+        return (daysFromStart / totalDays) * 100;
+    }
+
+    // Отображение стартовой даты
+    const startLabel = document.createElement('div');
+    startLabel.classList.add('timeline-label');
+    startLabel.innerText = startDate.toISOString().split('T')[0];
+    startLabel.style.left = '0%';
+    timeline.appendChild(startLabel);
+
+    // Отображение дедлайна
+    const endLabel = document.createElement('div');
+    endLabel.classList.add('timeline-label');
+    endLabel.innerText = endDate.toISOString().split('T')[0];
+    endLabel.style.left = '100%';
+    timeline.appendChild(endLabel);
+
+    // Отображение точек шагов на шкале
+    stepDates.forEach(stepDate => {
+        const stepElement = document.createElement('div');
+        stepElement.classList.add('timeline-step');
+        const position = calculatePosition(stepDate);
+        stepElement.style.left = `${position}%`;
+        timeline.appendChild(stepElement);
+    });
+}
+
+// Обработчик нажатия на кнопку для обновления шкалы
+function updateTimeline() {
+    const startDateInput = document.getElementById('startDate').value;
+    const endDateInput = document.getElementById('endDate').value;
+    const stepUnit = parseInt(document.getElementById('stepUnit').value);
+
+    if (!startDateInput || !endDateInput || isNaN(stepUnit) || stepUnit < 1) {
+        alert("Please enter valid dates and step interval.");
+        return;
+    }
+
+    const startDate = new Date(startDateInput);
+    const endDate = new Date(endDateInput);
+
+    // Корректируем даты, если они изменены
+    startDate.setHours(0, 0, 0, 0);
+    endDate.setHours(0, 0, 0, 0);
+
+    if (startDate >= endDate) {
+        alert("The end date must be after the start date.");
+        return;
+    }
+
+    calculateStepUnits(startDate, endDate, stepUnit);
+}
+
+    </script>
+</body>
+</html>
