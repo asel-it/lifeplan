@@ -275,3 +275,15 @@ document.querySelector(".open-modal-btn").addEventListener("click", () => toggle
 document.querySelector(".close-modal-btn").addEventListener("click", () => toggleModal(false));
 
 
+function openTab(tabId) {
+    // Закрываем все вкладки
+    var tabContents = document.getElementsByClassName('tab-content');
+    for (var i = 0; i < tabContents.length; i++) {
+        tabContents[i].style.display = 'none';
+    }
+    // Открываем выбранную вкладку
+    document.getElementById(tabId).style.display = 'block';
+}
+
+// Показываем вкладку Tools по умолчанию при загрузке страницы
+openTab('toolsTab');
