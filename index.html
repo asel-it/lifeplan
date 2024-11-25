@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LifePlan</title>
-    <link rel="manifest" href="/manifest.json">
-    <script src="/service-worker.js" defer></script>
+    <link rel="manifest" href="manifest.json">
+    <script src="service-worker.js" defer></script>
     <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;600&family=Orbitron&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/css/index.css">
+    <link rel="stylesheet" href="css/index.css">
 </head>
 <body>
     <div id="time-date">
@@ -16,18 +16,18 @@
     </div>    
     <div class="container">
         <div class="header">  
-            <img src="/images/logo.png" alt="LifePlan Logo" class="logo">  
+            <img src="images/logo.png" alt="LifePlan Logo" class="logo">  
                
             <!-- Navigation Menu -->
             <div id="side-menu" class="side-menu">
                 <ul>        
-                    <li><a href="/categories.html">Categories</a></li>
-                    <li><a href="/tools.html">Tools</a></li>
-                    <li id="dashboard-link" style="display:none;"><a href="/dashboard.html">Dashboard</a></li>
-                    <li id="my-plans-link" style="display:none;"><a href="/my-plans.html">My Plans</a></li>
-                    <li id="my-profile-link" style="display:none;"><a href="/my-profile.html">My Profile</a></li>                        
-                    <li><a href="/community.html">Community</a></li>
-                    <li id="sign-up-login-link"><a href="/login.html">Sign Up/Login</a></li>
+                    <li><a href="categories.html">Categories</a></li>
+                    <li><a href="tools.html">Tools</a></li>
+                    <li id="dashboard-link" style="display:none;"><a href="dashboard.html">Dashboard</a></li>
+                    <li id="my-plans-link" style="display:none;"><a href="my-plans.html">My Plans</a></li>
+                    <li id="my-profile-link" style="display:none;"><a href="my-profile.html">My Profile</a></li>                        
+                    <li><a href="community.html">Community</a></li>
+                    <li id="sign-up-login-link"><a href="login.html">Sign Up/Login</a></li>
                     <li id="sign-out-link" style="display:none;"><a href="#" onclick="signOut()">Sign Out</a></li>
                 </ul>
             </div>              
@@ -39,14 +39,14 @@
         </div>
 
         <div class="ai-container">
-            <img src="/images/ai.png" alt="AI Image" class="ai-image" id="aiImage">
+            <img src="images/ai.png" alt="AI Image" class="ai-image" id="aiImage">
         </div>
 
         <div class="text-overlay">
             <h1 class="header-main">Welcome to LifePlan!</h1>
             <p class="header-small">Your personal assistant for a balanced life.</p>
         </div>
-        <a href="/categories.html" class="explore-button">Explore</a>
+        <a href="categories.html" class="explore-button">Explore</a>
         <div class="meet-ai-assistant">
             <h2 class="ai-assistant-main">Meet Your AI Assistant!</h2>
             <p class="ai-assistant-small">Your AI assistant simplifies life by managing tasks and providing recommendations. Start using it now!</p>
@@ -61,7 +61,7 @@
         <div class="video-section">
             <div class="video-container">
                 <video autoplay loop muted class="intro-video">
-                    <source src="/images/time-tracking.mp4" type="video/mp4">
+                    <source src="images/time-tracking.mp4" type="video/mp4">
                     Your browser does not support the video tag.
                 </video>
             </div>
@@ -75,7 +75,7 @@
             <div class="card-container">
                 <!-- Card 1 -->
                 <div class="card">
-                    <img src="/images/icon-task.png" alt="Task Management Icon" class="card-icon">
+                    <img src="images/icon-task.png" alt="Task Management Icon" class="card-icon">
                     <h4>Task Management</h4>
                     <p>Organize and prioritize your tasks easily with our task tracking tools.</p>
                     <button class="see-more" onclick="openModal('myModal')">See More</button>
@@ -83,7 +83,7 @@
 
                 <!-- Card 2 -->
                 <div class="card">
-                    <img src="/images/icon-roadmap.png" alt="Roadmap Icon" class="card-icon">
+                    <img src="images/icon-roadmap.png" alt="Roadmap Icon" class="card-icon">
                     <h4>Roadmap</h4>
                     <p>Set, track, and accomplish your personal and team goals efficiently.</p>
                     <button class="see-more" onclick="openModal('modal2')">See More</button>
@@ -91,7 +91,7 @@
 
                 <!-- Card 3 -->
                 <div class="card">
-                    <img src="/images/icon-budget.png" alt="Budget Icon" class="card-icon">
+                    <img src="images/icon-budget.png" alt="Budget Icon" class="card-icon">
                     <h4>Budget Tracking</h4>
                     <p>Manage and track your expenses and savings, using our budget tracker.</p>
                     <button class="see-more" onclick="openModal('modal3')">See More</button>
@@ -155,7 +155,7 @@
                 <h3>Exclusive Offer for Early Birds!</h3>
                 <p>Get lifetime premium access for only <span class="price">$50</span>!</p>
                 <p>Limited spots available.</p>
-                <a href="/payment.html">
+                <a href="payment.html">
                     <button class="cta-button">Get Lifetime Access</button>
                 </a>
             </div>
@@ -174,6 +174,6 @@
     </div>
 
     <div id="chatIcon" class="chat-icon">💬</div>
-    <script src="/js/index.js" defer></script>
+    <script src="js/index.js" defer></script>
 </body>
 </html>
