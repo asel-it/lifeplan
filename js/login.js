@@ -14,18 +14,15 @@ function updateTimeAndDate() {
 }
 setInterval(updateTimeAndDate, 1000);
 
-
-
-
 // Menu toggle functionality
 const menuIcon = document.getElementById("menu-icon");
 const sideMenu = document.getElementById("side-menu");
 const content = document.getElementById("content");
+
 menuIcon.addEventListener("click", function () {
     sideMenu.classList.toggle("open");
     content.classList.toggle("menu-open");
 });
-
 
 // Close menu when clicking outside of it
 window.addEventListener("click", function (event) {
@@ -35,8 +32,7 @@ window.addEventListener("click", function (event) {
     }
 });
 
-
-// Функция для открытия модального окна
+// Function to open modal
 function openModal(modalId) {
     const modal = document.getElementById(modalId);
     if (modal) {
@@ -44,30 +40,25 @@ function openModal(modalId) {
     }
 }
 
-
-// Переключение между формами регистрации и авторизации
+// Switch between register and login forms
 function showRegister() {
     document.getElementById('loginForm').style.display = 'none';
     document.getElementById('registerForm').style.display = 'block';
 }
-
 
 function showLogin() {
     document.getElementById('registerForm').style.display = 'none';
     document.getElementById('loginForm').style.display = 'block';
 }
 
-
-// Обработка логина
+// Handle login form submission
 document.getElementById('loginFormSubmit').addEventListener('submit', function(event) {
     event.preventDefault();
-
 
     let username = document.getElementById('loginEmail').value;
     let password = document.getElementById('loginPassword').value;
 
-
-    fetch('http://localhost:3001/login', {
+    fetch('https://lifeplan-backend.onrender.com/login', { // обновлено на URL бэкенда
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -81,34 +72,30 @@ document.getElementById('loginFormSubmit').addEventListener('submit', function(e
     .then(data => {
         if (data.message) {
             alert(data.message);
-            window.location.href = 'index.html';  // Перенаправление на главную
+            window.location.href = 'index.html';  // Redirect to the main page after successful login
         } else {
-            alert(data.error || 'Ошибка входа');
+            alert(data.error || 'Login error');
         }
     })
     .catch(error => {
-        alert('Ошибка: ' + error.message);
+        alert('Error: ' + error.message);
     });
 });
 
-
-// Обработка регистрации
+// Handle registration form submission
 document.getElementById('registerFormSubmit').addEventListener('submit', function(event) {
     event.preventDefault();
-
 
     let username = document.getElementById('registerEmail').value;
     let password = document.getElementById('registerPassword').value;
     let confirmPassword = document.getElementById('confirmPassword').value;
 
-
     if (password !== confirmPassword) {
-        alert('Пароли не совпадают!');
+        alert('Passwords do not match!');
         return;
     }
 
-
-    fetch('http://localhost:3001/register', {
+    fetch('https://lifeplan-backend.onrender.com/register', { // обновлено на URL бэкенда
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -120,10 +107,10 @@ document.getElementById('registerFormSubmit').addEventListener('submit', functio
     })
     .then(response => response.json())
     .then(data => {
-        alert(data.message || 'Пользователь зарегистрирован успешно');
-        showLogin(); // Переключаемся на форму логина после успешной регистрации
+        alert(data.message || 'User registered successfully');
+        showLogin(); // Switch to login form after successful registration
     })
     .catch(error => {
-        alert('Ошибка: ' + error.message);
+        alert('Error: ' + error.message);
     });
 });
