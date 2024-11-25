@@ -7,7 +7,6 @@ menuIcon.addEventListener("click", function () {
     content.classList.toggle("menu-open");
 });
 
-
 // Close menu when clicking outside of it
 window.addEventListener("click", function (event) {
     if (!sideMenu.contains(event.target) && !menuIcon.contains(event.target)) {
@@ -16,54 +15,55 @@ window.addEventListener("click", function (event) {
     }
 });
 
+// Toggle tool settings visibility
 function toggleToolSettings() {
-   const toolSettingsPanel = document.querySelector('.tool-settings');
-   toolSettingsPanel.classList.toggle('active'); // Переключаем класс
+    const toolSettingsPanel = document.querySelector('.tool-settings');
+    toolSettingsPanel.classList.toggle('active');
 }
 
-// Проверяем состояние авторизации
+// Check user authentication status
 function checkAuthStatus() {
-   const isAuthenticated = localStorage.getItem('isAuthenticated') === 'true';
-   const currentPage = window.location.pathname; // Get the current page path
+    const isAuthenticated = localStorage.getItem('isAuthenticated') === 'true';
+    const currentPage = window.location.pathname; // Get the current page path
 
-   const dashboardLink = document.getElementById('dashboard-link');
-   const myPlansLink = document.getElementById('my-plans-link');
-   const myProfileLink = document.getElementById('my-profile-link');
-   const signUpLoginLink = document.getElementById('sign-up-login-link');
-   const signOutLink = document.getElementById('sign-out-link');
+    const dashboardLink = document.getElementById('dashboard-link');
+    const myPlansLink = document.getElementById('my-plans-link');
+    const myProfileLink = document.getElementById('my-profile-link');
+    const signUpLoginLink = document.getElementById('sign-up-login-link');
+    const signOutLink = document.getElementById('sign-out-link');
 
-   // Check if we're already on the dashboard page and hide the dashboard link
-   if (currentPage === '/dashboard.html') {
-       dashboardLink.style.display = 'none';
-   } else {
-       dashboardLink.style.display = isAuthenticated ? 'block' : 'none';
-   }
+    // Hide dashboard link on the dashboard page
+    if (currentPage === '/dashboard.html') {
+        dashboardLink.style.display = 'none';
+    } else {
+        dashboardLink.style.display = isAuthenticated ? 'block' : 'none';
+    }
 
-   // Show/hide other links based on authentication status
-   if (isAuthenticated) {
-       myPlansLink.style.display = 'block';
-       myProfileLink.style.display = 'block';
-       signUpLoginLink.style.display = 'none';
-       signOutLink.style.display = 'block';
-   } else {
-       myPlansLink.style.display = 'none';
-       myProfileLink.style.display = 'none';
-       signUpLoginLink.style.display = 'block';
-       signOutLink.style.display = 'none';
-   }
+    // Show/hide other links based on authentication status
+    if (isAuthenticated) {
+        myPlansLink.style.display = 'block';
+        myProfileLink.style.display = 'block';
+        signUpLoginLink.style.display = 'none';
+        signOutLink.style.display = 'block';
+    } else {
+        myPlansLink.style.display = 'none';
+        myProfileLink.style.display = 'none';
+        signUpLoginLink.style.display = 'block';
+        signOutLink.style.display = 'none';
+    }
 }
 
-// Функция для выхода
+// Function for signing out
 function signOut() {
-// Удаляем информацию о том, что пользователь авторизован
-localStorage.removeItem('isAuthenticated');
-// Перезагружаем меню
-checkAuthStatus();
+    // Remove authentication information
+    localStorage.removeItem('isAuthenticated');
+    // Reload menu
+    checkAuthStatus();
 }
 
-// Вызываем функцию при загрузке страницы
+// Call checkAuthStatus when the page loads
 document.addEventListener('DOMContentLoaded', function() {
-checkAuthStatus();
+    checkAuthStatus();
 });
 
 // Update time and date
@@ -79,28 +79,43 @@ function updateTimeAndDate() {
     const displayHours = (hours % 12 || 12).toString().padStart(2, '0');
     document.getElementById('date').textContent = `${day}.${month}.${year}`;
     document.getElementById('time').textContent = `${displayHours}:${minutes}:${seconds} ${ampm}`;
-  }
-  setInterval(updateTimeAndDate, 1000);
-  
+}
+setInterval(updateTimeAndDate, 1000);
+
+// Event listener for adding a new post
 document.addEventListener('DOMContentLoaded', function() {
     const publishPostButton = document.getElementById('publish-post');
     const newPostContent = document.getElementById('new-post-content');
     const categoryFilter = document.getElementById('category-filter');
     const popularityFilter = document.getElementById('popularity-filter');
 
-    // Добавление новой публикации
+    // Add new post
     publishPostButton.addEventListener('click', function() {
         const content = newPostContent.value.trim();
         if (content) {
             alert("Публикация успешно добавлена!");
-            // Здесь добавьте код для отправки данных на сервер
-            newPostContent.value = ''; // Очищаем поле ввода
+            // Send data to backend (POST request to the API)
+            fetch('https://lifeplan-backend.onrender.com/api/posts', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ content: content })
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Post added:', data);
+                newPostContent.value = ''; // Clear the input field
+            })
+            .catch(error => {
+                console.error('Error adding post:', error);
+            });
         } else {
             alert("Пожалуйста, введите текст для публикации.");
         }
     });
 
-    // Фильтрация публикаций
+    // Filter posts based on selected category and popularity
     categoryFilter.addEventListener('change', function() {
         filterPosts();
     });
@@ -109,15 +124,24 @@ document.addEventListener('DOMContentLoaded', function() {
         filterPosts();
     });
 
-    // Функция для фильтрации
+    // Function to filter posts
     function filterPosts() {
         const category = categoryFilter.value;
         const popularity = popularityFilter.value;
         console.log(`Фильтрация по категории: ${category}, по популярности: ${popularity}`);
-        // Добавьте логику для фильтрации публикаций
+        // Send GET request to backend to filter posts
+        fetch(`https://lifeplan-backend.onrender.com/api/posts?category=${category}&popularity=${popularity}`)
+            .then(response => response.json())
+            .then(posts => {
+                console.log('Filtered posts:', posts);
+                // Display filtered posts in the UI
+            })
+            .catch(error => {
+                console.error('Error filtering posts:', error);
+            });
     }
 
-    // Открытие секции комментариев
+    // Open comments section for a post
     const commentButtons = document.querySelectorAll('.comment-btn');
     commentButtons.forEach(function(button) {
         button.addEventListener('click', function() {
