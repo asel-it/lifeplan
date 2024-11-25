@@ -14,64 +14,15 @@ function updateTimeAndDate() {
 }
 setInterval(updateTimeAndDate, 1000);
 
- // Menu toggle functionality
- const menuIcon = document.getElementById("menu-icon");
- const sideMenu = document.getElementById("side-menu");
- const content = document.getElementById("content");
- menuIcon.addEventListener("click", function () {
-     sideMenu.classList.toggle("open");
-     content.classList.toggle("menu-open");
- });
+// Menu toggle functionality
+const menuIcon = document.getElementById("menu-icon");
+const sideMenu = document.getElementById("side-menu");
+const content = document.getElementById("content");
 
-
- // Close menu when clicking outside of it
- window.addEventListener("click", function (event) {
-     if (!sideMenu.contains(event.target) && !menuIcon.contains(event.target)) {
-         sideMenu.classList.remove("open");
-         content.classList.remove("menu-open");
-     }
- });
-
-// Проверяем состояние авторизации
-function checkAuthStatus() {
- const isAuthenticated = localStorage.getItem('isAuthenticated') === 'true';
- 
- const dashboardLink = document.getElementById('dashboard-link');
- const myPlansLink = document.getElementById('my-plans-link');
- const myProfileLink = document.getElementById('my-profile-link');
- const signUpLoginLink = document.getElementById('sign-up-login-link');
- const signOutLink = document.getElementById('sign-out-link');
- 
- // Для авторизованных пользователей показываем ссылки на страницы и ссылку на выход
- if (isAuthenticated) {
-     dashboardLink.style.display = 'block';
-     myPlansLink.style.display = 'block';
-     myProfileLink.style.display = 'block';
-     signUpLoginLink.style.display = 'none';
-     signOutLink.style.display = 'block';
- } else {
-     // Для неавторизованных показываем ссылку на вход и скрываем другие
-     dashboardLink.style.display = 'none';
-     myPlansLink.style.display = 'none';
-     myProfileLink.style.display = 'none';
-     signUpLoginLink.style.display = 'block';
-     signOutLink.style.display = 'none';
- }
-}
-
-// Функция для выхода
-function signOut() {
- // Удаляем информацию о том, что пользователь авторизован
- localStorage.removeItem('isAuthenticated');
- // Перезагружаем меню
- checkAuthStatus();
-}
-
-// Вызываем функцию при загрузке страницы
-document.addEventListener('DOMContentLoaded', function() {
- checkAuthStatus();
+menuIcon.addEventListener("click", function () {
+    sideMenu.classList.toggle("open");
+    content.classList.toggle("menu-open");
 });
-
 
 // Close menu when clicking outside of it
 window.addEventListener("click", function (event) {
@@ -81,87 +32,169 @@ window.addEventListener("click", function (event) {
     }
 });
 
-// Функция для открытия модального окна
-function openModal(modalId) {
-    const modal = document.getElementById(modalId);
-    if (modal) {
-        modal.style.display = "block";
+// Check authentication status and update the UI
+function checkAuthStatus() {
+    const isAuthenticated = localStorage.getItem('isAuthenticated') === 'true';
+
+    const dashboardLink = document.getElementById('dashboard-link');
+    const myPlansLink = document.getElementById('my-plans-link');
+    const myProfileLink = document.getElementById('my-profile-link');
+    const signUpLoginLink = document.getElementById('sign-up-login-link');
+    const signOutLink = document.getElementById('sign-out-link');
+
+    if (isAuthenticated) {
+        dashboardLink.style.display = 'block';
+        myPlansLink.style.display = 'block';
+        myProfileLink.style.display = 'block';
+        signUpLoginLink.style.display = 'none';
+        signOutLink.style.display = 'block';
+    } else {
+        dashboardLink.style.display = 'none';
+        myPlansLink.style.display = 'none';
+        myProfileLink.style.display = 'none';
+        signUpLoginLink.style.display = 'block';
+        signOutLink.style.display = 'none';
     }
 }
 
-
-// Функция для закрытия модального окна
-function closeModal(modalId) {
-    const modal = document.getElementById(modalId);
-    if (modal) {
-        modal.style.display = "none";
-    }
+// Sign out function
+function signOut() {
+    localStorage.removeItem('isAuthenticated');
+    checkAuthStatus();
 }
 
+// Fetch user plans from backend
+function getUserPlans() {
+    const isAuthenticated = localStorage.getItem('isAuthenticated') === 'true';
+    if (!isAuthenticated) {
+        alert("You must be logged in to view your plans.");
+        return;
+    }
 
-// Связь подкатегорий с карточками
-const toolsBySubcategory = {
-    "Career Growth": ["balance", "daily", "eis", "goal", "progress", "sched", "calend", "todo", "kanban", "road", "task"],
-    "Business": ["budget", "geo", "task", "kanban", "lists", "progress", "sched", "calend", "daily", "todo", "road", "goal"],
-    "Side Jobs": ["daily", "eis", "sched", "budget", "calend", "todo", "kanban", "lists", "task"],
-    "Projects": ["calend", "task", "todo", "daily", "eis", "lists", "road"],
-    "Professional Goals": ["goal", "daily", "kanban", "eis", "daily", "sched", "calend", "task"],
-    "Freelance": ["todo", "kanban", "lists", "budget"],
-    "Employment Relations": ["goal", "todo", "sched", "lists"],
-    "Networking": ["todo", "task", "daily", "eis", "goal", "lists", "kanban", "budget"],
-    "Job Search": ["sched", "calend", "task", "todo", "lists"],
-    "Work Skills": ["goal", "progress", "sched", "todo"]
-};
-
-
-function highlightTools(toolIds) {
-    // Сначала удаляем подсветку со всех карточек
-    const cards = document.querySelectorAll('.card');
-    cards.forEach(card => {
-        card.classList.remove('highlighted');
-    });
-
-
-    // Затем добавляем подсветку для переданных карточек
-    toolIds.forEach(toolId => {
-        const toolCard = document.getElementById(toolId);
-        if (toolCard) {
-            toolCard.classList.add('highlighted');
+    const userId = localStorage.getItem('userId');  // Assuming you store the userId after login
+    fetch(`https://lifeplan-backend.onrender.com/plans/${userId}`, {
+        method: 'GET',
+        headers: {
+            'Authorization': `Bearer ${localStorage.getItem('authToken')}`  // Assuming you store a token after login
         }
-    });
-
-
-
-    // Убираем подсветку со всех карточек
-    const allCards = document.querySelectorAll(".card");
-    allCards.forEach(card => {
-        card.classList.remove("highlighted");
-    });
-
-
-    // Подсвечиваем карточки для выбранной подкатегории
-    toolsBySubcategory[subcategory].forEach(toolId => {
-        const toolElement = document.getElementById(toolId);
-        if (toolElement) {
-            toolElement.classList.add("highlighted");
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data && data.plans) {
+            displayPlans(data.plans);  // Assuming `displayPlans` is a function that populates the UI with the plans
+        } else {
+            alert("No plans found.");
         }
+    })
+    .catch(error => {
+        console.error('Error fetching plans:', error);
+        alert('Error loading plans.');
     });
 }
 
+// Display user plans in the UI
+function displayPlans(plans) {
+    const plansContainer = document.getElementById('plans-container');
+    plansContainer.innerHTML = ''; // Clear existing plans
 
-// Привязка кнопок подкатегорий к функции подсветки
-document.querySelectorAll(".subcategory-menu button").forEach(button => {
-    button.addEventListener("click", () => {
-        const subcategory = button.textContent.trim();
-        highlightTools(subcategory);
+    plans.forEach(plan => {
+        const planElement = document.createElement('div');
+        planElement.classList.add('plan');
+        planElement.innerHTML = `
+            <h3>${plan.title}</h3>
+            <p>${plan.description}</p>
+            <button onclick="deletePlan('${plan.id}')">Delete</button>
+            <button onclick="editPlan('${plan.id}')">Edit</button>
+        `;
+        plansContainer.appendChild(planElement);
     });
-});
+}
 
-
-// Закрытие модального окна при клике вне его
-window.addEventListener("click", function(event) {
-    const modal = document.getElementById("careerModal");
-    if (event.target === modal) {
-        closeModal("careerModal");
+// Delete plan from the backend
+function deletePlan(planId) {
+    const isAuthenticated = localStorage.getItem('isAuthenticated') === 'true';
+    if (!isAuthenticated) {
+        alert("You must be logged in to delete a plan.");
+        return;
     }
+
+    fetch(`https://lifeplan-backend.onrender.com/plans/${planId}`, {
+        method: 'DELETE',
+        headers: {
+            'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.message) {
+            alert(data.message);
+            getUserPlans();  // Refresh the plans after deletion
+        } else {
+            alert('Error deleting plan');
+        }
+    })
+    .catch(error => {
+        console.error('Error deleting plan:', error);
+        alert('Error deleting plan.');
+    });
+}
+
+// Edit plan (this could be a modal or page for updating the plan details)
+function editPlan(planId) {
+    // Fetch plan details and open a modal or form for editing
+    fetch(`https://lifeplan-backend.onrender.com/plans/${planId}`, {
+        method: 'GET',
+        headers: {
+            'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.plan) {
+            openModal('editPlanModal');
+            // Populate form fields in the modal with the plan data
+            document.getElementById('editPlanTitle').value = data.plan.title;
+            document.getElementById('editPlanDescription').value = data.plan.description;
+            // Save changes after editing
+            document.getElementById('editPlanSubmit').onclick = function() {
+                updatePlan(planId);
+            };
+        }
+    })
+    .catch(error => {
+        console.error('Error fetching plan for editing:', error);
+    });
+}
+
+// Update plan
+function updatePlan(planId) {
+    const title = document.getElementById('editPlanTitle').value;
+    const description = document.getElementById('editPlanDescription').value;
+
+    fetch(`https://lifeplan-backend.onrender.com/plans/${planId}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+        },
+        body: JSON.stringify({ title, description })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.message) {
+            alert(data.message);
+            closeModal('editPlanModal');
+            getUserPlans();  // Refresh the plans after updating
+        }
+    })
+    .catch(error => {
+        console.error('Error updating plan:', error);
+        alert('Error updating plan.');
+    });
+}
+
+// Call functions on page load
+document.addEventListener('DOMContentLoaded', function() {
+    checkAuthStatus();
+    getUserPlans();  // Fetch the user's plans when the page loads
 });
