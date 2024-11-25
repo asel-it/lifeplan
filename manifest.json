@@ -1,46 +1,44 @@
 {
-  "name": "LifePlan",
-  "short_name": "LifePlan",
-  "description": "Personal life management application covering all life spheres",
-  "start_url": "/index.html",
-  "id": "/index.html",
-  "display": "standalone",
-  "background_color": "#ffffff",
-  "theme_color": "#00c3c3",
-  "icons": [
+    "name": "LifePlan",
+    "short_name": "LifePlan",
+    "description": "Personal life management application covering all life spheres",
+    "start_url": "https://asel-it.github.io/lifeplan/index.html",
+    "id": "index.html",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "theme_color": "#00c3c3",
+    "icons": [
       {
-          "src": "/images/icons/icon-192x192.png",
-          "sizes": "192x192",
-          "type": "image/png"
+        "src": "/lifeplan/images/icons/icon-192x192.png",
+        "sizes": "192x192",
+        "type": "image/png"
       },
       {
-          "src": "/images/icons/icon-512x512.png",
-          "sizes": "512x512",
-          "type": "image/png"
+        "src": "/lifeplan/images/icons/icon-512x512.png",
+        "sizes": "512x512",
+        "type": "image/png"
       }
-  ],
-  "screenshots": [
+    ],
+    "screenshots": [
       {
-          "src": "/images/screenshots/screenshot1.png",
-          "sizes": "800x600",
-          "type": "image/png",
-          "form-factor": "wide"
+        "src": "/lifeplan/images/screenshots/screenshot1.png",
+        "sizes": "800x600",
+        "type": "image/png",
+        "form-factor": "wide"
       },
       {
-          "src": "/images/screenshots/screenshot2.png",
-          "sizes": "460x847",
-          "type": "image/png",
-          "form-factor": "portrait"
+        "src": "/lifeplan/images/screenshots/screenshot2.png",
+        "sizes": "460x847",
+        "type": "image/png",
+        "form-factor": "portrait"
       }
-  ],
-  "protocol_handlers": [
+    ],
+    "protocol_handlers": [
       {
-          "protocol": "web+lifeplan",
-          "url": "/your-handler?url=%s" 
+        "protocol": "web+lifeplan",
+        "url": "your-handler?url=%s"
       }
-  ],
-  "display_override": ["window-control-overlay", "standalone"]
-}
-
-
+    ],
+    "display_override": ["window-control-overlay", "standalone"]
+  }
   
