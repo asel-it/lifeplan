@@ -1,27 +1,106 @@
  // Menu toggle functionality
- const menuIcon = document.getElementById("menu-icon");
- const sideMenu = document.getElementById("side-menu");
- const content = document.getElementById("content");
- menuIcon.addEventListener("click", function () {
-     sideMenu.classList.toggle("open");
-     content.classList.toggle("menu-open");
- });
+const menuIcon = document.getElementById("menu-icon");
+const sideMenu = document.getElementById("side-menu");
+const content = document.getElementById("content");
 
+menuIcon.addEventListener("click", function () {
+    sideMenu.classList.toggle("open");
+    content.classList.toggle("menu-open");
+});
 
- // Close menu when clicking outside of it
- window.addEventListener("click", function (event) {
-     if (!sideMenu.contains(event.target) && !menuIcon.contains(event.target)) {
-         sideMenu.classList.remove("open");
-         content.classList.remove("menu-open");
-     }
- });
+// Close menu when clicking outside of it
+window.addEventListener("click", function (event) {
+    if (!sideMenu.contains(event.target) && !menuIcon.contains(event.target)) {
+        sideMenu.classList.remove("open");
+        content.classList.remove("menu-open");
+    }
+});
 
- function toggleToolSettings() {
-    const toolSettingsPanel = document.querySelector('.tool-settings');
-    toolSettingsPanel.classList.toggle('active'); // Переключаем класс
+// Function to open modal
+function openModal(modalId) {
+    const modal = document.getElementById(modalId);
+    if (modal) {
+        modal.style.display = "block";
+    }
 }
 
-// Проверяем состояние авторизации
+// Switch between register and login forms
+function showRegister() {
+    document.getElementById('loginForm').style.display = 'none';
+    document.getElementById('registerForm').style.display = 'block';
+}
+
+function showLogin() {
+    document.getElementById('registerForm').style.display = 'none';
+    document.getElementById('loginForm').style.display = 'block';
+}
+
+// Handle login form submission
+document.getElementById('loginFormSubmit').addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    let username = document.getElementById('loginEmail').value;
+    let password = document.getElementById('loginPassword').value;
+
+    fetch('https://lifeplan-backend.onrender.com/login', { // Updated to backend URL
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            username: username,
+            password: password
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.message) {
+            alert(data.message);
+            localStorage.setItem('isAuthenticated', 'true');  // Set authentication status
+            window.location.href = 'index.html';  // Redirect to the main page after successful login
+        } else {
+            alert(data.error || 'Login error');
+        }
+    })
+    .catch(error => {
+        alert('Error: ' + error.message);
+    });
+});
+
+// Handle registration form submission
+document.getElementById('registerFormSubmit').addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    let username = document.getElementById('registerEmail').value;
+    let password = document.getElementById('registerPassword').value;
+    let confirmPassword = document.getElementById('confirmPassword').value;
+
+    if (password !== confirmPassword) {
+        alert('Passwords do not match!');
+        return;
+    }
+
+    fetch('https://lifeplan-backend.onrender.com/register', { // Updated to backend URL
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            username: username,
+            password: password
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        alert(data.message || 'User registered successfully');
+        showLogin(); // Switch to login form after successful registration
+    })
+    .catch(error => {
+        alert('Error: ' + error.message);
+    });
+});
+
+// Check authentication status and update the UI
 function checkAuthStatus() {
     const isAuthenticated = localStorage.getItem('isAuthenticated') === 'true';
     const currentPage = window.location.pathname; // Get the current page path
@@ -53,17 +132,17 @@ function checkAuthStatus() {
     }
 }
 
-// Функция для выхода
+// Function to log out
 function signOut() {
- // Удаляем информацию о том, что пользователь авторизован
- localStorage.removeItem('isAuthenticated');
- // Перезагружаем меню
- checkAuthStatus();
+    // Remove authentication status
+    localStorage.removeItem('isAuthenticated');
+    // Reload the menu
+    checkAuthStatus();
 }
 
-// Вызываем функцию при загрузке страницы
+// Call the checkAuthStatus function when the page loads
 document.addEventListener('DOMContentLoaded', function() {
- checkAuthStatus();
+    checkAuthStatus();
 });
 
 // Update time and date
@@ -79,9 +158,10 @@ function updateTimeAndDate() {
     const displayHours = (hours % 12 || 12).toString().padStart(2, '0');
     document.getElementById('date').textContent = `${day}.${month}.${year}`;
     document.getElementById('time').textContent = `${displayHours}:${minutes}:${seconds} ${ampm}`;
-  }
-  setInterval(updateTimeAndDate, 1000);
-  
+}
+setInterval(updateTimeAndDate, 1000);
+
+// Tool drag-and-drop functionality
 document.querySelectorAll('.tool').forEach(tool => {
     tool.addEventListener('dragstart', (event) => {
         event.dataTransfer.setData('toolId', event.target.id);
