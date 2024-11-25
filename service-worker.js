@@ -1,11 +1,11 @@
 const CACHE_NAME = "lifeplan-cache-v1";
 const urlsToCache = [
-  "/lifeplan/", // Добавляем корневую страницу
-  "/lifeplan/index.html",
-  "/lifeplan/css/index.css",
-  "/lifeplan/js/index.js",
-  "/lifeplan/images/icons/icon-192x192.png",
-  "/lifeplan/images/icons/icon-512x512.png"
+  ".", // Добавляем корневую страницу
+  "index.html",
+  "css/index.css",
+  "js/index.js",
+  "images/icons/icon-192x192.png",
+  "images/icons/icon-512x512.png"
 ];
 
 // Установка и кэширование файлов
