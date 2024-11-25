@@ -1,13 +1,12 @@
 const CACHE_NAME = "lifeplan-cache-v1";
 const urlsToCache = [
-  "/",
-  "/templates/index.html",
-  "/css/index.css",
-  "/js/index.js",
-  "/images/icons/icon-192x192.png",
-  "/images/icons/icon-512x512.png"
+  "/lifeplan/", // Добавляем корневую страницу
+  "/lifeplan/index.html",
+  "/lifeplan/css/index.css",
+  "/lifeplan/js/index.js",
+  "/lifeplan/images/icons/icon-192x192.png",
+  "/lifeplan/images/icons/icon-512x512.png"
 ];
-
 
 // Установка и кэширование файлов
 self.addEventListener("install", (event) => {
@@ -19,7 +18,6 @@ self.addEventListener("install", (event) => {
     })
   );
 });
-
 
 // Активация и удаление старого кэша
 self.addEventListener("activate", (event) => {
@@ -38,7 +36,6 @@ self.addEventListener("activate", (event) => {
   );
 });
 
-
 // Обработка запросов
 self.addEventListener("fetch", (event) => {
   event.respondWith(
@@ -47,4 +44,3 @@ self.addEventListener("fetch", (event) => {
     })
   );
 });
-
