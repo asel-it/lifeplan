@@ -2,11 +2,11 @@
 const menuIcon = document.getElementById("menu-icon");
 const sideMenu = document.getElementById("side-menu");
 const content = document.getElementById("content");
+
 menuIcon.addEventListener("click", function () {
     sideMenu.classList.toggle("open");
     content.classList.toggle("menu-open");
 });
-
 
 // Close menu when clicking outside of it
 window.addEventListener("click", function (event) {
@@ -16,84 +16,140 @@ window.addEventListener("click", function (event) {
     }
 });
 
-// Проверяем состояние авторизации
+// Check authentication status and update the UI
 function checkAuthStatus() {
-const isAuthenticated = localStorage.getItem('isAuthenticated') === 'true';
+    const isAuthenticated = localStorage.getItem('isAuthenticated') === 'true';
 
-const dashboardLink = document.getElementById('dashboard-link');
-const myPlansLink = document.getElementById('my-plans-link');
-const myProfileLink = document.getElementById('my-profile-link');
-const signUpLoginLink = document.getElementById('sign-up-login-link');
-const signOutLink = document.getElementById('sign-out-link');
+    const dashboardLink = document.getElementById('dashboard-link');
+    const myPlansLink = document.getElementById('my-plans-link');
+    const myProfileLink = document.getElementById('my-profile-link');
+    const signUpLoginLink = document.getElementById('sign-up-login-link');
+    const signOutLink = document.getElementById('sign-out-link');
 
-// Для авторизованных пользователей показываем ссылки на страницы и ссылку на выход
-if (isAuthenticated) {
-    dashboardLink.style.display = 'block';
-    myPlansLink.style.display = 'block';
-    myProfileLink.style.display = 'block';
-    signUpLoginLink.style.display = 'none';
-    signOutLink.style.display = 'block';
-} else {
-    // Для неавторизованных показываем ссылку на вход и скрываем другие
-    dashboardLink.style.display = 'none';
-    myPlansLink.style.display = 'none';
-    myProfileLink.style.display = 'none';
-    signUpLoginLink.style.display = 'block';
-    signOutLink.style.display = 'none';
+    if (isAuthenticated) {
+        dashboardLink.style.display = 'block';
+        myPlansLink.style.display = 'block';
+        myProfileLink.style.display = 'block';
+        signUpLoginLink.style.display = 'none';
+        signOutLink.style.display = 'block';
+        fetchUserProfile();  // Fetch profile data when authenticated
+    } else {
+        dashboardLink.style.display = 'none';
+        myPlansLink.style.display = 'none';
+        myProfileLink.style.display = 'none';
+        signUpLoginLink.style.display = 'block';
+        signOutLink.style.display = 'none';
+    }
 }
-}
 
-// Функция для выхода
+// Sign out function
 function signOut() {
-// Удаляем информацию о том, что пользователь авторизован
-localStorage.removeItem('isAuthenticated');
-// Перезагружаем меню
-checkAuthStatus();
+    localStorage.removeItem('isAuthenticated');
+    checkAuthStatus();
 }
 
-// Вызываем функцию при загрузке страницы
-document.addEventListener('DOMContentLoaded', function() {
-checkAuthStatus();
-});
+// Fetch user profile data from the backend
+function fetchUserProfile() {
+    const userId = localStorage.getItem('userId');  // Assuming you store the userId after login
+    if (!userId) {
+        alert("User not found.");
+        return;
+    }
 
-// Update time and date
-function updateTimeAndDate() {
-   const now = new Date();
-   const day = now.getDate().toString().padStart(2, '0');
-   const month = (now.getMonth() + 1).toString().padStart(2, '0');
-   const year = now.getFullYear();
-   const hours = now.getHours();
-   const minutes = now.getMinutes().toString().padStart(2, '0');
-   const seconds = now.getSeconds().toString().padStart(2, '0');
-   const ampm = hours >= 12 ? 'PM' : 'AM';
-   const displayHours = (hours % 12 || 12).toString().padStart(2, '0');
-   document.getElementById('date').textContent = `${day}.${month}.${year}`;
-   document.getElementById('time').textContent = `${displayHours}:${minutes}:${seconds} ${ampm}`;
+    fetch(`https://lifeplan-backend.onrender.com/users/${userId}`, {
+        method: 'GET',
+        headers: {
+            'Authorization': `Bearer ${localStorage.getItem('authToken')}`  // Assuming you store a token after login
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data && data.user) {
+            displayUserProfile(data.user);
+        } else {
+            alert("Failed to fetch user profile.");
+        }
+    })
+    .catch(error => {
+        console.error('Error fetching profile:', error);
+        alert('Error loading profile.');
+    });
 }
-setInterval(updateTimeAndDate, 1000);
 
+// Display user profile in the UI
+function displayUserProfile(user) {
+    const userName = document.getElementById('user-name');
+    const userEmail = document.getElementById('user-email');
+    const userProfilePic = document.getElementById('user-profile-pic');
 
-// Функция для переключения режима редактирования профиля
+    userName.textContent = user.name || 'No name available';
+    userEmail.textContent = user.email || 'No email available';
+
+    if (user.profilePic) {
+        userProfilePic.src = user.profilePic;  // Assuming profilePic is a URL to an image
+    }
+}
+
+// Switch to profile editing mode
 function editProfile() {
     document.querySelector('.profile-info').style.display = 'none';
     document.getElementById('edit-profile').style.display = 'block';
 }
 
-// Функция для отмены редактирования профиля
+// Cancel profile editing
 function cancelEdit() {
     document.querySelector('.profile-info').style.display = 'block';
     document.getElementById('edit-profile').style.display = 'none';
 }
 
-// Функция для изменения изображения профиля
-function changeProfilePic() {
-    // Логика для изменения изображения профиля
-    alert("Change profile picture functionality not implemented yet.");
+// Save profile changes
+function saveProfile() {
+    const userId = localStorage.getItem('userId');
+    const name = document.getElementById('edit-name').value;
+    const email = document.getElementById('edit-email').value;
+    const profilePic = document.getElementById('edit-profile-pic').files[0];  // Assuming user can upload a profile picture
+
+    if (!name || !email) {
+        alert("Name and email are required.");
+        return;
+    }
+
+    const formData = new FormData();
+    formData.append('name', name);
+    formData.append('email', email);
+    if (profilePic) {
+        formData.append('profilePic', profilePic);  // Append profile picture if provided
+    }
+
+    fetch(`https://lifeplan-backend.onrender.com/users/${userId}`, {
+        method: 'PUT',
+        headers: {
+            'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+        },
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.message) {
+            alert('Profile updated successfully');
+            cancelEdit();
+            fetchUserProfile();  // Fetch updated profile data
+        } else {
+            alert('Failed to update profile');
+        }
+    })
+    .catch(error => {
+        console.error('Error updating profile:', error);
+        alert('Error updating profile.');
+    });
 }
 
-// Если пользователь авторизован, показываем ссылку на выход
-function signOut() {
-    alert("Signing out...");
-    // Логика для выхода пользователя
-    // Например, очистка сессии и редирект на страницу входа
+// Change profile picture (Placeholder logic for now)
+function changeProfilePic() {
+    document.getElementById('edit-profile-pic').click();  // Simulate a file input click
 }
+
+// Call functions on page load
+document.addEventListener('DOMContentLoaded', function() {
+    checkAuthStatus();
+});
