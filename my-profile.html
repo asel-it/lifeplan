@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Profile</title>
-    <link rel="manifest" href="/manifest.json">
-    <script src="/service-worker.js" defer></script>
+    <link rel="manifest" href="manifest.json">
+    <script src="service-worker.js" defer></script>
     <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;600&family=Orbitron&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/css/my-profile.css">
+    <link rel="stylesheet" href="css/my-profile.css">
 </head>
 <body>
     <div id="time-date">
@@ -16,18 +16,18 @@
     </div>   
     <div class="container">
         <div class="header">
-            <img src="/images/logo.png" alt="LifePlan Logo" class="logo">
+            <img src="images/logo.png" alt="LifePlan Logo" class="logo">
             
             <!-- Navigation Menu -->
             <div id="side-menu" class="side-menu">
                 <ul>
-                    <li><a href="/index.html">Home</a></li>
-                    <li><a href="/categories.html">Categories</a></li>
-                    <li><a href="/tools.html">Tools</a></li>
-                    <li id="dashboard-link" style="display:none;"><a href="/dashboard.html">Dashboard</a></li>
-                    <li id="my-plans-link" style="display:none;"><a href="/my-plans.html">My Plans</a></li>                            
-                    <li><a href="/community.html">Community</a></li>
-                    <li id="sign-up-login-link"><a href="/login.html">Sign Up/Login</a></li>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="categories.html">Categories</a></li>
+                    <li><a href="tools.html">Tools</a></li>
+                    <li id="dashboard-link" style="display:none;"><a href="dashboard.html">Dashboard</a></li>
+                    <li id="my-plans-link" style="display:none;"><a href="my-plans.html">My Plans</a></li>                            
+                    <li><a href="community.html">Community</a></li>
+                    <li id="sign-up-login-link"><a href="login.html">Sign Up/Login</a></li>
                     <li id="sign-out-link" style="display:none;"><a href="#" onclick="signOut()">Sign Out</a></li>
                 </ul>
             </div>
@@ -43,7 +43,7 @@
         <!-- User Profile Information -->
         <section class="profile-info">
             <div class="profile-picture">
-                <img src="/images/profile-pic.jpg" alt="Profile Picture" id="profile-pic">
+                <img src="images/profile-pic.jpg" alt="Profile Picture" id="profile-pic">
                 <button onclick="changeProfilePic()">Change Picture</button>
             </div>
             <div class="profile-details">
@@ -73,6 +73,6 @@
         </section>
     </div>
 
-    <script src="/js/my-profile.js"></script>
+    <script src="js/my-profile.js"></script>
 </body>
 </html>
