@@ -1,0 +1,268 @@
+/* Основной стиль */
+* {
+    font-family: 'Exo 2', sans-serif;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+
+
+
+html, body {
+    height: 100%;
+    margin: 0;
+    overflow-y: auto; /* Позволяем вертикальную прокрутку */
+    background-color: #f4f4f4; /* Легкий светлый фон */
+    color: #333; /* Цвет текста по умолчанию */
+}
+
+
+/* Стиль для бокового меню */
+.side-menu {
+    position: fixed;
+    left: -250px; /* Hidden position */
+    top: 0;
+    width: 250px;
+    height: 100%;
+    background-color: #2c3e50; /* Темно-синий цвет */
+    color: #ecf0f1; /* Светлый текст */
+    transition: left 0.3s ease;
+    padding-top: 50px;
+}
+
+
+.side-menu ul {
+    list-style: none;
+    padding: 0;
+}
+
+
+.side-menu ul li {
+    padding: 15px;
+    border-bottom: 1px solid #34495e; /* Более темный оттенок */
+}
+
+
+.side-menu ul li a {
+    color: #ecf0f1; /* Светлый текст */
+    text-decoration: none;
+    font-size: 18px;
+}
+
+
+/* Стиль для иконки гамбургер-меню */
+.menu-icon {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    font-size: 24px;
+    color: #34495e; /* Темно-серый */
+    cursor: pointer;
+}
+
+
+/* Основная область контента */
+.content {
+    padding-top: 20px;
+    transition: margin-left 0.3s ease;
+}
+
+
+/* Когда меню открыто */
+.side-menu.open {
+    left: 0; /* Открыть меню */
+}
+
+
+.content.menu-open {
+    margin-left: 250px; /* Сдвигаем контент */
+}
+
+
+/* Стиль для мобильных устройств */
+@media (max-width: 768px) {
+    .side-menu {
+        width: 100%;
+    }
+
+
+    .content.menu-open {
+        margin-left: 0;
+    }
+}
+
+
+/* Контейнер */
+.container {
+    display: flex;
+    flex-direction: column; /* Вертикальное расположение элементов */
+    justify-content: flex-start; /* Начинаем распределение с верхней части */
+    align-items: center;
+    height: 100vh; /* Задаем высоту контейнера на всю высоту экрана */
+    padding: 20px; /* Отступы внутри контейнера */
+    margin-top: 80px;
+}
+
+
+/* Шапка */
+.header {
+    display: flex;
+    flex-direction: column; /* Вертикальное расположение элементов */
+    justify-content: center; /* Центрируем элементы по вертикали */
+    align-items: center; /* Центрируем элементы по горизонтали */
+    width: 100%; /* Полная ширина */
+    padding: 10px; /* Отступы для шапки */
+    z-index: 1; /* Слой шапки */
+}
+
+
+/* Логотип */
+.logo {
+    width: 150px; /* Задайте нужную ширину */
+    height: auto; /* Чтобы сохранить пропорции */
+    position: fixed; /* Зафиксируем логотип */
+    top: 20px; /* Отступ сверху */
+}
+
+
+/* Стили для виджетов даты и времени */
+#time-date {
+    color: #00a9a9; /* Цвет текста */
+    font-family: 'Orbitron', sans-serif; /* Шрифт */
+    font-size: 20px; /* Размер шрифта */
+    margin-top: 20px; /* Отступ сверху */
+    position: absolute; /* или fixed, если хотите зафиксировать положение */
+    right: 30px; /* Отступ от левого края */
+}
+
+
+/* Отступы для элементов */
+.date {
+    display: block; /* Обеспечивает отображение блока */
+    margin-bottom: 10px; /* Отступ между датой и временем */
+}
+
+
+/* Стили для времени, чтобы избежать движения при обновлении секунд */
+.time {
+    display: block; /* Обеспечивает отображение блока */
+    min-width: 100px; /* Минимальная ширина для времени */
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    height: 100vh;
+    padding: 20px;
+    margin-top: 80px;
+}
+
+
+
+.profile-info {
+    text-align: center;
+    margin-top: 30px;
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 800px;
+}
+
+.profile-picture {
+    margin-bottom: 20px;
+}
+
+.profile-picture img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.profile-details p {
+    font-size: 1.1em;
+    margin-bottom: 10px;
+}
+
+button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+.edit-profile {
+    display: none;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 800px;
+    margin-top: 20px;
+}
+
+.edit-profile input {
+    width: 80%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1em;
+}
+
+.edit-profile button {
+    margin-top: 20px;
+    width: 80%;
+}
+
+/* Стиль для бокового меню */
+.side-menu {
+    position: fixed;
+    left: -250px;
+    top: 0;
+    width: 250px;
+    height: 100%;
+    background-color: #2c3e50;
+    color: #ecf0f1;
+    transition: left 0.3s ease;
+    padding-top: 50px;
+}
+
+.side-menu ul {
+    list-style: none;
+    padding: 0;
+}
+
+.side-menu ul li {
+    padding: 15px;
+    border-bottom: 1px solid #34495e;
+}
+
+.side-menu ul li a {
+    color: #ecf0f1;
+    text-decoration: none;
+    font-size: 18px;
+}
+
+/* Стиль для иконки гамбургер-меню */
+.menu-icon {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    font-size: 24px;
+    color: #34495e;
+    cursor: pointer;
+}

@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en"> <!-- Изменено на 'en' для английского языка -->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lists</title> <!-- Изменено на английский -->
+    <style>body {
+        font-family: Arial, sans-serif;
+        background-color: #fcfdff; /* Light blue background */
+        margin: 0;
+        height: 100vh;
+        display: flex;
+        justify-content: flex-start; /* Align at the top */
+        align-items: center;
+        flex-direction: column;
+    }
+    
+    .lists-widget, .items-widget {
+        padding: 20px;
+        border-radius: 15px;
+        background-color: #f0f8ff; /* Light background color */
+        width: 90%;
+        max-width: 600px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        margin-top: 20px; /* Margin from the top */
+        text-align: center;
+    }
+    
+    h2 {
+        text-align: center;
+    }
+    
+    input[type="text"] {
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 20px;
+        width: calc(100% - 20px); /* Full width with padding */
+        margin-bottom: 10px;
+        box-sizing: border-box; /* Include padding in width calculation */
+    }
+    
+    .list-item {
+        margin: 10px 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    .list-button, .item-button {
+        padding: 5px 10px;
+        border: none;
+        border-radius: 20px;
+        background-color: #87cefa; /* Light blue button color */
+        color: white;
+        cursor: pointer;
+        font-size: 12px; /* Smaller font size */
+    }
+    
+    .list-button:hover, .item-button:hover {
+        background-color: #00bfff; /* Darker blue on hover */
+    }
+    
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px; /* Space below table */
+    }
+    
+    td, th {
+        padding: 8px;
+        border: 1px solid #ddd;
+        text-align: center;
+    }
+    
+    #addListButton, #addItemButton, #backButton {
+        border-radius: 20px; /* Make all main action buttons round */
+        padding: 10px 15px; /* Increase padding for better size */
+        margin: 5px;
+    }
+    
+    @media (max-width: 600px) {
+        .list-button, .item-button {
+            font-size: 10px; /* Smaller font size on mobile */
+        }
+    
+        h2 {
+            font-size: 1.2em; /* Smaller heading on mobile */
+        }
+    }
+    </style>
+</head>
+<body>
+    <div class="lists-widget">
+        <h2>My Lists</h2>
+        <input type="text" id="listInput" placeholder="Add a new list" />
+        <button id="addListButton">Add List</button>
+        <div id="listsContainer"></div> <!-- Container for all lists -->
+    </div>
+    
+    <div class="items-widget" style="display: none;">
+        <h2 id="currentListTitle"></h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th style="width: 60%;">Item</th> <!-- Wide column for items -->
+                    <th style="width: 10%;">Edit</th> <!-- Column for edit buttons -->
+                    <th style="width: 10%;">Delete</th> <!-- Column for delete buttons -->
+                    <th style="width: 10%;">Mark</th> <!-- Column for mark buttons -->
+                </tr>
+            </thead>
+            <tbody id="itemsContainer"></tbody>
+        </table>
+        <input type="text" id="itemInput" placeholder="Add an item" />
+        <button id="addItemButton">Add Item</button>
+        <button id="backButton">Back to Lists</button>
+    </div>
+    <script>let listCounter = 1; // Counter for list numbering
+        let currentListId = null; // Identifier for the current list
+        const lists = {}; // Object to store lists and their items
+        
+        // Event listener for adding a new list
+        document.getElementById('addListButton').addEventListener('click', function () {
+            const listInput = document.getElementById('listInput');
+            const listValue = listInput.value.trim();
+            if (listValue) {
+                const listId = `list_${listCounter++}`; // Unique identifier for the list
+                lists[listId] = { name: listValue, items: [] }; // Initialize a new list with a name
+        
+                const listElement = document.createElement('div');
+                listElement.className = 'list-item';
+                listElement.innerHTML = `
+                    <span>${listValue}</span>
+                    <button class="list-button" onclick="openList('${listId}')">Open</button>
+                    <button class="list-button" onclick="editList('${listId}')">Edit</button>
+                    <button class="list-button" onclick="deleteList('${listId}', this)">Delete</button>
+                `;
+                document.getElementById('listsContainer').appendChild(listElement);
+                listInput.value = ''; // Clear input field
+            }
+        });
+        
+        // Open the list and display its items
+        function openList(listId) {
+            currentListId = listId;
+            document.querySelector('.lists-widget').style.display = 'none'; // Hide the list container
+            document.querySelector('.items-widget').style.display = 'block'; // Show the items container
+            document.getElementById('currentListTitle').textContent = lists[currentListId].name; // Set the title of the current list
+            updateItemsTable(); // Update the items table
+        }
+        
+        // Update the items table for the current list
+        function updateItemsTable() {
+            const itemsContainer = document.getElementById('itemsContainer');
+            itemsContainer.innerHTML = ''; // Clear previous items
+        
+            lists[currentListId].items.forEach((item, index) => {
+                const newRow = document.createElement('tr');
+                newRow.innerHTML = `
+                    <td>${index + 1}</td>
+                    <td ${item.checked ? 'style="text-decoration: line-through;"' : ''}>${item.text}</td>
+                    <td>
+                        <button class="item-button" onclick="editItem(${index})">Edit</button>
+                    </td>
+                    <td>
+                        <button class="item-button" onclick="deleteItem(${index})">Delete</button>
+                    </td>
+                    <td>
+                        <button class="item-button" onclick="toggleCheck(${index})">${item.checked ? 'Unmark' : 'Mark'}</button>
+                    </td>
+                `;
+                itemsContainer.appendChild(newRow);
+            });
+        }
+        
+        // Edit a list's name
+        function editList(listId) {
+            const newName = prompt('Edit list name:', lists[listId].name);
+            if (newName) {
+                lists[listId].name = newName; // Update the list's name
+                updateListDisplay(); // Refresh the display of lists
+            }
+        }
+        
+        // Update the display of lists
+        function updateListDisplay() {
+            const listsContainer = document.getElementById('listsContainer');
+            listsContainer.innerHTML = ''; // Clear previous lists
+            for (const listId in lists) {
+                const listElement = document.createElement('div');
+                listElement.className = 'list-item';
+                listElement.innerHTML = `
+                    <span>${lists[listId].name}</span>
+                    <button class="list-button" onclick="openList('${listId}')">Open</button>
+                    <button class="list-button" onclick="editList('${listId}')">Edit</button>
+                    <button class="list-button" onclick="deleteList('${listId}', this)">Delete</button>
+                `;
+                listsContainer.appendChild(listElement);
+            }
+        }
+        
+        // Add a new item to the current list
+        document.getElementById('addItemButton').addEventListener('click', function () {
+            const itemInput = document.getElementById('itemInput');
+            const itemValue = itemInput.value.trim();
+            if (itemValue && currentListId) {
+                lists[currentListId].items.push({ text: itemValue, checked: false }); // Add the item to the list
+                itemInput.value = ''; // Clear input field
+                updateItemsTable(); // Update the table
+            }
+        });
+        
+        // Edit an item in the current list
+        function editItem(index) {
+            const newValue = prompt('Edit item:', lists[currentListId].items[index].text);
+            if (newValue) {
+                lists[currentListId].items[index].text = newValue; // Update the item's value
+                updateItemsTable(); // Update the table
+            }
+        }
+        
+        // Delete an item from the current list
+        function deleteItem(index) {
+            lists[currentListId].items.splice(index, 1); // Remove the item from the array
+            updateItemsTable(); // Update the table
+        }
+        
+        // Delete a list
+        function deleteList(listId, button) {
+            delete lists[listId]; // Remove the list from the object
+            updateListDisplay(); // Refresh the display of lists
+        }
+        
+        // Toggle item check status
+        function toggleCheck(index) {
+            lists[currentListId].items[index].checked = !lists[currentListId].items[index].checked; // Toggle the check status
+            updateItemsTable(); // Update the table
+        }
+        
+        // Back to lists button
+        document.getElementById('backButton').addEventListener('click', function () {
+            document.querySelector('.lists-widget').style.display = 'block'; // Show the lists container
+            document.querySelector('.items-widget').style.display = 'none'; // Hide the items container
+        });
+        </script>
+</body>
+</html>
