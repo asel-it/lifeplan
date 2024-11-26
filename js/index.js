@@ -91,76 +91,75 @@ document.addEventListener("DOMContentLoaded", function () {
     setInterval(updateTimeAndDate, 1000);
 
     // Chatbot and AI dialogues
-    const dialogues = [
-        {
-            text: "AI: Let's create a plan for your day. What do you need to accomplish?",
-            image: "images/image1.jpg"
-        },
-        {
-            text: "AI: Don't forget your meeting at 3 PM.",
-            image: "images/image2.jpg"
-        },
-        {
-            text: "AI: How can I assist you with the family event planning?",
-            image: "images/image3.jpg"
+    document.addEventListener("DOMContentLoaded", function () {
+        const texts = [
+            "AI: Let's create a plan for your day. What do you need to accomplish?",
+            "AI: Don't forget your meeting at 3 PM.",
+            "AI: How can I assist you with the family event planning?"
+        ];
+    
+        const images = [
+            "images/image1.jpg",
+            "images/image2.jpg",
+            "images/image3.jpg"
+        ];
+    
+        const animationBox = document.getElementById('animation-box');
+        const imageContainer = document.getElementById('image-container');
+    
+        let currentIndex = 0;
+    
+        // Функция для анимации текста
+        function typeText(text) {
+            return new Promise(resolve => {
+                let index = 0;
+                animationBox.innerHTML = ''; // Очистить предыдущий текст
+                animationBox.style.opacity = 1;
+                animationBox.style.transform = "translateY(0)";
+    
+                const typingInterval = setInterval(() => {
+                    animationBox.innerHTML += text.charAt(index);
+                    index++;
+                    if (index === text.length) {
+                        clearInterval(typingInterval);
+                        setTimeout(resolve, 1500); // Задержка перед переходом к следующей анимации
+                    }
+                }, 100);
+            });
         }
-    ];
     
-    const chatBox = document.getElementById('animation-box');
-    const imageContainer = document.getElementById('image-container');
+        // Функция для показа картинки
+        function showImage(imageSrc) {
+            return new Promise(resolve => {
+                const image = document.createElement('img');
+                image.src = imageSrc;
+                image.classList.add('image');
+                imageContainer.innerHTML = ''; // Очистить предыдущую картинку
+                imageContainer.appendChild(image);
     
-    async function typeText(text, delay) {
-        return new Promise(resolve => {
-            let index = 0;
-            chatBox.innerHTML = ''; // Очистить предыдущий текст
-            const typingInterval = setInterval(() => {
-                chatBox.innerHTML += text.charAt(index);
-                index++;
-                if (index === text.length) {
-                    clearInterval(typingInterval);
-                    setTimeout(resolve, delay); // Задержка перед следующей анимацией
-                }
-            }, 100);
-        });
-    }
-    
-    async function showDialogues() {
-        for (const dialogue of dialogues) {
-            // Создать и добавить изображение
-            const img = document.createElement('img');
-            img.src = dialogue.image;
-            img.className = 'image';
-            imageContainer.appendChild(img);
-    
-            // Анимация текста и изображения
-            await Promise.all([
-                typeText(dialogue.text, 3000),
-                new Promise(resolve => {
+                // После загрузки картинки плавно сделать её видимой
+                image.onload = () => {
                     setTimeout(() => {
-                        img.classList.add('visible'); // Показать изображение с анимацией
+                        image.classList.add('visible');
                         resolve();
-                    }, 0);
-                })
-            ]);
-    
-            // Удалить текст и изображение через 3 секунды
-            setTimeout(() => {
-                chatBox.innerHTML = '';
-                img.classList.remove('visible'); // Убрать изображение с анимацией
-                setTimeout(() => {
-                    imageContainer.removeChild(img); // Удалить картинку
-                }, 500);
-            }, 3000);
-    
-            await new Promise(resolve => setTimeout(resolve, 3000));
+                    }, 500);
+                };
+            });
         }
     
-        // Повторить анимацию
-        setTimeout(showDialogues, 3000);
-    }
+        // Функция для запуска анимации
+        async function animateSequence() {
+            while (true) {
+                await showImage(images[currentIndex]);
+                await typeText(texts[currentIndex]);
     
-    // Запустить анимацию
-    showDialogues();
+                // Переход к следующему индексу (цикличность)
+                currentIndex = (currentIndex + 1) % texts.length;
+            }
+        }
+    
+        animateSequence(); // Запуск анимации
+    });
     
 
    // Modal functions
