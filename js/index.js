@@ -1,74 +1,224 @@
-const script = document.createElement('script');
-script.src = 'js/config.js'; // Правильный путь
-document.head.appendChild(script);
+import { API_URL } from 'js/config.js';
 
 document.addEventListener("DOMContentLoaded", function () {
-    // Регистрация Service Worker
+
+    // Service Worker Registration
     if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('service-worker.js')
-            .then(reg => console.log('Service Worker зарегистрирован:', reg.scope))
-            .catch(err => console.error('Ошибка регистрации Service Worker:', err));
+        window.addEventListener('load', function () {
+            navigator.serviceWorker.register('/service-worker.js')
+                .then(function (registration) {
+                    console.log('Service Worker registered with scope:', registration.scope);
+                })
+                .catch(function (error) {
+                    console.error('Error registering Service Worker:', error);
+                });
+        });
     }
 
-    // Логика бокового меню
+    // Menu toggle functionality
     const menuIcon = document.getElementById("menu-icon");
     const sideMenu = document.getElementById("side-menu");
-    menuIcon.addEventListener("click", () => sideMenu.classList.toggle("open"));
+    const content = document.getElementById("content");
+    menuIcon.addEventListener("click", function () {
+        sideMenu.classList.toggle("open");
+        content.classList.toggle("menu-open");
+    });
 
-    // Закрытие меню при клике вне его
-    window.addEventListener("click", (event) => {
+    // Close menu when clicking outside of it
+    window.addEventListener("click", function (event) {
         if (!sideMenu.contains(event.target) && !menuIcon.contains(event.target)) {
             sideMenu.classList.remove("open");
+            content.classList.remove("menu-open");
         }
     });
 
-    // Обновление времени и даты
+    // Check auth status
+    function checkAuthStatus() {
+        const isAuthenticated = localStorage.getItem('isAuthenticated') === 'true';
+
+        const dashboardLink = document.getElementById('dashboard-link');
+        const myPlansLink = document.getElementById('my-plans-link');
+        const myProfileLink = document.getElementById('my-profile-link');
+        const signUpLoginLink = document.getElementById('sign-up-login-link');
+        const signOutLink = document.getElementById('sign-out-link');
+
+        if (isAuthenticated) {
+            dashboardLink.style.display = 'block';
+            myPlansLink.style.display = 'block';
+            myProfileLink.style.display = 'block';
+            signUpLoginLink.style.display = 'none';
+            signOutLink.style.display = 'block';
+        } else {
+            dashboardLink.style.display = 'none';
+            myPlansLink.style.display = 'none';
+            myProfileLink.style.display = 'none';
+            signUpLoginLink.style.display = 'block';
+            signOutLink.style.display = 'none';
+        }
+    }
+
+    // Sign out function
+    function signOut() {
+        localStorage.removeItem('isAuthenticated');
+        checkAuthStatus();
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        checkAuthStatus();
+    });
+
+    // Animating blocks
+    const allBlocks = document.querySelectorAll('.large, .small');
+    allBlocks.forEach((block, index) => {
+        setTimeout(() => {
+            block.style.opacity = 1;
+            block.style.transform = 'translateY(0)';
+        }, index * 300);
+    });
+
+    // Update time and date
     function updateTimeAndDate() {
         const now = new Date();
-        const formattedDate = now.toLocaleDateString('en-GB').replace(/\//g, '.');
-        const formattedTime = now.toLocaleTimeString('en-US', { hour12: true });
-        document.getElementById('date').textContent = formattedDate;
-        document.getElementById('time').textContent = formattedTime;
+        const day = now.getDate().toString().padStart(2, '0');
+        const month = (now.getMonth() + 1).toString().padStart(2, '0');
+        const year = now.getFullYear();
+        const hours = now.getHours();
+        const minutes = now.getMinutes().toString().padStart(2, '0');
+        const seconds = now.getSeconds().toString().padStart(2, '0');
+        const ampm = hours >= 12 ? 'PM' : 'AM';
+        const displayHours = (hours % 12 || 12).toString().padStart(2, '0');
+        document.getElementById('date').textContent = `${day}.${month}.${year}`;
+        document.getElementById('time').textContent = `${displayHours}:${minutes}:${seconds} ${ampm}`;
     }
-    updateTimeAndDate();
     setInterval(updateTimeAndDate, 1000);
 
-    // Анимация блоков
-    const animationBox = document.getElementById("animation-box");
-    if (animationBox) {
-        animationBox.classList.add("animated"); // CSS-класс для анимации
-    }
-
-    // Чат-бот
+    // Chatbot and AI dialogues
     const dialogues = [
         { text: "AI: Let's create a plan for your day. What do you need to accomplish?", image: "images/image1.png" },
         { text: "AI: Don't forget your meeting at 3 PM.", image: "images/image2.png" },
         { text: "AI: How can I assist you with family event planning?", image: "images/image3.png" }
     ];
-
-    const chatIcon = document.getElementById("chatIcon");
-    const chatContainer = document.getElementById("chat-container");
-    chatIcon.addEventListener("click", () => chatContainer.style.display = "block");
-
-    const closeChatBot = document.getElementById("close-chat-bot");
-    closeChatBot.addEventListener("click", () => chatContainer.style.display = "none");
-
-    const sendButton = document.getElementById("sendButton");
-    const userInput = document.getElementById("user-input");
-    const messages = document.getElementById("messages");
-    sendButton.addEventListener("click", () => {
-        const userMessage = userInput.value.trim();
-        if (userMessage) {
-            const userMessageElement = document.createElement("div");
-            userMessageElement.textContent = `You: ${userMessage}`;
-            messages.appendChild(userMessageElement);
-
-            const aiMessage = dialogues[Math.floor(Math.random() * dialogues.length)];
-            const aiMessageElement = document.createElement("div");
-            aiMessageElement.textContent = aiMessage.text;
-            messages.appendChild(aiMessageElement);
-
-            userInput.value = "";
+    
+    const chatBox = document.getElementById('animation-box');
+    const imageContainer = document.getElementById('image-container');
+    const img = document.createElement('img');
+    img.className = 'image';
+    imageContainer.appendChild(img);
+    
+    // Функция для эффекта печатания
+    async function typeText(text, delay) {
+        return new Promise(resolve => {
+            let index = 0;
+            chatBox.innerHTML = '';  // Очистка блока текста
+            const typingInterval = setInterval(() => {
+                chatBox.innerHTML += text.charAt(index);  // Добавляем символ
+                index++;
+                if (index === text.length) {
+                    clearInterval(typingInterval);
+                    setTimeout(resolve, delay);  // Ожидание перед следующим диалогом
+                }
+            }, 100);
+        });
+    }
+    
+    // Показываем диалоги с анимацией
+    async function showDialogues() {
+        for (const dialogue of dialogues) {
+            img.src = dialogue.image;
+            img.classList.add('visible');  // Делаем изображение видимым с анимацией
+            await typeText(dialogue.text, 3000);  // Печатаем текст
+            setTimeout(() => {
+                chatBox.innerHTML = '';  // Очищаем текст
+                img.classList.remove('visible');  // Скрываем изображение
+            }, 3000);
+            await new Promise(resolve => setTimeout(resolve, 4000));  // Задержка перед следующим диалогом
         }
+        setTimeout(showDialogues, 3000);  // Повторяем цикл диалогов
+    }
+    
+    showDialogues();
+    
+
+    // Chat toggle
+    const chatContainer = document.getElementById('chat-container');
+    const chatIcon = document.getElementById('chatIcon');
+    const closeChatBot = document.getElementById('close-chat-bot');
+    chatIcon.addEventListener('click', () => {
+        chatContainer.style.display = chatContainer.style.display === 'flex' ? 'none' : 'flex';
     });
+    closeChatBot.addEventListener('click', () => {
+        chatContainer.style.display = 'none';
+    });
+
+    // Handle user input
+    document.getElementById('sendButton').addEventListener('click', processUserInput);
+
+    async function processUserInput() {
+        await sendMessage();
+    }
+
+    async function sendMessage() {
+        const input = document.getElementById('user-input');
+        if (!input) {
+            console.error('Input field not found');
+            return;
+        }
+
+        const inputValue = input.value;
+        if (!inputValue) {
+            console.error('Input field is empty');
+            return;
+        }
+
+        try {
+            const response = await fetch(`${API_URL}/chat`, {  // Using the imported API_URL
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ input: inputValue })
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const data = await response.json();
+            console.log(data.response);
+
+            const messagesDiv = document.getElementById('messages');
+            messagesDiv.innerHTML += `<div class="message user-message">${inputValue}</div>`;
+            messagesDiv.innerHTML += `<div class="message ai-message">${data.response}</div>`;
+
+            input.value = '';
+        } catch (error) {
+            console.error('Error sending message:', error);
+        }
+    }
+
+    // Modal functions
+    function openModal(modalId) {
+        var modal = document.getElementById(modalId);
+        if (modal) {
+            modal.style.display = "block";
+        }
+    }
+
+    function closeModal(modalId) {
+        var modal = document.getElementById(modalId);
+        if (modal) {
+            modal.style.display = "none";
+        }
+    }
+
+    // Close modal when clicking outside
+    window.onclick = function(event) {
+        const modals = document.querySelectorAll(".modal");
+        modals.forEach(modal => {
+            if (event.target === modal) {
+                modal.style.display = "none";
+            }
+        });
+    }
+
 });
