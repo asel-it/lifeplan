@@ -205,46 +205,45 @@ html, body {
 }
 
 
-/* Анимационный блок */
+/* Основные стили для анимации */
 .animation-section {
-    display: flex; /* Используем flexbox для выравнивания элементов по горизонтали */
-    align-items: flex-start; /* Выравниваем по верхнему краю */
+    display: flex;
+    align-items: flex-start;
     margin-top: 60px;
+    justify-content: center; /* Центрируем анимацию */
 }
 
-
 .animation-box {
-    width: 500px; /* Ширина анимационного блока */
-    height: 200px; /* Высота анимационного блока */
-    padding: 10px;
+    width: 500px;
+    height: 200px;
     font-size: 20px;
     font-family: 'Orbitron', sans-serif;
     color: #34495e;
     background-color: transparent;
-    margin-right: 20px; /* Отступ между анимацией и изображением */
+    margin-right: 20px;
     overflow: hidden;
+    opacity: 0;
+    transform: translateY(20px); /* Начальное смещение */
+    transition: opacity 0.5s, transform 0.5s;
 }
-
 
 .image-container {
     position: relative;
     width: 200px;
     height: auto;
+    overflow: hidden;
 }
 
-
 .image {
-    width: 500px;
+    width: 100%;
     height: auto;
     opacity: 0;
     transition: opacity 0.5s ease;
 }
 
-
 .image.visible {
     opacity: 1;
 }
-
 
 .image-container::before {
     content: '';
@@ -257,7 +256,6 @@ html, body {
     filter: blur(100px);
     z-index: 1;
 }
-
 
 /* Видеоконтейнер */
 .video-section, .video-container {
