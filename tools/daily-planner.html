@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Daily Planner</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet">
+    <script type="module" src="js/save.js"></script>
     <style>
         body {
             font-family: 'Exo 2', sans-serif;
@@ -61,7 +62,7 @@
             flex-direction: column;
             align-items: center;
         }
-        .form input, .form select {
+        .form input, .form select, .form textarea {
             padding: 10px;
             margin: 10px;
             border-radius: 5px;
@@ -118,7 +119,9 @@
             <button onclick="showForm('taskForm')">Add Task</button>
             <button onclick="showForm('scheduleForm')">Add Schedule</button>
             <button onclick="showForm('goalForm')">Set Goal</button>
+            <button onclick="showForm('noteForm')">Add Note</button>
             <button onclick="viewTasks()">View Tasks</button>
+            <button onclick="viewNotes()">View Notes</button>
         </div>
         <div class="content">
             <div class="form" id="taskForm" style="display:none;">
@@ -140,6 +143,11 @@
                 <input type="text" id="goalName" placeholder="Goal Name">
                 <input type="date" id="goalDeadline" placeholder="Deadline">
                 <button onclick="setGoal()">Set Goal</button>
+            </div>
+            <div class="form" id="noteForm" style="display:none;">
+                <h3>Add Note</h3>
+                <textarea id="noteText" placeholder="Write your note here..." rows="5"></textarea>
+                <button onclick="addNote()">Add Note</button>
             </div>
             <h2>Today's Tasks</h2>
             <table id="taskTable">
@@ -163,6 +171,15 @@
                 </thead>
                 <tbody id="scheduleBody"></tbody>
             </table>
+            <h2>Today's Notes</h2>
+            <table id="noteTable">
+                <thead>
+                    <tr>
+                        <th>Note</th>
+                    </tr>
+                </thead>
+                <tbody id="noteBody"></tbody>
+            </table>
         </div>
         <div class="recommendations">
             <h2>Recommendations</h2>
@@ -173,14 +190,14 @@
         let tasks = [];
         let schedules = [];
         let goals = [];
-        
+        let notes = [];
+       
         function showForm(formId) {
-            const forms = ['taskForm', 'scheduleForm', 'goalForm'];
+            const forms = ['taskForm', 'scheduleForm', 'goalForm', 'noteForm'];
             forms.forEach(form => {
                 document.getElementById(form).style.display = form === formId ? 'block' : 'none';
             });
         }
-
 
         function addTask() {
             const name = document.getElementById('taskName').value;
@@ -193,7 +210,6 @@
             }
         }
 
-
         function addSchedule() {
             const startTime = document.getElementById('startTime').value;
             const endTime = document.getElementById('endTime').value;
@@ -205,7 +221,6 @@
             }
         }
 
-
         function setGoal() {
             const name = document.getElementById('goalName').value;
             const deadline = document.getElementById('goalDeadline').value;
@@ -216,6 +231,14 @@
             }
         }
 
+        function addNote() {
+            const text = document.getElementById('noteText').value;
+            if (text) {
+                notes.push({ text });
+                updateNoteTable();
+                document.getElementById('noteForm').reset();
+            }
+        }
 
         function updateTaskTable() {
             const taskBody = document.getElementById('taskBody');
@@ -227,7 +250,6 @@
             });
         }
 
-
         function updateScheduleTable() {
             const scheduleBody = document.getElementById('scheduleBody');
             scheduleBody.innerHTML = '';
@@ -238,34 +260,35 @@
             });
         }
 
-
         function updateGoalRecommendation() {
-            const recommendation = document.getElementById('goalRecommendation');
+            const goalRecommendation = document.getElementById('goalRecommendation');
             if (goals.length > 0) {
-                recommendation.textContent = `You have set a goal: ${goals[goals.length - 1].name}!`;
+                goalRecommendation.textContent = "Keep working on your goals to stay motivated and focused!";
             } else {
-                recommendation.textContent = 'Set a goal to stay focused and productive!';
+                goalRecommendation.textContent = "Set a goal to stay focused and productive!";
             }
         }
 
-        const API_URL = "http://localhost:10000";
+        function updateNoteTable() {
+            const noteBody = document.getElementById('noteBody');
+            noteBody.innerHTML = '';
+            notes.forEach(note => {
+                const row = document.createElement('tr');
+                row.innerHTML = `<td>${note.text}</td>`;
+                noteBody.appendChild(row);
+            });
+        }
 
-function login(username, password) {
-    return fetch(`${API_URL}/login`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ username, password })
-    })
-    .then(response => response.json())
-    .then(data => console.log(data))
-    .catch(error => console.error('Error:', error));
-}
+        function viewTasks() {
+            updateTaskTable();
+            showForm('');
+        }
 
-// Экспортируем функцию login, чтобы она могла быть использована в других скриптах
-export { login };
-
+        function viewNotes() {
+            updateNoteTable();
+            showForm('');
+        }
     </script>
 </body>
 </html>
+
