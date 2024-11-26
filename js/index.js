@@ -94,15 +94,18 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Chatbot and AI dialogues
     const dialogues = [
-        { text: "AI: Let's create a plan for your day. What do you need to accomplish?", image: "images/image1.png" },
-        { text: "AI: Don't forget your meeting at 3 PM.", image: "images/image2.png" },
-        { text: "AI: How can I assist you with family event planning?", image: "images/image3.png" }
+        { text: "AI: Let's create a plan for your day. What do you need to accomplish?", image: "/images/image1.png" },
+        { text: "AI: Don't forget your meeting at 3 PM.", image: "/images/image2.png" },
+        { text: "AI: How can I assist you with family event planning?", image: "/images/image3.png" }
     ];
     const chatBox = document.getElementById('animation-box');
     const imageContainer = document.getElementById('image-container');
     const img = document.createElement('img');
     img.className = 'image';
     imageContainer.appendChild(img);
+
+
+
 
     // Typing effect for dialogues
     async function typeText(text, delay) {
@@ -120,6 +123,9 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
+
+
+
     // Show dialogues with animation
     async function showDialogues() {
         for (const dialogue of dialogues) {
@@ -135,6 +141,8 @@ document.addEventListener("DOMContentLoaded", function () {
         setTimeout(showDialogues, 3000);
     }
     showDialogues();
+
+
 
     // Chat toggle
     const chatContainer = document.getElementById('chat-container');
