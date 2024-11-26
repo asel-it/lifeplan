@@ -1,4 +1,7 @@
- // Menu toggle functionality
+ // Импортируем API_URL из config.js
+import { API_URL, login } from './config.js';
+
+// Menu toggle functionality
 const menuIcon = document.getElementById("menu-icon");
 const sideMenu = document.getElementById("side-menu");
 const content = document.getElementById("content");
@@ -42,7 +45,7 @@ document.getElementById('loginFormSubmit').addEventListener('submit', function(e
     let username = document.getElementById('loginEmail').value;
     let password = document.getElementById('loginPassword').value;
 
-    fetch('https://lifeplan-backend.onrender.com/login', { // Updated to backend URL
+    fetch(`${API_URL}/login`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -80,7 +83,7 @@ document.getElementById('registerFormSubmit').addEventListener('submit', functio
         return;
     }
 
-    fetch('https://lifeplan-backend.onrender.com/register', { // Updated to backend URL
+    fetch(`${API_URL}/register`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -103,7 +106,7 @@ document.getElementById('registerFormSubmit').addEventListener('submit', functio
 // Check authentication status and update the UI
 function checkAuthStatus() {
     const isAuthenticated = localStorage.getItem('isAuthenticated') === 'true';
-    const currentPage = window.location.pathname; // Get the current page path
+    const currentPage = window.location.pathname;
 
     const dashboardLink = document.getElementById('dashboard-link');
     const myPlansLink = document.getElementById('my-plans-link');
@@ -111,14 +114,12 @@ function checkAuthStatus() {
     const signUpLoginLink = document.getElementById('sign-up-login-link');
     const signOutLink = document.getElementById('sign-out-link');
 
-    // Check if we're already on the dashboard page and hide the dashboard link
     if (currentPage === '/dashboard.html') {
         dashboardLink.style.display = 'none';
     } else {
         dashboardLink.style.display = isAuthenticated ? 'block' : 'none';
     }
 
-    // Show/hide other links based on authentication status
     if (isAuthenticated) {
         myPlansLink.style.display = 'block';
         myProfileLink.style.display = 'block';
@@ -134,9 +135,7 @@ function checkAuthStatus() {
 
 // Function to log out
 function signOut() {
-    // Remove authentication status
     localStorage.removeItem('isAuthenticated');
-    // Reload the menu
     checkAuthStatus();
 }
 
