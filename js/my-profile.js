@@ -1,3 +1,6 @@
+// Import API_URL from config.js
+import { API_URL } from './config.js';
+
 // Menu toggle functionality
 const menuIcon = document.getElementById("menu-icon");
 const sideMenu = document.getElementById("side-menu");
@@ -56,7 +59,7 @@ function fetchUserProfile() {
         return;
     }
 
-    fetch(`https://lifeplan-backend.onrender.com/users/${userId}`, {
+    fetch(`${API_URL}/users/${userId}`, {
         method: 'GET',
         headers: {
             'Authorization': `Bearer ${localStorage.getItem('authToken')}`  // Assuming you store a token after login
@@ -121,7 +124,7 @@ function saveProfile() {
         formData.append('profilePic', profilePic);  // Append profile picture if provided
     }
 
-    fetch(`https://lifeplan-backend.onrender.com/users/${userId}`, {
+    fetch(`${API_URL}/users/${userId}`, {
         method: 'PUT',
         headers: {
             'Authorization': `Bearer ${localStorage.getItem('authToken')}`
