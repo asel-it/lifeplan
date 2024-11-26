@@ -3,13 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title data-i18n="titleTodoList">To Do List</title>
-    <script src="js/i18next/i18next.min.js"></script>
-    <script src="js/i18next-http-backend/i18nextHttpBackend.min.js"></script>
-    <script type="module" src="js/i18next.config.js" defer></script>
+    <title>Список задач</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-    <style>/* Общие стили для тела */
+    <script type="module" src="js/save.js"></script>
+    <style>
+        /* Общие стили для тела */
         body {
             font-family: Arial, sans-serif;
             background-color: #fff;
@@ -22,7 +21,7 @@
             height: 100vh;
             flex-direction: column;
         }
-        
+       
         /* Стили для поля ввода задачи */
         .input-field {
             width: 80%; /* Полная ширина поля ввода */
@@ -33,13 +32,13 @@
             margin-top: 15px; /* Отступ сверху */
             transition: border-color 0.3s; /* Плавный переход для цвета границы */
         }
-        
+       
         /* Эффект при наведении на поле ввода */
         .input-field:focus {
             border-color: #75a5d8; /* Цвет границы при фокусе */
             outline: none; /* Убираем стандартное выделение */
         }
-        
+       
         /* Стили для списка задач */
         #todo-list {
             width: 60%; /* Ширина блока */
@@ -50,29 +49,29 @@
             box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2); /* Тень для блока */
             text-align: center; /* Центрирование текста */
         }
-        
+       
         /* Стили таблицы */
         table {
             width: 100%; /* Полная ширина таблицы */
             border-collapse: collapse; /* Убираем промежутки между ячейками */
             margin-top: 10px; /* Отступ сверху */
         }
-        
+       
         th, td {
             padding: 12px; /* Отступ внутри ячеек */
             text-align: left; /* Выравнивание текста */
             border-bottom: 1px solid #ccc; /* Низняя граница ячеек */
         }
-        
+       
         th {
             background-color: #f2f2f2; /* Цвет фона заголовков */
             font-weight: bold; /* Жирный шрифт заголовков */
         }
-        
+       
         tbody tr:hover {
             background-color: #e9e9e9; /* Цвет строки при наведении */
         }
-        
+       
         /* Стиль для кнопок */
         button {
             background-color: #75a5d8; /* Цвет кнопки */
@@ -86,63 +85,19 @@
             width: 50%; /* Полная ширина кнопки */
             margin-top: 15px; /* Отступ сверху */
         }
-        
+       
         button:hover {
             background-color: #6a8fb6; /* Цвет кнопки при наведении */
         }
-        
+       
         /* Стиль для выполненных задач */
         .task-item.completed .task-label {
             text-decoration: line-through; /* Зачеркивание текста выполненной задачи */
             color: #999; /* Цвет текста для выполненной задачи */
         }
-        
-        /* Стиль для переключателя языка */
-        #language-select {
-            font-size: 16px; /* Увеличенный размер шрифта для выбора языка */
-            padding: 8px 12px; /* Увеличенные отступы для лучшей удобства */
-            border: 3px solid rgba(70, 130, 180, 0.5); /* Рамка */
-            border-radius: 20px; /* Скругленные углы */
-            background-color: white; /* Цвет фона */
-            color: #4682b4; /* Цвет текста */
-            margin-left: 20px; /* Увеличенное расстояние от меню */
-            transition: all 0.3s ease; /* Плавный переход при наведении */
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Тень */
-        }
-        
-        /* Эффект при наведении */
-        #language-select:hover {
-            border-color: rgba(70, 130, 180, 0.7); /* Более яркий цвет рамки при наведении */
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Более выраженная тень */
-        }
-        
-        
-        #language-select {
-            margin-left: auto; /* Push the language select to the right */
-            font-size: 16px; /* Font size */
-            position: absolute; /* Make it scroll out of view */
-            top: 10px; /* Positioning */
-        }
-        
-        </style>
+    </style>
 </head>
 <body>
-    <select id="language-select">
-        <option value="en">English</option>
-        <option value="ru">Русский</option>
-        <option value="es">Español</option>
-        <option value="ky">Кыргызча</option>
-        <option value="fr">Français</option>
-        <option value="de">Deutsch</option>
-        <option value="pt">Português</option>
-        <option value="it">Italiano</option>
-        <option value="zh">中国人</option>
-        <option value="ja">日本語</option>
-        <option value="ko">한국인</option>
-        <option value="ar">عربي</option>
-        <option value="tr">Türkçe</option>
-        <option value="hi">हिंदी</option>
-    </select>
     <div id="todo-list">
         <h2>Список задач</h2>
         <input type="text" id="task-input" class="input-field" placeholder="Добавить задачу">
@@ -159,62 +114,46 @@
             </tbody>
         </table>
     </div>
-   <script>function addTask() {
-    const taskInput = document.getElementById('task-input');
-    const taskText = taskInput.value.trim();
+    
+    <script>
+        function addTask() {
+            const taskInput = document.getElementById('task-input');
+            const taskText = taskInput.value.trim();
 
-    // Проверяем, что текст задачи не пустой
-    if (taskText) {
-        const taskBody = document.getElementById('task-body');
+            // Проверяем, что текст задачи не пустой
+            if (taskText) {
+                const taskBody = document.getElementById('task-body');
 
-        // Создаем новую строку таблицы
-        const row = document.createElement('tr');
-        row.className = 'task-item'; // Добавляем класс для стилей
+                // Создаем новую строку таблицы
+                const row = document.createElement('tr');
+                row.className = 'task-item'; // Добавляем класс для стилей
 
-        // Создаем ячейку для текста задачи
-        const taskCell = document.createElement('td');
-        taskCell.textContent = taskText;
-        taskCell.className = 'task-label'; // Добавляем класс для стилей
+                // Создаем ячейку для текста задачи
+                const taskCell = document.createElement('td');
+                taskCell.textContent = taskText;
+                taskCell.className = 'task-label'; // Добавляем класс для стилей
 
-        // Создаем ячейку для кнопки статуса
-        const statusCell = document.createElement('td');
-        const markButton = document.createElement('button');
-        markButton.textContent = 'Выполнено';
-        
-        markButton.onclick = function() {
-            row.classList.toggle('completed'); // Меняем класс для отметки выполнения
-        };
+                // Создаем ячейку для кнопки статуса
+                const statusCell = document.createElement('td');
+                const markButton = document.createElement('button');
+                markButton.textContent = 'Выполнено';
+               
+                markButton.onclick = function() {
+                    row.classList.toggle('completed'); // Меняем класс для отметки выполнения
+                };
 
-        statusCell.appendChild(markButton);
-        row.appendChild(taskCell);
-        row.appendChild(statusCell);
-        taskBody.appendChild(row);
+                statusCell.appendChild(markButton);
+                row.appendChild(taskCell);
+                row.appendChild(statusCell);
+                taskBody.appendChild(row);
 
-        // Очищаем поле ввода
-        taskInput.value = '';
-    } else {
-        alert("Введите задачу");
-    }
-}
-
-const API_URL = "http://localhost:10000";
-
-function login(username, password) {
-    return fetch(`${API_URL}/login`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ username, password })
-    })
-    .then(response => response.json())
-    .then(data => console.log(data))
-    .catch(error => console.error('Error:', error));
-}
-
-// Экспортируем функцию login, чтобы она могла быть использована в других скриптах
-export { login };
-
-</script>    
+                // Очищаем поле ввода
+                taskInput.value = '';
+            } else {
+                alert("Введите задачу");
+            }
+        }
+    </script>
 </body>
 </html>
+
