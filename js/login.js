@@ -1,3 +1,6 @@
+// Import API_URL from config.js
+import { API_URL } from './config.js';
+
 // Update time and date
 function updateTimeAndDate() {
     const now = new Date();
@@ -13,6 +16,7 @@ function updateTimeAndDate() {
     document.getElementById('time').textContent = `${displayHours}:${minutes}:${seconds} ${ampm}`;
 }
 setInterval(updateTimeAndDate, 1000);
+
 
 // Menu toggle functionality
 const menuIcon = document.getElementById("menu-icon");
@@ -58,7 +62,7 @@ document.getElementById('loginFormSubmit').addEventListener('submit', function(e
     let username = document.getElementById('loginEmail').value;
     let password = document.getElementById('loginPassword').value;
 
-    fetch('https://lifeplan-backend.onrender.com/login', { // обновлено на URL бэкенда
+    fetch(`${API_URL}/login`, { // Using the imported API_URL
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -95,7 +99,7 @@ document.getElementById('registerFormSubmit').addEventListener('submit', functio
         return;
     }
 
-    fetch('https://lifeplan-backend.onrender.com/register', { // обновлено на URL бэкенда
+    fetch(`${API_URL}/register`, { // Using the imported API_URL
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
