@@ -207,63 +207,29 @@ html, body {
 
 /* Секция анимации */
 .animation-section {
-    display: flex; /* Используем flexbox для выравнивания элементов по горизонтали */
-    align-items: flex-start; /* Выравниваем по верхнему краю */
-    margin-top: 60px;
+    position: relative;
 }
 
 .animation-box {
-    width: 500px; /* Ширина анимационного блока */
-    height: 200px; /* Высота анимационного блока */
-    padding: 10px;
     font-size: 20px;
-    font-family: 'Orbitron', sans-serif;
-    color: #34495e;
-    background-color: transparent;
-    margin-right: 20px; /* Отступ между анимацией и изображением */
-    overflow: hidden;
-    opacity: 0; /* Начальная невидимость блока */
-    animation: fadeIn 1s forwards; /* Анимация появления блока */
-}
-
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
+    color: #333;
+    white-space: pre-wrap; /* Для переноса строк */
+    margin-bottom: 20px;
 }
 
 .image-container {
-    position: relative;
-    width: 200px;
-    height: auto;
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
 }
 
-/* Стили для изображения */
-.image {
-    width: 500px;
-    height: auto;
-    opacity: 0; /* Начальная невидимость изображения */
-    transition: opacity 0.5s ease;
+.image-container img {
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
 }
 
-.image.visible {
-    opacity: 1; /* Сделать изображение видимым */
-}
-
-/* Размытие для контейнера изображения */
-.image-container::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 50%;
-    background: inherit;
-    filter: blur(100px);
-    z-index: 1;
+.image-container img.visible {
+    opacity: 1;
 }
 
 
