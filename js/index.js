@@ -1,4 +1,7 @@
-import { API_URL } from 'js/config.js';
+const script = document.createElement('script');
+script.src = 'js/config.js'; // Правильный путь
+document.head.appendChild(script);
+
 
 document.addEventListener("DOMContentLoaded", function () {
     // Регистрация Service Worker
