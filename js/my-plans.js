@@ -1,3 +1,6 @@
+// Import API_URL from config.js
+import { API_URL } from './config.js';
+
 // Update time and date
 function updateTimeAndDate() {
     const now = new Date();
@@ -71,11 +74,11 @@ function getUserPlans() {
         return;
     }
 
-    const userId = localStorage.getItem('userId');  // Assuming you store the userId after login
-    fetch(`https://lifeplan-backend.onrender.com/plans/${userId}`, {
+    const userId = localStorage.getItem('userId'); // Assuming you store the userId after login
+    fetch(`${API_URL}/plans/${userId}`, {
         method: 'GET',
         headers: {
-            'Authorization': `Bearer ${localStorage.getItem('authToken')}`  // Assuming you store a token after login
+            'Authorization': `Bearer ${localStorage.getItem('authToken')}` // Assuming you store a token after login
         }
     })
     .then(response => response.json())
@@ -118,7 +121,7 @@ function deletePlan(planId) {
         return;
     }
 
-    fetch(`https://lifeplan-backend.onrender.com/plans/${planId}`, {
+    fetch(`${API_URL}/plans/${planId}`, {
         method: 'DELETE',
         headers: {
             'Authorization': `Bearer ${localStorage.getItem('authToken')}`
@@ -128,7 +131,7 @@ function deletePlan(planId) {
     .then(data => {
         if (data.message) {
             alert(data.message);
-            getUserPlans();  // Refresh the plans after deletion
+            getUserPlans(); // Refresh the plans after deletion
         } else {
             alert('Error deleting plan');
         }
@@ -142,7 +145,7 @@ function deletePlan(planId) {
 // Edit plan (this could be a modal or page for updating the plan details)
 function editPlan(planId) {
     // Fetch plan details and open a modal or form for editing
-    fetch(`https://lifeplan-backend.onrender.com/plans/${planId}`, {
+    fetch(`${API_URL}/plans/${planId}`, {
         method: 'GET',
         headers: {
             'Authorization': `Bearer ${localStorage.getItem('authToken')}`
@@ -171,7 +174,7 @@ function updatePlan(planId) {
     const title = document.getElementById('editPlanTitle').value;
     const description = document.getElementById('editPlanDescription').value;
 
-    fetch(`https://lifeplan-backend.onrender.com/plans/${planId}`, {
+    fetch(`${API_URL}/plans/${planId}`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
@@ -184,7 +187,7 @@ function updatePlan(planId) {
         if (data.message) {
             alert(data.message);
             closeModal('editPlanModal');
-            getUserPlans();  // Refresh the plans after updating
+            getUserPlans(); // Refresh the plans after updating
         }
     })
     .catch(error => {
