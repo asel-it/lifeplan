@@ -1,105 +1,93 @@
 <!DOCTYPE html>
-<html lang="en"> <!-- Изменено на 'en' для английского языка -->
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Подключаем Flatpickr и ваши стили -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-    <title>Habit Tracker</title> <!-- Изменено на английский -->
-    <style>body {
-        font-family: Arial, sans-serif;
-        background-color: #f8f9fa; /* Светлый фон */
-        color: #333;
-        margin: 0;
-        padding: 0;
-    }
-    
-    .container {
-        max-width: 800px;
-        margin: 20px auto;
-        padding: 20px;
-        border-radius: 10px;
-        background-color: #ffffff; /* Белый фон для контейнера */
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Легкая тень */
-    }
-    
-    h2 {
-        text-align: center; /* Центрирование заголовка */
-    }
-    
-    input[type="text"],
-    input[type="number"],
-    select {
-        width: calc(100% - 22px); /* Учитываем отступы */
-        padding: 10px;
-        border-radius: 10px; /* Закругленные углы */
-        border: 1px solid #ccc;
-        margin-bottom: 10px;
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); /* Легкая тень */
-    }
-    
-    input[type="checkbox"] {
-        margin-right: 5px;
-    }
-    
-    button {
-        padding: 10px 15px;
-        border: none;
-        border-radius: 20px; /* Овальные кнопки */
-        background-color: #007bff; /* Основной цвет кнопки */
-        color: white;
-        cursor: pointer;
-        transition: background-color 0.3s;
-        margin-top: 10px; /* Отступ сверху */
-        width: 100%; /* Кнопка занимает 100% ширины */
-    }
-    
-    button:hover {
-        background-color: #0056b3; /* Цвет при наведении */
-    }
-    
-    table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-top: 20px;
-    }
-    
-    th, td {
-        padding: 10px;
-        text-align: left;
-        border-bottom: 1px solid #ddd;
-    }
-    
-    th {
-        background-color: #f1f1f1; /* Цвет фона для заголовков таблицы */
-    }
-    
-    .oval-btn {
-        background-color: #28a745; /* Цвет кнопки редактирования */
-        color: white;
-        border: none;
-        padding: 5px 10px;
-        border-radius: 20px; /* Овальные кнопки */
-        cursor: pointer;
-    }
-    
-    .oval-btn:hover {
-        background-color: #218838; /* Цвет при наведении */
-    }
-    
-    #habit-summary {
-        margin-top: 20px;
-        padding: 10px;
-        border-radius: 10px; /* Закругленные углы */
-        background-color: #f1f1f1; /* Светлый фон для сводки */
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); /* Легкая тень */
-    }
-    
-    .checkpoint {
-        display: flex; /* Визуальное выравнивание */
-        align-items: center;
-        margin-bottom: 5px;
-    }
+    <script type="module" src="js/save.js"></script>
+    <title>Habit Tracker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            border-radius: 10px;
+            background-color: #ffffff;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        h1, h2 {
+            text-align: center;
+        }
+        input[type="text"],
+        input[type="number"],
+        select {
+            width: calc(100% - 22px);
+            padding: 10px;
+            border-radius: 10px;
+            border: 1px solid #ccc;
+            margin-bottom: 10px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+        input[type="checkbox"] {
+            margin-right: 5px;
+        }
+        button {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 20px;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-top: 10px;
+            width: 100%;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #f1f1f1;
+        }
+        .oval-btn {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+        .oval-btn:hover {
+            background-color: #218838;
+        }
+        #habit-summary {
+            margin-top: 20px;
+            padding: 10px;
+            border-radius: 10px;
+            background-color: #f1f1f1;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+        .checkpoint {
+            display: flex;
+            align-items: center;
+            margin-bottom: 5px;
+        }
     </style>
 </head>
 <body>
@@ -130,6 +118,7 @@
                     <th>Progress (%)</th>
                     <th>Status</th>
                     <th>Edit</th>
+                    <th>Delete</th>
                 </tr>
             </thead>
             <tbody></tbody>
@@ -138,23 +127,24 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-    <script>const habits = {}; // Объект для хранения привычек
+    <script>
+        const habits = {}; // Object to store habits
 
-        // Инициализация календаря Flatpickr
+        // Initialize Flatpickr
         flatpickr("#habit-start-date", {
             dateFormat: "Y-m-d",
             static: true,
         });
-        
-        // Функция для добавления привычки
+
+        // Function to add a habit
         document.getElementById("add-habit").addEventListener("click", function() {
             const habitName = document.getElementById("habit-name").value;
             const habitType = document.getElementById("habit-type").value;
             const targetTimes = parseInt(document.getElementById("habit-target").value);
             const frequency = document.getElementById("habit-frequency").value;
             const timesPerPeriod = parseInt(document.getElementById("habit-times").value);
-        
-            // Проверка корректности ввода данных
+
+            // Validate input data
             if (habitName && !isNaN(targetTimes) && targetTimes > 0 && !isNaN(timesPerPeriod) && timesPerPeriod > 0) {
                 if (!habits[habitName]) {
                     habits[habitName] = {
@@ -168,19 +158,19 @@
                         checkpoints: createCheckpoints(frequency, timesPerPeriod),
                     };
                 }
-        
-                updateHabitTable(); // Обновляем таблицу привычек
-                clearInputs(); // Очищаем поля ввода
+
+                updateHabitTable(); // Update habit table
+                clearInputs(); // Clear input fields
             } else {
                 alert("Please enter valid habit data.");
             }
         });
-        
-        // Создание чекпоинтов на основе частоты
+
+        // Create checkpoints based on frequency
         function createCheckpoints(frequency, timesPerPeriod) {
             const checkpoints = [];
             const today = new Date();
-        
+
             if (frequency === "daily") {
                 for (let i = 0; i < timesPerPeriod; i++) {
                     checkpoints.push({
@@ -208,26 +198,26 @@
                     });
                 }
             }
-        
+
             return checkpoints;
         }
-        
-        // Обновление таблицы привычек
+
+        // Update the habit table
         function updateHabitTable() {
             const habitList = document.getElementById("habit-list").getElementsByTagName('tbody')[0];
-            habitList.innerHTML = ""; // Очистка текущего списка
-        
+            habitList.innerHTML = ""; // Clear current list
+
             for (const [name, details] of Object.entries(habits)) {
                 const row = document.createElement("tr");
-        
+
                 row.innerHTML = `
                     <td>${name}</td>
                     <td>${details.type === "positive" ? "Positive" : "Negative"}</td>
                     <td>${details.targetTimes} ${details.frequency}</td>
                     <td>${details.progress}%</td>
                 `;
-        
-                // Чекпоинты для статуса выполнения привычки
+
+                // Status column with checkboxes for checkpoints
                 const statusCell = document.createElement("td");
                 details.checkpoints.forEach((checkpoint, index) => {
                     const checkbox = document.createElement("input");
@@ -236,84 +226,77 @@
                     checkbox.onchange = () => {
                         checkpoint.completed = checkbox.checked;
                         updateProgress(details);
-                        updateHabitTable(); // Обновляем таблицу
+                        updateHabitTable();
                     };
                     statusCell.appendChild(checkbox);
                     statusCell.appendChild(document.createTextNode(` ${checkpoint.date}`));
                 });
-                
                 row.appendChild(statusCell);
-        
-                // Кнопка редактирования
+
+                // Edit button
                 const editCell = document.createElement("td");
                 const editButton = document.createElement("button");
                 editButton.textContent = "Edit";
                 editButton.className = "oval-btn";
                 editButton.onclick = () => editHabit(name);
-                
                 editCell.appendChild(editButton);
                 row.appendChild(editCell);
-                
+
+                // Delete button
+                const deleteCell = document.createElement("td");
+                const deleteButton = document.createElement("button");
+                deleteButton.textContent = "Delete";
+                deleteButton.className = "oval-btn";
+                deleteButton.onclick = () => deleteHabit(name);
+                deleteCell.appendChild(deleteButton);
+                row.appendChild(deleteCell);
+
                 habitList.appendChild(row);
             }
-        
-            updateSummary(); // Обновляем сводку
+
+            updateSummary(); // Update summary
         }
-        
-        // Обновление прогресса
+
+        // Update progress based on checkpoints
         function updateProgress(habit) {
-            const totalCheckpoints = habit.checkpoints.length;
-            const completedCheckpoints = habit.checkpoints.filter(cp => cp.completed).length;
-            habit.progress = ((completedCheckpoints / totalCheckpoints) * 100).toFixed(2); // Обновление прогресса
+            let completedCount = habit.checkpoints.filter(checkpoint => checkpoint.completed).length;
+            habit.progress = (completedCount / habit.checkpoints.length) * 100;
         }
-        
-        // Обновление сводки
+
+        // Update the summary
         function updateSummary() {
-            const summary = document.getElementById("habit-summary");
-            summary.innerHTML = `<h3>Summary</h3><p>Total Habits: ${Object.keys(habits).length}</p>`;
+            let totalHabits = Object.keys(habits).length;
+            let completedHabits = Object.values(habits).filter(habit => habit.progress === 100).length;
+            let progressSummary = `<strong>Summary:</strong> ${completedHabits} out of ${totalHabits} habits are fully completed.`;
+
+            document.getElementById("habit-summary").innerHTML = progressSummary;
         }
-        
-        // Очистка полей ввода
+
+        // Edit habit function
+        function editHabit(habitName) {
+            const habit = habits[habitName];
+            document.getElementById("habit-name").value = habitName;
+            document.getElementById("habit-type").value = habit.type;
+            document.getElementById("habit-target").value = habit.targetTimes;
+            document.getElementById("habit-frequency").value = habit.frequency;
+            document.getElementById("habit-times").value = habit.timesPerPeriod;
+            document.getElementById("habit-start-date").value = habit.checkpoints[0].date;
+        }
+
+        // Delete habit function
+        function deleteHabit(habitName) {
+            delete habits[habitName];
+            updateHabitTable(); // Update table after deletion
+        }
+
+        // Clear input fields
         function clearInputs() {
             document.getElementById("habit-name").value = '';
             document.getElementById("habit-target").value = '';
             document.getElementById("habit-times").value = '';
             document.getElementById("habit-start-date").value = '';
         }
-        
-        // Редактирование привычки
-        function editHabit(name) {
-            const habit = habits[name];
-            document.getElementById("habit-name").value = name;
-            document.getElementById("habit-type").value = habit.type;
-            document.getElementById("habit-target").value = habit.targetTimes;
-            document.getElementById("habit-frequency").value = habit.frequency;
-            document.getElementById("habit-times").value = habit.timesPerPeriod;
-        
-            // После редактирования можно удалить привычку
-            delete habits[name];
-            updateHabitTable();
-        }
-
-        const API_URL = "http://localhost:10000";
-
-function login(username, password) {
-    return fetch(`${API_URL}/login`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ username, password })
-    })
-    .then(response => response.json())
-    .then(data => console.log(data))
-    .catch(error => console.error('Error:', error));
-}
-
-// Экспортируем функцию login, чтобы она могла быть использована в других скриптах
-export { login };
-
-        </script>
-    
+    </script>
 </body>
 </html>
+
