@@ -99,7 +99,7 @@ document.addEventListener("DOMContentLoaded", function () {
         ];
     
         const images = [
-            "images/image1.png",
+            "images/image1.png",  // Убедитесь, что пути к изображениям правильные
             "images/image2.png",
             "images/image3.png"
         ];
@@ -160,6 +160,7 @@ document.addEventListener("DOMContentLoaded", function () {
     
         animateSequence(); // Запуск анимации
     });
+    
     
 
    // Modal functions
