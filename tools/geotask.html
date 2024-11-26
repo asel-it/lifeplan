@@ -5,235 +5,226 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script type="module" src="js/save.js"></script>
     <title>Geo Task - OpenStreetMap</title>
-    <style>body {
-        font-family: 'Arial', sans-serif;
-        margin: 0;
-        padding: 0;
-        background-color: #f0f0f0;
-    }
-    
-    .container {
-        max-width: 800px;
-        margin: 20px auto;
-        padding: 20px;
-        background-color: #ffffff;
-        border-radius: 8px;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        text-align: center;
-    }
-    
-    h1 {
-        color: #333;
-        font-size: 28px;
-        margin-bottom: 20px;
-    }
-    
-    h2 {
-        color: #555;
-        font-size: 24px;
-        margin-top: 20px;
-    }
-    
-    .map {
-        height: 400px; /* Высота карты */
-        border-radius: 8px;
-        margin-bottom: 20px;
-    }
-    
-    .task-info {
-        margin-top: 20px;
-        font-size: 1.2em;
-        color: #555;
-    }
-    
-    button {
-        padding: 10px 20px;
-        font-size: 16px;
-        cursor: pointer;
-        border: none;
-        border-radius: 5px;
-        background-color: #4CAF50; /* Зеленый фон для кнопок */
-        color: white;
-        transition: background-color 0.3s;
-    }
-    
-    button:hover {
-        background-color: #45a049; /* Темно-зеленый фон при наведении */
-    }
-    
-    ul {
-        list-style-type: none; /* Убираем маркеры списка */
-        padding: 0;
-        margin: 0;
-    }
-    
-    li {
-        background-color: #f9f9f9;
-        border: 1px solid #ddd;
-        border-radius: 5px;
-        margin: 10px 0;
-        padding: 10px;
-        position: relative;
-    }
-    
-    li button {
-        position: absolute;
-        right: 10px;
-        top: 10px;
-        background-color: #007BFF; /* Синий фон для кнопок задач */
-    }
-    
-    li button:hover {
-        background-color: #0056b3; /* Темно-синий фон при наведении */
-    }
-    
-    /* Адаптивный дизайн */
-    @media (max-width: 768px) {
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
         h1 {
-            font-size: 24px;
+            color: #333;
+            font-size: 32px;
+            margin-bottom: 20px;
         }
-    
+
+        h2 {
+            color: #444;
+            font-size: 26px;
+            margin-top: 20px;
+        }
+
         .map {
-            height: 300px; /* Уменьшение высоты карты на мобильных устройствах */
+            height: 450px; /* Высота карты */
+            border-radius: 8px;
+            margin-bottom: 20px;
         }
-    
-        button {
-            width: 100%; /* Кнопка занимает всю ширину на мобильных устройствах */
-            font-size: 14px;
-        }
-    }
-    
-    @media (max-width: 480px) {
-        h1 {
-            font-size: 20px;
-        }
-    
-        .map {
-            height: 250px; /* Уменьшение высоты карты на малых экранах */
-        }
-    
-        button {
-            padding: 8px; /* Уменьшение отступов для кнопки на малых экранах */
-            font-size: 12px;
-        }
-    
+
         .task-info {
-            font-size: 1em; /* Уменьшение размера текста для информации о задаче */
+            margin-top: 20px;
+            font-size: 1.1em;
+            color: #555;
         }
-    }
+
+        button {
+            padding: 12px 25px;
+            font-size: 18px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            background-color: #4CAF50;
+            color: white;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        button:hover {
+            background-color: #45a049;
+            transform: scale(1.05);
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        li {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin: 12px 0;
+            padding: 15px;
+            position: relative;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.2s;
+        }
+
+        li:hover {
+            background-color: #f1f1f1;
+        }
+
+        li button {
+            position: absolute;
+            right: 10px;
+            top: 10px;
+            background-color: #007BFF;
+        }
+
+        li button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Адаптивный дизайн */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 26px;
+            }
+
+            .map {
+                height: 350px;
+            }
+
+            button {
+                width: 100%;
+                font-size: 16px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 22px;
+            }
+
+            .map {
+                height: 300px;
+            }
+
+            button {
+                padding: 10px;
+                font-size: 14px;
+            }
+
+            .task-info {
+                font-size: 1em;
+            }
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>Geo Task</h1>
-        <div id="map" class="map"></div> <!-- Картографический элемент -->
+        <div id="map" class="map"></div>
         <button id="startTaskBtn">Начать задачу</button>
         <div id="taskInfo" class="task-info"></div>
         <h2>Сохраненные локации:</h2>
-        <ul id="locationList"></ul> <!-- Список сохраненных локаций -->
+        <ul id="locationList"></ul>
         <h2>Задачи:</h2>
-        <ul id="taskList"></ul> <!-- Список задач -->
+        <ul id="taskList"></ul>
     </div>
-    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-    
-    <script>// Инициализация карты
+
+    <script>
         const map = L.map('map').setView([42.8746, 74.5698], 12); // Координаты Бишкека
-        
-        // Добавление тайловой карты от OpenStreetMap
+
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 19,
             attribution: '© OpenStreetMap contributors'
         }).addTo(map);
-        
-        // Список для хранения локаций и задач
+
         const locations = [];
         const tasks = [];
-        
-        // Получение геолокации
+
         if (navigator.geolocation) {
             navigator.geolocation.watchPosition(
                 function (position) {
                     const userLat = position.coords.latitude;
                     const userLng = position.coords.longitude;
                     const accuracy = position.coords.accuracy;
-        
-                    console.log('Ваше местоположение:', userLat, userLng);
-                    console.log('Погрешность местоположения:', accuracy + ' метров');
-        
-                    // Добавляем маркер на текущее местоположение
+
                     const userMarker = L.marker([userLat, userLng]).addTo(map)
                         .bindPopup(`Вы здесь! Погрешность: ${accuracy} м.`)
                         .openPopup();
-        
-                    // Центрируем карту на пользователе
+
                     map.setView([userLat, userLng], 14);
                 },
                 function (error) {
-                    console.error("Ошибка получения геолокации:", error);
-                    alert("Невозможно определить местоположение. Код ошибки: " + error.code + ", Сообщение: " + error.message);
-                    map.setView([20, 0], 2); // Показать карту мира в случае ошибки
+                    alert("Ошибка получения геолокации.");
+                    map.setView([20, 0], 2);
                 },
                 {
-                    enableHighAccuracy: true, // Запрашиваем более точное местоположение
-                    timeout: 5000, // Максимальное время ожидания
-                    maximumAge: 0 // Не используем кешированные данные
+                    enableHighAccuracy: true,
+                    timeout: 5000,
+                    maximumAge: 0
                 }
             );
         } else {
             alert("Ваш браузер не поддерживает геолокацию.");
         }
-        
-        // Обработчик клика на карту
+
         map.on('click', function (e) {
-            const clickedLat = e.latlng.lat;  // Получаем широту
-            const clickedLng = e.latlng.lng;  // Получаем долготу
-        
-            // Создание формы для ввода названия локации
+            const clickedLat = e.latlng.lat;
+            const clickedLng = e.latlng.lng;
+
             const locationName = prompt("Введите название локации:");
-           
+
             if (locationName) {
-                // Добавляем маркер на карту с названием и координатами
                 const marker = L.marker([clickedLat, clickedLng]).addTo(map)
                     .bindPopup(`Название: ${locationName}<br>Координаты: ${clickedLat.toFixed(5)}, ${clickedLng.toFixed(5)}`)
                     .openPopup();
-        
-                // Сохраняем локацию в массив
+
                 locations.push({
                     name: locationName,
                     lat: clickedLat,
                     lng: clickedLng
                 });
-        
-                // Обновляем список сохраненных локаций
+
                 updateLocationList();
             } else {
                 alert("Название локации не было указано.");
             }
         });
-        
-        // Функция для обновления списка сохраненных локаций
+
         function updateLocationList() {
             const locationList = document.getElementById('locationList');
-            locationList.innerHTML = ''; // Очищаем список
-        
+            locationList.innerHTML = '';
+
             locations.forEach((location, index) => {
                 const listItem = document.createElement('li');
                 listItem.textContent = `${location.name} - Координаты: (${location.lat.toFixed(5)}, ${location.lng.toFixed(5)})`;
-               
-                // Добавление кнопки для создания задачи
+
                 const taskButton = document.createElement('button');
                 taskButton.textContent = 'Создать задачу';
-                taskButton.onclick = function() {
+                taskButton.onclick = function () {
                     createTask(location);
                 };
-        
+
                 listItem.appendChild(taskButton);
                 locationList.appendChild(listItem);
             });
         }
-        
-        // Функция для создания задачи
+
         function createTask(location) {
             const taskName = prompt("Введите название задачи:");
             if (taskName) {
@@ -248,57 +239,52 @@
                 alert("Название задачи не было указано.");
             }
         }
-        
-        // Функция для обновления списка геозадач
+
         function updateTaskList() {
             const taskList = document.getElementById('taskList');
-            taskList.innerHTML = ''; // Очищаем список
-        
+            taskList.innerHTML = '';
+
             tasks.forEach((task, index) => {
                 const listItem = document.createElement('li');
                 listItem.textContent = `Задача: ${task.name}, Локация: ${task.location.name} (${task.location.lat.toFixed(5)}, ${task.location.lng.toFixed(5)})`;
-        
-                // Добавление кнопки для отметки задачи
+
                 const markButton = document.createElement('button');
                 markButton.textContent = 'Отметить выполненной';
-                markButton.onclick = function() {
+                markButton.onclick = function () {
                     markTaskAsDone(index);
                 };
-        
+
+                const deleteButton = document.createElement('button');
+                deleteButton.textContent = 'Удалить задачу';
+                deleteButton.onclick = function () {
+                    deleteTask(index);
+                };
+
                 listItem.appendChild(markButton);
+                listItem.appendChild(deleteButton);
                 taskList.appendChild(listItem);
             });
         }
-        
-        // Функция для отметки задачи как выполненной
+
         function markTaskAsDone(index) {
             const task = tasks[index];
             alert(`Задача "${task.name}" выполнена!`);
-            tasks.splice(index, 1); // Удаляем задачу из массива
-            updateTaskList(); // Обновляем список задач
+            tasks.splice(index, 1);
+            updateTaskList();
         }
-        
-        const API_URL = "http://localhost:10000";
 
-function login(username, password) {
-    return fetch(`${API_URL}/login`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ username, password })
-    })
-    .then(response => response.json())
-    .then(data => console.log(data))
-    .catch(error => console.error('Error:', error));
-}
-
-// Экспортируем функцию login, чтобы она могла быть использована в других скриптах
-export { login };
-
-        </script>
+        function deleteTask(index) {
+            const task = tasks[index];
+            const confirmDelete = confirm(`Вы уверены, что хотите удалить задачу "${task.name}"?`);
+            if (confirmDelete) {
+                tasks.splice(index, 1);
+                updateTaskList();
+            }
+        }
+    </script>
 </body>
 </html>
+
 
 
 
