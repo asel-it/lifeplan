@@ -1,3 +1,6 @@
+// Импортируем API_URL из config.js
+import { API_URL } from './config.js';
+
 // Обновление времени и даты
 function updateTimeAndDate() {
     const now = new Date();
@@ -15,6 +18,7 @@ function updateTimeAndDate() {
 
 setInterval(updateTimeAndDate, 1000);
 
+
 // Переключение меню
 const menuIcon = document.getElementById("menu-icon");
 const sideMenu = document.getElementById("side-menu");
@@ -24,6 +28,7 @@ menuIcon.addEventListener("click", function () {
     content.classList.toggle("menu-open");
 });
 
+
 // Закрытие меню при клике вне его
 window.addEventListener("click", function (event) {
     if (!sideMenu.contains(event.target) && !menuIcon.contains(event.target)) {
@@ -31,6 +36,7 @@ window.addEventListener("click", function (event) {
         content.classList.remove("menu-open");
     }
 });
+
 
 // Проверка состояния авторизации
 function checkAuthStatus() {
@@ -50,6 +56,7 @@ function checkAuthStatus() {
     signOutLink.style.display = isAuthenticated ? 'block' : 'none';
 }
 
+
 // Функция выхода
 function signOut() {
     // Удаляем информацию о пользователе
@@ -58,20 +65,24 @@ function signOut() {
     checkAuthStatus();
 }
 
+
 // Вызываем функцию при загрузке страницы
 document.addEventListener('DOMContentLoaded', function() {
     checkAuthStatus();
 });
+
 
 // Функция прокрутки карусели
 function scrollCarousel(carouselId, direction) {
     const carousel = document.getElementById(carouselId);
     const itemWidth = carousel.querySelector('.carousel-item').offsetWidth;
 
+
     carousel.scrollBy({
         left: direction * itemWidth,
         behavior: 'smooth'
     });
+
 
     // Бесконечная прокрутка
     setTimeout(() => {
@@ -83,10 +94,11 @@ function scrollCarousel(carouselId, direction) {
     }, 300);
 }
 
+
 // Переход на страницу tools.html с параметром
 function goToToolsPage(selectedItem) {
-    const url = window.location.pathname.includes('template') ? 
-        `/tools.html?selectedTemplate=${selectedItem}` : 
+    const url = window.location.pathname.includes('template') ?
+        `/tools.html?selectedTemplate=${selectedItem}` :
         `/tools.html?selectedTool=${selectedItem}`;
     window.location.href = url;
 }
