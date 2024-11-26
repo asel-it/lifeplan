@@ -2,7 +2,6 @@ const script = document.createElement('script');
 script.src = 'js/config.js'; // Правильный путь
 document.head.appendChild(script);
 
-
 document.addEventListener("DOMContentLoaded", function () {
     // Регистрация Service Worker
     if ('serviceWorker' in navigator) {
@@ -45,7 +44,6 @@ document.addEventListener("DOMContentLoaded", function () {
         { text: "AI: Let's create a plan for your day. What do you need to accomplish?", image: "images/image1.png" },
         { text: "AI: Don't forget your meeting at 3 PM.", image: "images/image2.png" },
         { text: "AI: How can I assist you with family event planning?", image: "images/image3.png" }
-
     ];
 
     const chatIcon = document.getElementById("chatIcon");
