@@ -98,46 +98,43 @@ document.addEventListener("DOMContentLoaded", function () {
         { text: "AI: Don't forget your meeting at 3 PM.", image: "images/image2.png" },
         { text: "AI: How can I assist you with family event planning?", image: "images/image3.png" }
     ];
-    
     const chatBox = document.getElementById('animation-box');
     const imageContainer = document.getElementById('image-container');
     const img = document.createElement('img');
     img.className = 'image';
     imageContainer.appendChild(img);
-    
-    // Функция для эффекта печатания
+
+    // Typing effect for dialogues
     async function typeText(text, delay) {
         return new Promise(resolve => {
             let index = 0;
-            chatBox.innerHTML = '';  // Очистка блока текста
+            chatBox.innerHTML = '';
             const typingInterval = setInterval(() => {
-                chatBox.innerHTML += text.charAt(index);  // Добавляем символ
+                chatBox.innerHTML += text.charAt(index);
                 index++;
                 if (index === text.length) {
                     clearInterval(typingInterval);
-                    setTimeout(resolve, delay);  // Ожидание перед следующим диалогом
+                    setTimeout(resolve, delay);
                 }
             }, 100);
         });
     }
-    
-    // Показываем диалоги с анимацией
+
+    // Show dialogues with animation
     async function showDialogues() {
         for (const dialogue of dialogues) {
             img.src = dialogue.image;
-            img.classList.add('visible');  // Делаем изображение видимым с анимацией
-            await typeText(dialogue.text, 3000);  // Печатаем текст
+            img.classList.add('visible');
+            await typeText(dialogue.text, 3000);
             setTimeout(() => {
-                chatBox.innerHTML = '';  // Очищаем текст
-                img.classList.remove('visible');  // Скрываем изображение
+                chatBox.innerHTML = '';
+                img.classList.remove('visible');
             }, 3000);
-            await new Promise(resolve => setTimeout(resolve, 4000));  // Задержка перед следующим диалогом
+            await new Promise(resolve => setTimeout(resolve, 4000));
         }
-        setTimeout(showDialogues, 3000);  // Повторяем цикл диалогов
+        setTimeout(showDialogues, 3000);
     }
-    
     showDialogues();
-    
 
     // Chat toggle
     const chatContainer = document.getElementById('chat-container');
