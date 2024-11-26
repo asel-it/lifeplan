@@ -165,9 +165,6 @@ document.addEventListener("DOMContentLoaded", function () {
     showDialogues();
     
 
-
-
-
    // Modal functions
     function openModal(modalId) {
         var modal = document.getElementById(modalId);
