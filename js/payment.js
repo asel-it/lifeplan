@@ -1,3 +1,6 @@
+// Import API_URL from config.js
+import { API_URL } from './config.js';
+
 const express = require('express');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
@@ -201,7 +204,7 @@ function handlePayment(planType) {
     };
 
     // Send payment request to the backend
-    fetch('https://lifeplan-backend.onrender.com/payment', {
+    fetch(`${API_URL}/payment`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -227,6 +230,3 @@ function handlePayment(planType) {
 document.addEventListener('DOMContentLoaded', function() {
     checkAuthStatus();
 });
-
-
-
