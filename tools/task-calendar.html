@@ -4,123 +4,173 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.css' rel='stylesheet' />
+    <script type="module" src="js/save.js"></script>
     <title>Task Calendar</title>
-    <style>body {
-        font-family: Arial, sans-serif;
-        margin: 0;
-        padding: 20px;
-    }
-    
-    .container {
-        max-width: 800px;
-        margin: auto;
-        text-align: center;
-    }
-    
-    .date-prompt-container {
-        display: inline-block;
-        padding: 10px;
-        border: 1px solid #ccc;
-        border-radius: 20px; /* Овальные углы */
-        background-color: #f0f0f0; /* Светлый фон */
-        margin: 10px 0;
-    }
-    
-    .task-input-container {
-        display: flex;
-        justify-content: center;
-        margin: 20px 0;
-    }
-    
-    #task-input {
-        padding: 10px;
-        border-radius: 20px; /* Закругленные углы */
-        border: 1px solid #ccc;
-        margin-right: 10px;
-    }
-    
-    .task {
-        background-color: #4CAF50; /* Зеленый цвет для задач */
-        color: white;
-        padding: 5px;
-        margin: 2px 0;
-        border-radius: 5px; /* Закругленные углы */
-        font-size: 14px; /* Размер шрифта */
-        text-align: center; /* Центрирование текста */
-    }
-    
-    #calendar-grid {
-        margin: 20px 0;
-    }
-    
-    .fc-daygrid-day {
-        height: 100px; /* Задать одинаковую высоту для всех ячеек */
-        vertical-align: top; /* Текст задачи будет размещен сверху */
-    }
-    
-    .fc-daygrid-day-events {
-        overflow: auto; /* Для правильного отображения задач внутри ячеек */
-    }
-    
-    .task {
-        background-color: #4CAF50; /* Зеленый цвет для задач */
-        color: white;
-        padding: 5px;
-        margin: 2px 0;
-        border-radius: 5px; /* Закругленные углы */
-        font-size: 14px;
-        text-align: center; /* Центрирование текста */
-    }
-    
-    /* CSS для выделения выбранной ячейки */
-    .fc-daygrid-day {
-        height: 100px; /* Одинаковая высота всех ячеек */
-        vertical-align: top;
-    }
-    
-    .fc-daygrid-day:hover {
-        cursor: pointer; /* Курсор в виде указателя при наведении */
-    }
-    
-    .fc-daygrid-day-events {
-        overflow: auto; /* Для правильного отображения задач внутри ячеек */
-    }
-    
-    /* Мягкое выделение выбранной даты */
-    .selected-cell {
-        background-color: rgba(173, 216, 230, 0.3); /* Нежно-синий цвет */
-    }
-    
-    /* Стилизация задач как обычного текста */
-    .plain-text-task {
-        color: black;
-        font-size: 14px; /* Размер текста */
-        margin: 2px 0;
-        font-weight: normal; /* Обычный вес текста */
-    }
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: auto;
+            text-align: center;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #007777;
+        }
+
+        .date-prompt-container {
+            display: inline-block;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 20px;
+            background-color: #e0f7f7;
+            margin: 10px 0;
+        }
+
+        .task-input-container {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+
+        #task-input {
+            padding: 10px;
+            border-radius: 20px;
+            border: 1px solid #ccc;
+            margin-right: 10px;
+            width: 60%;
+        }
+
+        .add-button {
+            padding: 10px 20px;
+            background-color: #007777;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+
+        .add-button:hover {
+            background-color: #005555;
+        }
+
+        #calendar-grid {
+            margin-top: 20px;
+        }
+
+        .fc-daygrid-day {
+            height: 120px;
+            vertical-align: top;
+        }
+
+        .fc-daygrid-day-events {
+            overflow: auto;
+        }
+
+        .task {
+            background-color: #4CAF50;
+            color: white;
+            padding: 5px;
+            margin: 2px 0;
+            border-radius: 5px;
+            font-size: 14px;
+            text-align: center;
+        }
+
+        .fc-daygrid-day:hover {
+            cursor: pointer;
+        }
+
+        .selected-cell {
+            background-color: rgba(173, 216, 230, 0.3);
+        }
+
+        .plain-text-task {
+            color: black;
+            font-size: 14px;
+            margin: 2px 0;
+        }
+
+        .fc-toolbar {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1 data-i18n="calendar.title">Task Calendar</h1>
+        <h1>Task Calendar</h1>
 
-        <!-- Подсказка для выбора даты -->
+        <!-- Date prompt -->
         <div class="date-prompt-container">
             <p id="date-prompt">Choose a date in calendar first</p>
         </div>
 
-        <!-- Поле для ввода задачи и кнопка добавления -->
+        <!-- Task input -->
         <div class="task-input-container">
             <input type="text" id="task-input" placeholder="Add a task" />
             <button id="addTaskButton" class="add-button">Add</button>
         </div>
 
+        <!-- FullCalendar grid -->
         <div id="calendar-grid"></div>
     </div>
 
+    <!-- FullCalendar and i18next JS -->
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.js'></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/i18next/21.6.3/i18next.min.js'></script>
-    <script type="module" src="js/config.js"></script>
+    <script>
+        // Initialize the calendar
+        const calendarEl = document.getElementById('calendar-grid');
+        const calendar = new FullCalendar.Calendar(calendarEl, {
+            initialView: 'dayGridMonth',
+            dateClick: function(info) {
+                document.getElementById('date-prompt').textContent = `Selected date: ${info.dateStr}`;
+                currentDate = info.dateStr;
+            },
+            events: [], // Add your dynamic events here
+            locale: 'en',
+            headerToolbar: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'dayGridMonth,timeGridWeek,timeGridDay'
+            },
+        });
+
+        calendar.render();
+
+        // Task input and handling
+        let currentDate = null;
+        document.getElementById('addTaskButton').addEventListener('click', function() {
+            const taskInput = document.getElementById('task-input').value;
+            if (taskInput && currentDate) {
+                addTaskToCalendar(currentDate, taskInput);
+                document.getElementById('task-input').value = ''; // Clear input
+            }
+        });
+
+        function addTaskToCalendar(date, task) {
+            calendar.addEvent({
+                title: task,
+                start: date,
+                allDay: true,
+                backgroundColor: '#4CAF50',
+                textColor: 'white'
+            });
+        }
+    </script>
 </body>
 </html>
+
 
