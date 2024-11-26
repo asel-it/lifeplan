@@ -1,4 +1,7 @@
- // Update time and date
+ // Import API_URL from config.js
+import { API_URL } from './config.js';
+
+// Update time and date
 function updateTimeAndDate() {
     const now = new Date();
     const day = now.getDate().toString().padStart(2, '0');
@@ -14,7 +17,6 @@ function updateTimeAndDate() {
 }
 setInterval(updateTimeAndDate, 1000);
 
-
 // Menu toggle functionality
 const menuIcon = document.getElementById("menu-icon");
 const sideMenu = document.getElementById("side-menu");
@@ -24,9 +26,6 @@ menuIcon.addEventListener("click", function () {
     content.classList.toggle("menu-open");
 });
 
-
-
-
 // Close menu when clicking outside of it
 window.addEventListener("click", function (event) {
     if (!sideMenu.contains(event.target) && !menuIcon.contains(event.target)) {
@@ -35,51 +34,43 @@ window.addEventListener("click", function (event) {
     }
 });
 
-
 // Проверяем состояние авторизации
 function checkAuthStatus() {
-const isAuthenticated = localStorage.getItem('isAuthenticated') === 'true';
+    const isAuthenticated = localStorage.getItem('isAuthenticated') === 'true';
 
+    const dashboardLink = document.getElementById('dashboard-link');
+    const myPlansLink = document.getElementById('my-plans-link');
+    const myProfileLink = document.getElementById('my-profile-link');
+    const signUpLoginLink = document.getElementById('sign-up-login-link');
+    const signOutLink = document.getElementById('sign-out-link');
 
-const dashboardLink = document.getElementById('dashboard-link');
-const myPlansLink = document.getElementById('my-plans-link');
-const myProfileLink = document.getElementById('my-profile-link');
-const signUpLoginLink = document.getElementById('sign-up-login-link');
-const signOutLink = document.getElementById('sign-out-link');
-
-
-// Для авторизованных пользователей показываем ссылки на страницы и ссылку на выход
-if (isAuthenticated) {
-    dashboardLink.style.display = 'block';
-    myPlansLink.style.display = 'block';
-    myProfileLink.style.display = 'block';
-    signUpLoginLink.style.display = 'none';
-    signOutLink.style.display = 'block';
-} else {
-    // Для неавторизованных показываем ссылку на вход и скрываем другие
-    dashboardLink.style.display = 'none';
-    myPlansLink.style.display = 'none';
-    myProfileLink.style.display = 'none';
-    signUpLoginLink.style.display = 'block';
-    signOutLink.style.display = 'none';
+    if (isAuthenticated) {
+        dashboardLink.style.display = 'block';
+        myPlansLink.style.display = 'block';
+        myProfileLink.style.display = 'block';
+        signUpLoginLink.style.display = 'none';
+        signOutLink.style.display = 'block';
+    } else {
+        dashboardLink.style.display = 'none';
+        myPlansLink.style.display = 'none';
+        myProfileLink.style.display = 'none';
+        signUpLoginLink.style.display = 'block';
+        signOutLink.style.display = 'none';
+    }
 }
-}
-
 
 // Функция для выхода
 function signOut() {
-// Удаляем информацию о том, что пользователь авторизован
-localStorage.removeItem('isAuthenticated');
-// Перезагружаем меню
-checkAuthStatus();
+    // Удаляем информацию о том, что пользователь авторизован
+    localStorage.removeItem('isAuthenticated');
+    // Перезагружаем меню
+    checkAuthStatus();
 }
 
-
 // Вызываем функцию при загрузке страницы
-document.addEventListener('DOMContentLoaded', function() {
-checkAuthStatus();
+document.addEventListener('DOMContentLoaded', function () {
+    checkAuthStatus();
 });
-
 
 // Подкатегории для каждой категории
 const subcategories = {
@@ -91,7 +82,6 @@ const subcategories = {
     "Education": ["School", "College/University", "Professional Development", "Courses & Training", "Online Learning", "Study Projects", "Academic Achievements", "Research Activities", "Internships & Practicum", "Exam Preparation"],
     "Personal Development": ["Goal Setting", "Time Management", "Emotional Intelligence", "Stress Management", "Leadership Skills", "Communication Skills", "Self-Discipline", "Motivation & Productivity", "Decision-Making", "Creative Thinking"]
 };
-
 
 // Сопоставление инструментов категориям и подкатегориям
 const tools = {
@@ -113,7 +103,6 @@ const tools = {
     "Project Management": ["Career", "Education"]
 };
 
-
 // Показать подкатегории на основе выбранной категории
 function updateSubcategories() {
     const category = document.getElementById('categoryDropdown').value;
@@ -129,7 +118,6 @@ function updateSubcategories() {
     }
     highlightCards(category);
 }
-
 
 // Подсветить карточки инструментов
 function highlightCards(category, subcategory = null) {
@@ -149,7 +137,6 @@ function highlightCards(category, subcategory = null) {
     });
 }
 
-
 // Обновить карточки при выборе подкатегории
 document.getElementById('subcategoryDropdown').addEventListener('change', () => {
     const category = document.getElementById('categoryDropdown').value;
@@ -157,16 +144,13 @@ document.getElementById('subcategoryDropdown').addEventListener('change', () => 
     highlightCards(category, subcategory);
 });
 
-
 // Показать вкладку Tools
 function showTab(tabName) {
     document.querySelectorAll('.tab-content').forEach(tab => tab.style.display = 'none');
     document.getElementById(tabName).style.display = 'block';
 }
 
-
 document.addEventListener('DOMContentLoaded', () => showTab('toolsTab'));
-
 
 // Открытие инструмента
 function openTool(toolPath) {
@@ -174,13 +158,11 @@ function openTool(toolPath) {
     document.getElementById('toolContent').innerHTML = `<iframe src="${toolPath}" width="100%" height="100%" style="border:none;"></iframe>`;
 }
 
-
 // Закрытие инструмента
 function closeTool() {
     document.getElementById('toolContainer').style.display = 'none';
     document.getElementById('toolContent').innerHTML = '';
 }
-
 
 // Обработка событий открытия/закрытия модального окна
 function toggleModal(open) {
@@ -188,10 +170,8 @@ function toggleModal(open) {
     document.querySelector(".modal").style.display = open ? "block" : "none";
 }
 
-
 document.querySelector(".open-modal-btn").addEventListener("click", () => toggleModal(true));
 document.querySelector(".close-modal-btn").addEventListener("click", () => toggleModal(false));
-
 
 // Сохранить и загрузить данные инструмента
 function saveTool() {
@@ -206,7 +186,6 @@ function loadSavedTool() {
 }
 
 window.onload = loadSavedTool;
-
 
 // Сохранить активную вкладку
 function saveActiveTab(tabName) {
@@ -224,66 +203,33 @@ function loadActiveTab() {
 function showTab(tabName) {
     document.querySelectorAll('.tab-content').forEach(tab => tab.style.display = 'none');
     document.getElementById(tabName).style.display = 'block';
-    saveActiveTab(tabName);
+
+    highlightActiveButton(tabName);
 }
 
-// Подсветить активную кнопку
+// Подсветить активную кнопку вкладки
 function highlightActiveButton(tabName) {
     document.querySelectorAll('.tab-button').forEach(button => {
         button.classList.remove('active');
-        if (button.textContent.toLowerCase() === tabName.toLowerCase().replace('Tab', '')) {
-            button.classList.add('active');
-        }
     });
+    document.querySelector(`#${tabName}-button`).classList.add('active');
 }
 
-// Загрузить активную вкладку при загрузке страницы
-document.addEventListener('DOMContentLoaded', loadActiveTab);
+// Сохранить активную вкладку при клике
+document.querySelectorAll('.tab-button').forEach(button => {
+    button.addEventListener('click', (e) => {
+        const tabName = e.target.id.replace('-button', '');
+        saveActiveTab(tabName);
+        showTab(tabName);
+    });
+});
 
-// Вставка инструмента в текущую страницу
-function insertTool(toolId, toolName) {
-    const toolContainer = document.getElementById('toolContainer');
-    const toolContent = document.getElementById('toolContent');
-    
-    // Очистить старый контент
-    toolContent.innerHTML = '';
-    
-    // Найти путь к инструменту
-    const toolPath = `https://lifeplan-backend.onrender.com/tools/${toolId}`;
-    
-    // Вставить iframe с инструментом
-    toolContent.innerHTML = `<iframe src="${toolPath}" width="100%" height="100%" style="border:none;"></iframe>`;
-    toolContainer.style.display = 'flex';
-    
-    // Обновить активность вкладки
-    saveActiveTab('toolsTab');
-}
-
-// Закрытие инструмента
-function closeTool() {
-    document.getElementById('toolContainer').style.display = 'none';
-    document.getElementById('toolContent').innerHTML = '';
-}
-
-// Обработка события открытия модального окна
-function toggleModal(open) {
-    document.body.classList.toggle("modal-open", open);
-    document.querySelector(".modal").style.display = open ? "block" : "none";
-}
-
-document.querySelector(".open-modal-btn").addEventListener("click", () => toggleModal(true));
-document.querySelector(".close-modal-btn").addEventListener("click", () => toggleModal(false));
-
-
-function openTab(tabId) {
-    // Закрываем все вкладки
-    var tabContents = document.getElementsByClassName('tab-content');
-    for (var i = 0; i < tabContents.length; i++) {
-        tabContents[i].style.display = 'none';
-    }
-    // Открываем выбранную вкладку
-    document.getElementById(tabId).style.display = 'block';
-}
-
-// Показываем вкладку Tools по умолчанию при загрузке страницы
-openTab('toolsTab');
+// Загружаем активную вкладку при загрузке страницы
+window.onload = function() {
+    loadActiveTab();
+    // Обновляем подкатегории при выборе категории
+    const categoryDropdown = document.getElementById('categoryDropdown');
+    categoryDropdown.addEventListener('change', updateSubcategories);
+    // Изначально показываем подкатегории
+    updateSubcategories();
+};
