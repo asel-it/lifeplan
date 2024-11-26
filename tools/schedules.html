@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Schedule Tool</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet">
+    <script type="module" src="js/save.js"></script>
     <style>
         body {
             font-family: 'Exo 2', sans-serif;
@@ -143,10 +144,12 @@
             <p id="scheduleRecommendation">Plan your day with detailed schedules for better productivity!</p>
         </div>
     </div>
+
     <script>
-        let schedules = [];
+        // Check if there are saved schedules in localStorage
+        let schedules = JSON.parse(localStorage.getItem('schedules')) || [];
 
-
+        // Function to show or hide the schedule form
         function showForm(formId) {
             const forms = ['scheduleForm'];
             forms.forEach(form => {
@@ -154,19 +157,21 @@
             });
         }
 
-
+        // Add a new schedule and save it to localStorage
         function addSchedule() {
             const startTime = document.getElementById('startTime').value;
             const endTime = document.getElementById('endTime').value;
             const description = document.getElementById('scheduleDescription').value;
             if (startTime && endTime && description) {
-                schedules.push({ startTime, endTime, description });
+                const newSchedule = { startTime, endTime, description };
+                schedules.push(newSchedule);
+                localStorage.setItem('schedules', JSON.stringify(schedules)); // Save to localStorage
                 updateScheduleTable();
                 document.getElementById('scheduleForm').reset();
             }
         }
 
-
+        // Function to update the schedule table with the current schedules
         function updateScheduleTable() {
             const scheduleBody = document.getElementById('scheduleBody');
             scheduleBody.innerHTML = '';
@@ -175,15 +180,16 @@
                 row.innerHTML = `<td>${schedule.startTime}</td><td>${schedule.endTime}</td><td>${schedule.description}</td>`;
                 scheduleBody.appendChild(row);
             });
+            updateScheduleRecommendation();
         }
 
-
+        // Function to view schedules (Hide the form if visible)
         function viewSchedules() {
             const scheduleForm = document.getElementById('scheduleForm');
             scheduleForm.style.display = 'none';
         }
 
-
+        // Update the recommendation message based on the number of schedules
         function updateScheduleRecommendation() {
             const recommendation = document.getElementById('scheduleRecommendation');
             if (schedules.length > 0) {
@@ -193,24 +199,9 @@
             }
         }
 
-        const API_URL = "http://localhost:10000";
-
-function login(username, password) {
-    return fetch(`${API_URL}/login`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ username, password })
-    })
-    .then(response => response.json())
-    .then(data => console.log(data))
-    .catch(error => console.error('Error:', error));
-}
-
-// Экспортируем функцию login, чтобы она могла быть использована в других скриптах
-export { login };
-
+        // Initialize the page with existing schedules
+        updateScheduleTable();
     </script>
 </body>
 </html>
+
