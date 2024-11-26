@@ -1,5 +1,3 @@
-import { API_URL } from 'js/config.js';
-
 document.addEventListener("DOMContentLoaded", function () {
 
     // Service Worker Registration
