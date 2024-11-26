@@ -1,4 +1,7 @@
- // Menu toggle functionality
+ // Импортируем API_URL из config.js
+import { API_URL } from './config.js';
+
+// Menu toggle functionality
 const menuIcon = document.getElementById("menu-icon");
 const sideMenu = document.getElementById("side-menu");
 const content = document.getElementById("content");
@@ -18,13 +21,13 @@ window.addEventListener("click", function (event) {
 // Проверяем состояние авторизации
 function checkAuthStatus() {
     const isAuthenticated = localStorage.getItem('isAuthenticated') === 'true';
-    
+   
     const dashboardLink = document.getElementById('dashboard-link');
     const myPlansLink = document.getElementById('my-plans-link');
     const myProfileLink = document.getElementById('my-profile-link');
     const signUpLoginLink = document.getElementById('sign-up-login-link');
     const signOutLink = document.getElementById('sign-out-link');
-    
+   
     // Для авторизованных пользователей показываем ссылки на страницы и ссылку на выход
     if (isAuthenticated) {
         dashboardLink.style.display = 'block';
@@ -74,7 +77,7 @@ setInterval(updateTimeAndDate, 1000);
 // Пример работы с API бэкенда (например, для получения списка планов)
 async function getPlans() {
     try {
-        const response = await fetch('https://lifeplan-backend.onrender.com/api/plans', {
+        const response = await fetch(`${API_URL}/api/plans`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
