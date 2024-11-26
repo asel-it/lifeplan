@@ -1,224 +1,211 @@
 <!DOCTYPE html>
-<html lang="en"> <!-- Изменено на 'en' для английского языка -->
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Подключаем Flatpickr и ваши стили -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-    <title>Goal Tracker</title> <!-- Изменено на английский -->
-    <style>/* Flatpickr Styles */
+    <script type="module" src="js/save.js"></script>
+    <title>Goal Tracker</title>
+    <style>
+        /* Flatpickr Styles */
         .flatpickr-calendar {
-            background-color: #ffffff; /* Фон календаря */
-            border: 1px solid #ccc; /* Граница календаря */
-            border-radius: 10px; /* Закругленные углы */
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Тень */
-            z-index: 9999; /* Поверх остальных элементов */
-            font-size: 16px; /* Увеличенный размер шрифта для календаря */
+            background-color: #ffffff;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 9999;
+            font-size: 16px;
         }
-        
+
         .flatpickr-day {
-            padding: 10px; /* Отступы ячеек */
-            cursor: pointer; /* Указатель на курсор */
-            border-radius: 50%; /* Закругление ячеек до круга */
-            margin: 2px; /* Отступы между кнопками */
-            margin-top: 5px; /* Отступ сверху для сдвига вниз */
-            transition: background-color 0.3s; /* Плавный переход для фона */
+            padding: 10px;
+            cursor: pointer;
+            border-radius: 50%;
+            margin: 2px;
+            transition: background-color 0.3s;
         }
-        
+
         .flatpickr-day:hover {
-            background-color: #f0f0f0; /* Цвет при наведении */
+            background-color: #f0f0f0;
         }
-        
+
         .flatpickr-day.selected {
-            background-color: #007bff; /* Цвет для выбранного дня */
-            color: #ffffff; /* Цвет текста для выбранного дня */
+            background-color: #007bff;
+            color: #ffffff;
         }
-        
+
         .flatpickr-day.today {
-            background-color: #e9ecef; /* Цвет для текущего дня */
-            font-weight: bold; /* Полужирный шрифт для текущего дня */
+            background-color: #e9ecef;
+            font-weight: bold;
         }
-        
-        /* Другие стили для flatpickr */
+
         .flatpickr-month {
-            background-color: #007bff; /* Цвет фона для месяца */
-            color: #ffffff; /* Цвет текста для месяца */
-            padding: 10px; /* Отступы месяца */
-            border-radius: 10px; /* Закругление углов */
+            background-color: #007bff;
+            color: #ffffff;
+            padding: 10px;
+            border-radius: 10px;
         }
-        
-        /* Стили для Goal Tracker */
+
+        /* Goal Tracker Styles */
         .goal-tracker-container {
-            max-width: 500px; /* Максимальная ширина контейнера */
-            margin: 40px auto; /* Центрирование по горизонтали и отступ сверху */
-            padding: 30px; /* Увеличенные отступы внутри контейнера */
-            background-color: #f9f9f9; /* Светлый фон для контейнера */
-            border-radius: 15px; /* Округленные углы для контейнера */
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Тень для контейнера */
+            max-width: 500px;
+            margin: 40px auto;
+            padding: 30px;
+            background-color: #f9f9f9;
+            border-radius: 15px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         }
-        
+
         input[type="text"],
         textarea,
         .flatpickr-input {
-            width: 100%; /* Полная ширина поля */
-            padding: 12px; /* Увеличенные отступы для полей ввода */
-            border: 1px solid #ccc; /* Граница полей */
-            border-radius: 10px; /* Закругленные углы полей */
-            margin-bottom: 15px; /* Отступ снизу для полей */
-            box-sizing: border-box; /* Учитывать отступы и границы в ширине */
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            box-sizing: border-box;
         }
-        
+
         .oval-btn {
-            background-color: #007bff; /* Цвет кнопки */
-            color: white; /* Цвет текста */
-            border-radius: 25px; /* Округлые края кнопки */
-            border: none; /* Без границ */
-            padding: 12px 25px; /* Увеличенные отступы кнопки */
-            cursor: pointer; /* Указатель на курсор */
-            transition: background-color 0.3s; /* Плавный переход */
-            font-size: 16px; /* Увеличенный размер шрифта */
+            background-color: #007bff;
+            color: white;
+            border-radius: 25px;
+            border: none;
+            padding: 12px 25px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-size: 16px;
         }
-        
+
         .oval-btn:hover {
-            background-color: #0056b3; /* Темный цвет при наведении */
+            background-color: #0056b3;
         }
-        
-        /* Стили для списка целей */
+
         #goal-list {
-            margin-top: 20px; /* Отступ сверху для списка целей */
+            margin-top: 20px;
         }
-        
+
         .goal-progress {
-            background-color: #e9ecef; /* Цвет фона для полосы прогресса */
-            border-radius: 10px; /* Закругленные углы для полосы прогресса */
-            height: 10px; /* Высота полосы прогресса */
-            margin-top: 10px; /* Отступ сверху для полосы прогресса */
+            background-color: #e9ecef;
+            border-radius: 10px;
+            height: 10px;
+            margin-top: 10px;
         }
-        
+
         .goal-progress-bar {
-            background-color: #007bff; /* Цвет полосы прогресса */
-            height: 100%; /* Высота полосы прогресса */
-            border-radius: 10px; /* Закругленные углы для полосы прогресса */
+            background-color: #007bff;
+            height: 100%;
+            border-radius: 10px;
         }
-        
+
         h2 {
-            font-size: 24px; /* Увеличенный размер шрифта заголовка */
-            margin-bottom: 20px; /* Отступ снизу для заголовка */
+            font-size: 24px;
+            margin-bottom: 20px;
         }
-        
+
         h3 {
-            font-size: 20px; /* Увеличенный размер шрифта для подзаголовка */
-            margin-top: 20px; /* Отступ сверху для подзаголовка */
+            font-size: 20px;
+            margin-top: 20px;
         }
-        
+
         ul {
-            list-style-type: none; /* Убираем маркеры списка */
-            padding: 0; /* Убираем отступы */
+            list-style-type: none;
+            padding: 0;
         }
-        
+
         li {
-            margin: 5px 0; /* Отступы между элементами списка */
-            font-size: 16px; /* Увеличенный размер шрифта для списка */
+            margin: 5px 0;
+            font-size: 16px;
         }
-        </style>
+    </style>
 </head>
 <body>
-    <div class="goal-tracker-container">
-        <h2>Goal Tracker</h2>
-        
-        <input type="text" id="goal-name" placeholder="Enter your goal..." />
-        <input type="text" id="goal-target" placeholder="Enter total tasks or target value..." />
-        <input type="text" id="goal-current" placeholder="Enter completed tasks or current value..." />
-        
-        <label for="start-date">Start Date:</label>
-        <input type="text" id="start-date" placeholder="Select start date" class="flatpickr-input" />
-        
-        <label for="deadline">Deadline:</label>
-        <input type="text" id="deadline" placeholder="Select deadline" class="flatpickr-input" />
-        
-        <div class="goal-progress">
-            <div id="goal-progress-bar" class="goal-progress-bar" style="width: 0%;"></div>
-        </div>
-        
-        <button id="update-progress" class="oval-btn">Update Progress</button>
-        <button id="delete-goal" class="oval-btn">Delete</button>
-        
-        <h3>Your Goals:</h3>
-        <ul id="goal-list"></ul>
-        
-        <label for="progress-notes">Progress Notes:</label>
-        <textarea id="progress-notes" placeholder="Enter progress notes..."></textarea>
+
+<div class="goal-tracker-container">
+    <h2>Goal Tracker</h2>
+
+    <!-- Goal Input Fields -->
+    <input type="text" id="goal-name" placeholder="Enter your goal..." required />
+    <input type="text" id="goal-target" placeholder="Enter total tasks or target value..." required />
+    <input type="text" id="goal-current" placeholder="Enter completed tasks or current value..." required />
+
+    <!-- Date Selection -->
+    <label for="start-date">Start Date:</label>
+    <input type="text" id="start-date" placeholder="Select start date" class="flatpickr-input" required />
+
+    <label for="deadline">Deadline:</label>
+    <input type="text" id="deadline" placeholder="Select deadline" class="flatpickr-input" required />
+
+    <!-- Progress Bar -->
+    <div class="goal-progress">
+        <div id="goal-progress-bar" class="goal-progress-bar" style="width: 0%;"></div>
     </div>
-    
-    </div>       
-    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-    <script>// Initialize Flatpickr for date selection
-        flatpickr("#start-date", { dateFormat: "Y-m-d" });
-        flatpickr("#deadline", { dateFormat: "Y-m-d" });
-        
-        // Delete button functionality
-        document.getElementById("delete-goal").addEventListener("click", function() {
+
+    <!-- Buttons -->
+    <button id="update-progress" class="oval-btn">Update Progress</button>
+    <button id="delete-goal" class="oval-btn">Delete</button>
+
+    <!-- Goal List -->
+    <h3>Your Goals:</h3>
+    <ul id="goal-list"></ul>
+
+    <!-- Progress Notes -->
+    <label for="progress-notes">Progress Notes:</label>
+    <textarea id="progress-notes" placeholder="Enter progress notes..."></textarea>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script>
+    // Initialize Flatpickr for date selection
+    flatpickr("#start-date", { dateFormat: "Y-m-d" });
+    flatpickr("#deadline", { dateFormat: "Y-m-d" });
+
+    // Delete button functionality
+    document.getElementById("delete-goal").addEventListener("click", function() {
+        const progressBar = document.getElementById("goal-progress-bar");
+        progressBar.style.width = '0%'; // Reset progress bar
+
+        // Clear input fields
+        document.getElementById("goal-name").value = "";
+        document.getElementById("goal-target").value = "";
+        document.getElementById("goal-current").value = "";
+
+        // Clear goal list
+        const goalList = document.getElementById("goal-list");
+        goalList.innerHTML = "";
+    });
+
+    // Update progress based on input values
+    document.getElementById("update-progress").addEventListener("click", function() {
+        const goalName = document.getElementById("goal-name").value;
+        const targetValue = parseFloat(document.getElementById("goal-target").value);
+        const currentValue = parseFloat(document.getElementById("goal-current").value);
+        const progressNotes = document.getElementById("progress-notes").value;
+
+        // Validate input values
+        if (!isNaN(targetValue) && !isNaN(currentValue) && targetValue > 0) {
+            const progressPercentage = (currentValue / targetValue) * 100;
             const progressBar = document.getElementById("goal-progress-bar");
-            progressBar.style.width = '0%'; // Reset progress bar
-            
-            // Clear input fields
-            document.getElementById("goal-name").value = "";
-            document.getElementById("goal-target").value = "";
-            document.getElementById("goal-current").value = "";
-            
-            // Clear goal list
+            progressBar.style.width = `${Math.min(progressPercentage, 100)}%`; // Limit to 100%
+
+            // Update goal list with current status
             const goalList = document.getElementById("goal-list");
-            goalList.innerHTML = "";
-        });
-        
-        // Update progress based on input values
-        document.getElementById("update-progress").addEventListener("click", function() {
-            const goalName = document.getElementById("goal-name").value;
-            const targetValue = parseFloat(document.getElementById("goal-target").value);
-            const currentValue = parseFloat(document.getElementById("goal-current").value);
-            const progressNotes = document.getElementById("progress-notes").value;
-        
-            // Проверка на валидность вводимых значений
-            if (!isNaN(targetValue) && !isNaN(currentValue) && targetValue > 0) {
-                const progressPercentage = (currentValue / targetValue) * 100;
-                const progressBar = document.getElementById("goal-progress-bar");
-                progressBar.style.width = `${Math.min(progressPercentage, 100)}%`; // Ограничиваем до 100%
-        
-                // Обновление списка целей с текущим статусом
-                const goalList = document.getElementById("goal-list");
-                const listItem = document.createElement("li");
-                listItem.textContent = `${goalName} - ${currentValue} / ${targetValue} (${Math.round(progressPercentage)}%) - Notes: ${progressNotes}`;
-                goalList.appendChild(listItem);
-        
-                // Очистка полей ввода
-                document.getElementById("goal-current").value = ""; // Обнуление поля текущего значения
-                document.getElementById("goal-target").value = ""; // Обнуление поля целевого значения
-                document.getElementById("goal-name").value = ""; // Обнуление поля имени цели
-                document.getElementById("progress-notes").value = ""; // Очистка заметок
-            } else {
-                alert("Please enter valid target and current values.");
-            }
-        });
+            const listItem = document.createElement("li");
+            listItem.textContent = `${goalName} - ${currentValue} / ${targetValue} (${Math.round(progressPercentage)}%) - Notes: ${progressNotes}`;
+            goalList.appendChild(listItem);
 
-        const API_URL = "http://localhost:10000";
+            // Clear input fields
+            document.getElementById("goal-current").value = "";
+            document.getElementById("goal-target").value = "";
+            document.getElementById("goal-name").value = "";
+            document.getElementById("progress-notes").value = "";
+        } else {
+            alert("Please enter valid target and current values.");
+        }
+    });
+</script>
 
-function login(username, password) {
-    return fetch(`${API_URL}/login`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ username, password })
-    })
-    .then(response => response.json())
-    .then(data => console.log(data))
-    .catch(error => console.error('Error:', error));
-}
-
-// Экспортируем функцию login, чтобы она могла быть использована в других скриптах
-export { login };
-
-        </script>
-    
 </body>
 </html>
+
