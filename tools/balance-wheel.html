@@ -100,13 +100,11 @@
             <img src="images/wheel-example.png" alt="Filled Life Balance Wheel" style="width: 200%; max-width: 500px; align-items: center;">
         </div>
 
-
         <div class="content">
             <h1>Life Balance Wheel</h1>
             <div class="chart-container">
                 <canvas id="userBalanceWheel"></canvas>
             </div>
-
 
             <table>
                 <thead>
@@ -203,90 +201,83 @@
             </table>
         </div>
 
-
         <div class="recommendations">
             <h2>Recommendations</h2>
             <p id="resultMessage">Fill out your wheel to see personalized recommendations.</p>
         </div>
     </div>
 
+ <script>
+const userCtx = document.getElementById('userBalanceWheel').getContext('2d');
+let userCategories = [];
+let userRatings = [];
 
-    <script>
-        const userCtx = document.getElementById('userBalanceWheel').getContext('2d');
-        let userCategories = [];
-        let userRatings = [];
-
-
-        const userBalanceWheel = new Chart(userCtx, {
-            type: 'radar',
-            data: {
-                labels: userCategories,
-                datasets: [{
-                    label: 'Your Balance',
-                    data: userRatings,
-                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                    borderColor: 'rgba(54, 162, 235, 1)',
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                scale: {
-                    ticks: {
-                        beginAtZero: true,
-                        max: 10
-                    }
-                }
-            }
-        });
-
-
-        function toggleCategory(category) {
-            const rating = document.getElementById(category).value;
-
-
-            if (userCategories.includes(category)) {
-                // Remove category
-                const index = userCategories.indexOf(category);
-                userCategories.splice(index, 1);
-                userRatings.splice(index, 1);
-                updateChart();
-            } else {
-                // Add category
-                userCategories.push(category);
-                userRatings.push(rating);
-                updateChart();
+const userBalanceWheel = new Chart(userCtx, {
+    type: 'radar',
+    data: {
+        labels: userCategories,
+        datasets: [{
+            label: 'Your Balance',
+            data: userRatings,
+            backgroundColor: 'rgba(54, 162, 235, 0.2)',
+            borderColor: 'rgba(54, 162, 235, 1)',
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scale: {
+            ticks: {
+                beginAtZero: true,
+                max: 10
             }
         }
+    }
+});
 
+function toggleCategory(category) {
+    const rating = document.getElementById(category).value;
 
-        function addCustomRelationship() {
-            const relationshipName = document.getElementById('RelationshipName').value;
-            const relationshipRating = document.getElementById('Relationships').value;
+    if (userCategories.includes(category)) {
+        // Remove category
+        const index = userCategories.indexOf(category);
+        userCategories.splice(index, 1);
+        userRatings.splice(index, 1);
+        updateChart();
+    } else {
+        // Add category
+        userCategories.push(category);
+        userRatings.push(rating);
+        updateChart();
+    }
+}
 
+function addCustomRelationship() {
+    const relationshipName = document.getElementById('RelationshipName').value;
+    const relationshipRating = document.getElementById('Relationships').value;
 
-            if (relationshipName && relationshipRating) {
-                userCategories.push(relationshipName);
-                userRatings.push(relationshipRating);
-                updateChart();
-            }
-        }
+    if (relationshipName && relationshipRating) {
+        userCategories.push(relationshipName);
+        userRatings.push(relationshipRating);
+        updateChart();
+    }
+}
 
+function updateChart() {
+    userBalanceWheel.data.labels = userCategories;
+    userBalanceWheel.data.datasets[0].data = userRatings;
+    userBalanceWheel.update();
 
-        function updateChart() {
-            userBalanceWheel.data.labels = userCategories;
-            userBalanceWheel.data.datasets[0].data = userRatings;
-            userBalanceWheel.update();
+    if (userCategories.length === 0) {
+        document.getElementById('resultMessage').innerText = "Fill out your wheel to see personalized recommendations.";
+    } else {
+        document.getElementById('resultMessage').innerText = "Your ratings have been updated. Check your balance!";
+    }
+}
 
+// Добавляем API URL для взаимодействия с сервером
+const API_URL = "http://localhost:10000";
 
-            if (userCategories.length === 0) {
-                document.getElementById('resultMessage').innerText = "Fill out your wheel to see personalized recommendations.";
-            } else {
-                document.getElementById('resultMessage').innerText = "Your ratings have been updated. Check your balance!";
-            }
-        }
-
-        const API_URL = "http://localhost:10000";
-
+// Функция для входа (login)
 function login(username, password) {
     return fetch(`${API_URL}/login`, {
         method: 'POST',
@@ -296,15 +287,21 @@ function login(username, password) {
         body: JSON.stringify({ username, password })
     })
     .then(response => response.json())
-    .then(data => console.log(data))
-    .catch(error => console.error('Error:', error));
+    .then(data => {
+        console.log('Login success:', data);
+        return data;
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
 }
 
-// Экспортируем функцию login, чтобы она могла быть использована в других скриптах
+// Экспортируем функцию login для использования в других скриптах
 export { login };
-
-    </script>
+</script>
 </body>
 </html>
+
+
 
 
