@@ -205,13 +205,12 @@ html, body {
 }
 
 
-/* Анимационный блок */
+/* Секция анимации */
 .animation-section {
     display: flex; /* Используем flexbox для выравнивания элементов по горизонтали */
     align-items: flex-start; /* Выравниваем по верхнему краю */
     margin-top: 60px;
 }
-
 
 .animation-box {
     width: 500px; /* Ширина анимационного блока */
@@ -223,8 +222,18 @@ html, body {
     background-color: transparent;
     margin-right: 20px; /* Отступ между анимацией и изображением */
     overflow: hidden;
+    opacity: 0; /* Начальная невидимость блока */
+    animation: fadeIn 1s forwards; /* Анимация появления блока */
 }
 
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
 
 .image-container {
     position: relative;
@@ -232,20 +241,19 @@ html, body {
     height: auto;
 }
 
-
+/* Стили для изображения */
 .image {
     width: 500px;
     height: auto;
-    opacity: 0;
+    opacity: 0; /* Начальная невидимость изображения */
     transition: opacity 0.5s ease;
 }
 
-
 .image.visible {
-    opacity: 1;
+    opacity: 1; /* Сделать изображение видимым */
 }
 
-
+/* Размытие для контейнера изображения */
 .image-container::before {
     content: '';
     position: absolute;
