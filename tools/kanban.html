@@ -3,235 +3,91 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title data-i18n="titleKanbanBoard">Kanban Board</title>
-    <script src="js/i18next/i18next.min.js"></script>
-    <script src="js/i18next-http-backend/i18nextHttpBackend.min.js"></script>
-    <script type="module" src="js/i18next.config.js" defer></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-    <style>/* General body styles */
+    <title>Kanban доска</title>
+    <script type="module" src="js/save.js"></script>
+    <style>
+        /* Основные стили */
         body {
             font-family: Arial, sans-serif;
-            background-color: #fff;
-            perspective: 1000px;
             margin: 0;
             padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            flex-direction: column;
-            overflow-x: hidden; /* Prevent horizontal scroll */
+            background-color: #f4f4f9;
         }
-        
-        
-        /* Board styles */
+
+        .header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px;
+            text-align: center;
+        }
+
         .board {
             display: flex;
-            gap: 20px;
-            justify-content: center;
-            align-items: flex-start;
-            flex-wrap: wrap;
-            width: 100%;
-            max-width: 1200px;
+            justify-content: space-between;
             padding: 20px;
-            transition: all 0.5s ease;
         }
-        
-        
-        /* Column styles */
+
         .column {
-            width: 250px;
-            background-color: rgba(255, 255, 255, 0.8);
-            border-radius: 15px;
-            padding: 15px;
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
-            text-align: center;
-            min-height: 500px;
-            margin-bottom: 20px;
-            max-height: 600px;
-            overflow-y: auto;
-            transition: all 0.5s ease;
+            width: 30%;
+            background-color: #fff;
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
-        
-        
-        /* Column heading styles */
+
         .column h3 {
-            font-size: 1.4em;
-            margin-bottom: 10px;
+            text-align: center;
             color: #333;
         }
-        
-        
-        /* Input field styles */
+
         .input-field {
             width: 100%;
             padding: 10px;
-            margin-bottom: 15px;
-            border-radius: 12px;
-            border: 1px solid #ccc;
-            background-color: #f9f9f9;
-            font-size: 1em;
-            color: #999;
-            box-sizing: border-box;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
         }
-        
-        
-        /* Button styles */
+
         button {
-            background-color: #f2f2f2;
-            color: black;
-            padding: 12px 20px;
-            border: none;
-            border-radius: 25px;
-            cursor: pointer;
-            font-size: 1em;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-            transition: background-color 0.3s;
-            width: 100%;
-            margin-top: 15px;
-        }
-        
-        
-        button:hover {
-            background-color: #e0e0e0;
-        }
-        
-        
-        /* Card styles */
-        .card {
             width: 100%;
             padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
             border-radius: 4px;
-            margin: 10px 0;
-            background-color: #f9f9f9;
-            text-align: left;
-            transition: transform 0.3s ease-in-out;
-            cursor: default;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
         }
-        
-        
-        .card:hover {
-            transform: scale(1.05);
-            background-color: #e9e9e9;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+
+        button:hover {
+            background-color: #45a049;
         }
-        
-        
-        /* Task display styles */
-        .card .task-info {
+
+        .task-info {
             display: flex;
             justify-content: space-between;
-            align-items: center;
+            font-weight: bold;
         }
-        
-        
-        .card .task-name {
-            flex-grow: 1;
+
+        .task-details {
+            margin-top: 10px;
+            font-size: 14px;
+            color: #555;
         }
-        
-        
-        .card .task-deadline {
-            font-size: 0.9em;
-            color: #666;
-        }
-        
-        
-        /* Table styles */
-        table {
-            width: 80%;
-            border-collapse: collapse;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-            margin: 20px auto;
-            overflow-y: auto;
-            display: block;
-        }
-        
-        
-        thead {
+
+        .card {
+            padding: 10px;
+            margin-bottom: 10px;
             background-color: #f9f9f9;
-            display: table;
-            width: 100%;
+            border-radius: 6px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
         }
-        
-        
-        tbody {
-            display: block;
-            overflow-y: auto;
-            height: 120px;
+
+        .card:hover {
+            background-color: #f1f1f1;
         }
-        
-        
-        th, td {
-            padding: 12px;
-            text-align: left;
-            border-bottom: 1px solid #ccc;
-        }
-        
-        
-        /* Responsive styles */
-        @media screen and (max-width: 1024px) {
-            .board {
-                width: 95vw;
-                flex-wrap: wrap;
-                gap: 15px;
-            }
-        
-        
-            .column {
-                width: 220px;
-            }
-        
-        
-            table {
-                width: 100%;
-            }
-        }
-        
-        
-        @media screen and (max-width: 768px) {
-            body {
-                justify-content: flex-start;
-                padding: 10px;
-            }
-        
-        
-            .board {
-                flex-direction: column;
-                align-items: center;
-                gap: 20px;
-            }
-        
-        
-            .column {
-                width: 95vw;
-                max-width: 350px;
-                min-height: 400px;
-                margin-bottom: 20px;
-            }
-        
-        
-            table {
-                width: 95vw;
-            }
-        }
-        
-        
-        @media screen and (max-width: 480px) {
-            .column {
-                width: 100%;
-                min-height: auto;
-            }
-        
-        
-            button {
-                padding: 10px;
-                font-size: 0.9em;
-            }
-        }
-        
-        /* Modal styles */
+
+        /* Стили для модального окна */
         .modal {
             display: none;
             position: fixed;
@@ -240,479 +96,112 @@
             top: 0;
             width: 100%;
             height: 100%;
+            overflow: auto;
             background-color: rgba(0, 0, 0, 0.4);
         }
-        
-        
+
         .modal-content {
             background-color: #fff;
             margin: 15% auto;
             padding: 20px;
-            border: 1px solid #888;
-            width: 80%;
-            max-width: 400px;
-            text-align: center;
-            border-radius: 10px;
+            border-radius: 8px;
+            width: 50%;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
         }
-        
-        
+
         .close {
             color: #aaa;
             float: right;
             font-size: 28px;
             font-weight: bold;
         }
-        
-        
+
         .close:hover,
         .close:focus {
             color: black;
             text-decoration: none;
             cursor: pointer;
         }
-        
-        /* Flatpickr Styles */
-        .flatpickr-calendar {
-            background-color: #ffffff; /* Фон календаря */
-            border: 1px solid #ccc; /* Граница календаря */
-            border-radius: 4px; /* Закругленные углы */
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Тень */
-            z-index: 9999; /* Поверх остальных элементов */
-        }
-        
-        .flatpickr-day {
-            padding: 0.5em; /* Отступы ячеек */
-            cursor: pointer; /* Указатель на курсор */
-            border-radius: 4px; /* Закругление ячеек */
-        }
-        
-        .flatpickr-day:hover {
-            background-color: #f0f0f0; /* Цвет при наведении */
-        }
-        
-        .flatpickr-day.selected {
-            background-color: #007bff; /* Цвет для выбранного дня */
-            color: #ffffff; /* Цвет текста для выбранного дня */
-        }
-        
-        .flatpickr-day.today {
-            background-color: #e9ecef; /* Цвет для текущего дня */
-            font-weight: bold; /* Полужирный шрифт для текущего дня */
-        }
-        
-        /* Другие стили для flatpickr */
-        .flatpickr-month {
-            background-color: #007bff; /* Цвет фона для месяца */
-            color: #ffffff; /* Цвет текста для месяца */
-            padding: 10px; /* Отступы месяца */
-            border-radius: 4px; /* Закругление углов */
-        }    
-        </style>
-    </head>
+    </style>
+</head>
 <body>
-    <select id="language-select">
-        <option value="en">English</option>
-        <option value="ru">Русский</option>
-        <option value="es">Español</option>
-        <option value="ky">Кыргызча</option>
-        <option value="fr">Français</option>
-        <option value="de">Deutsch</option>
-        <option value="pt">Português</option>
-        <option value="it">Italiano</option>
-        <option value="zh">中国人</option>
-        <option value="ja">日本語</option>
-        <option value="ko">한국인</option>
-        <option value="ar">عربي</option>
-        <option value="tr">Türkçe</option>
-        <option value="hi">हिंदी</option>
-    </select>
-    
-    <div class="board" id="board">
-        <div class="column hologram" id="todo">
-            <h3 data-i18n="todo">To Do</h3>
-            <div id="todoTasks"></div>
-        </div>
 
-        <div class="column hologram" id="inProgress">
-            <h3 data-i18n="inProgress">In Progress</h3>
-            <div id="inProgressTasks"></div>
-        </div>
+    <div class="header">
+        <h1>Kanban доска</h1>
+    </div>
 
-        <div class="column hologram" id="done">
-            <h3 data-i18n="done">Done</h3>
-            <div id="doneTasks"></div>
+    <div class="board">
+        <div class="column">
+            <h3>Задачи</h3>
+            <input type="text" class="input-field" id="task-name" placeholder="Введите название задачи">
+            <input type="text" class="input-field" id="task-details" placeholder="Введите описание задачи">
+            <input type="text" class="input-field" id="task-deadline" placeholder="Введите срок выполнения">
+            <button id="add-task">Добавить задачу</button>
         </div>
-
-        <div class="column hologram" id="delayed">
-            <h3 data-i18n="delayed">Delayed</h3>
-            <div id="delayedTasks"></div>
+        
+        <div class="column">
+            <h3>В процессе</h3>
+            <div id="in-progress-tasks"></div>
         </div>
-
-        <div class="column hologram" id="taskPlanning">
-            <h3 data-i18n="taskPlanning">Task Planning</h3>
-            <input type="text" id="task" class="input-field" placeholder="Enter a task" data-i18n="[placeholder]enterTask">
-            <input type="text" id="project-name" class="input-field" placeholder="Enter project name" data-i18n="[placeholder]enterProjectName">
-            <input type="text" id="start-date" class="input-field" placeholder="Set a start date" required data-i18n="[placeholder]setStartDate">
-            <input type="text" id="deadline" class="input-field" placeholder="Set a deadline date" required data-i18n="[placeholder]setDeadline">
-            <select id="category" class="input-field" onchange="updateThemes()">
-                <option value="" disabled selected data-i18n="selectCategory">Select category</option>
-                <option value="Household" data-i18n="householdCategory">Household</option>
-                <option value="Family" data-i18n="familyCategory">Family</option>
-                <option value="Work" data-i18n="workCategory">Work</option>
-                <option value="Education" data-i18n="educationCategory">Education</option>
-                <option value="Health" data-i18n="healthCategory">Health</option>
-                <option value="Finance" data-i18n="financeCategory">Finance</option>
-                <option value="Personal Development" data-i18n="personalDevelopmentCategory">Personal Development</option>
-            </select>
-            <select id="theme" class="input-field" required>
-                <option value="" disabled selected data-i18n="selectTopic">Select a topic</option>
-            </select>
-            <select id="executorSelect" class="input-field">
-                <option value="" data-i18n="selectPerformer">Select task performer(s)</option>
-                <option value="me" data-i18n="me">Me</option>
-                <option value="circle1" data-i18n="circle1">Circle 1</option>
-                <option value="circle2" data-i18n="circle2">Circle 2</option>
-            </select>
-            <button id="addTaskButton" data-i18n="addTaskButton">Add Task</button>
+        
+        <div class="column">
+            <h3>Готово</h3>
+            <div id="done-tasks"></div>
         </div>
     </div>
 
-    <!-- Модальное окно -->
-    <div id="statusModal" class="modal">
+    <div id="task-modal" class="modal">
         <div class="modal-content">
-            <span class="close" id="closeModal">&times;</span>
-            <p data-i18n="taskStatusUpdated">Task status updated!</p>
+            <span class="close">&times;</span>
+            <h2>Детали задачи</h2>
+            <p id="task-info"></p>
         </div>
     </div>
 
-    <!-- Таблица задач -->
-    <table>
-        <thead>
-            <tr>
-                <th data-i18n="category">Category</th>
-                <th data-i18n="topic">Topic</th>
-                <th data-i18n="task">Task</th>
-                <th data-i18n="project">Project</th>
-                <th data-i18n="startDate">Start Date</th>
-                <th data-i18n="deadline">Deadline</th>
-                <th data-i18n="performer">Performer</th>
-                <th data-i18n="status">Status</th>
-                <th></th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody id="taskTableBody">
-            <!-- Здесь будут добавляться строки с задачами -->
-        </tbody>
-<script>document.addEventListener('DOMContentLoaded', function() {
-    // Initialize Flatpickr for date selection
-    flatpickr("#start-date", { dateFormat: "Y-m-d" });
-    flatpickr("#deadline", { dateFormat: "Y-m-d" });
+    <script>
+        // Модальное окно
+        const modal = document.getElementById("task-modal");
+        const closeBtn = document.querySelector(".close");
 
-    // Add task on button click
-    document.getElementById("addTaskButton").addEventListener("click", function(event) {
-        event.preventDefault(); // Prevent page reload
-        addTask();
-    });
+        closeBtn.onclick = function() {
+            modal.style.display = "none";
+        }
 
-    // Initialize drag-and-drop for Kanban columns
-    const columns = document.querySelectorAll('.column');
-    columns.forEach(column => {
-        column.addEventListener('dragover', dragOver);
-        column.addEventListener('drop', drop);
-    });
+        window.onclick = function(event) {
+            if (event.target === modal) {
+                modal.style.display = "none";
+            }
+        }
 
-    // Update themes based on selected category
-    const categorySelect = document.getElementById("category");
-    categorySelect.addEventListener('change', updateThemes);
+        // Добавление задачи
+        document.getElementById('add-task').onclick = function() {
+            const taskName = document.getElementById('task-name').value;
+            const taskDetails = document.getElementById('task-details').value;
+            const taskDeadline = document.getElementById('task-deadline').value;
 
-    // Initial theme update on page load
-    updateThemes();
-});
+            if (taskName && taskDetails && taskDeadline) {
+                const task = document.createElement('div');
+                task.classList.add('card');
+                task.innerHTML = `
+                    <div class="task-info">
+                        <span class="task-name">${taskName}</span>
+                        <span class="task-deadline">${taskDeadline}</span>
+                    </div>
+                    <p class="task-details">${taskDetails}</p>
+                `;
+                task.onclick = function() {
+                    document.getElementById('task-info').textContent = `${taskName}\n${taskDetails}\nСрок: ${taskDeadline}`;
+                    modal.style.display = "block";
+                };
+                document.getElementById('in-progress-tasks').appendChild(task);
+                document.getElementById('task-name').value = '';
+                document.getElementById('task-details').value = '';
+                document.getElementById('task-deadline').value = '';
+            }
+        };
+    </script>
 
-// Global object for themes by categories with translation keys in English as the primary language
-const themesByCategory = {
-    "Household": [
-        { value: "Cleaning", i18n: "cleaning" },
-        { value: "Nutrition", i18n: "nutrition" },
-        { value: "Repair", i18n: "repair" },
-        { value: "Purchases", i18n: "purchases" },
-        { value: "Storage", i18n: "storage" }
-    ],
-    "Family": [
-        { value: "Children", i18n: "children" },
-        { value: "Parents", i18n: "parents" },
-        { value: "Family Events", i18n: "familyEvents" },
-        { value: "Family Leisure", i18n: "familyLeisure" }
-    ],
-    "Work": [
-        { value: "Business", i18n: "business" },
-        { value: "Employment", i18n: "employment" },
-        { value: "Freelance", i18n: "freelance" },
-        { value: "Project", i18n: "project" },
-        { value: "Side Job", i18n: "sideJob" }
-    ],
-    "Finance": [
-        { value: "Family Budget", i18n: "familyBudget" },
-        { value: "Business Finance", i18n: "businessFinance" },
-        { value: "Investments", i18n: "investments" },
-        { value: "Savings", i18n: "savings" }
-    ],
-    "Personal Development": [
-        { value: "Self Education", i18n: "selfEducation" },
-        { value: "Hobby", i18n: "hobby" }
-    ],
-    "Education": [
-        { value: "School", i18n: "school" },
-        { value: "College", i18n: "college" },
-        { value: "University", i18n: "university" },
-        { value: "Further Education", i18n: "furtherEducation" }
-    ],
-    "Health": [
-        { value: "Treatment", i18n: "treatment" },
-        { value: "Diagnosis", i18n: "diagnosis" },
-        { value: "Prevention", i18n: "prevention" }
-    ]
-};
-
-// Handle dragover event
-function dragOver(event) {
-    event.preventDefault();
-}
-
-// Handle drop event
-function drop(event) {
-    event.preventDefault();
-    const taskId = event.dataTransfer.getData("text/plain");
-    const taskCard = document.getElementById(taskId);
-    const targetColumn = event.currentTarget;
-    targetColumn.appendChild(taskCard);
-}
-
-// Function to add a task
-function addTask() {
-    const taskInput = document.getElementById("task").value;
-    const projectNameInput = document.getElementById("project-name").value;
-    const startDateInput = document.getElementById("start-date").value;
-    const deadlineInput = document.getElementById("deadline").value;
-    const categoryInput = document.getElementById("category").value;
-    const themeInput = document.getElementById("theme").value;
-    const executorInput = document.getElementById("executorSelect").value;
-
-    // Validate inputs
-    if (!taskInput || !projectNameInput || !startDateInput || !deadlineInput || !categoryInput || !themeInput) {
-        alert("Fill out all fields");
-        return;
-    }
-
-    const currentDate = new Date();
-    const startDate = new Date(startDateInput);
-    const deadlineDate = new Date(deadlineInput);
-    let status = "";
-
-    // Determine task status based on dates
-    if (currentDate > deadlineDate) {
-        const userChoice = confirm("Deadline is overdue. Select task status:\n\nDelayed: OK\nDone: Cancel");
-        status = userChoice ? "Delayed" : "Done";
-    } else if (currentDate >= startDate) {
-        status = "In Progress";
-    } else {
-        status = "To Do";
-    }
-
-    // Create and render task card
-    const taskId = `task-${Date.now()}`; // Unique task ID
-    const taskCard = createTaskCard(taskInput, status, taskId);
-   
-    // Add task to appropriate column
-    document.getElementById(getColumnIdByStatus(status)).appendChild(taskCard);
-
-    // Add task to the table
-    addTaskToTable(categoryInput, themeInput, taskInput, projectNameInput, startDate, deadlineDate, executorInput, status);
-
-    // Clear input fields
-    clearInputFields();
-}
-
-// Function to create a task card element
-function createTaskCard(taskInput, status, taskId) {
-    const taskCard = document.createElement("div");
-    taskCard.className = "task";
-    taskCard.id = taskId;
-    taskCard.draggable = true;
-
-    // Generate task card content
-    taskCard.innerHTML = `
-        <h4>${taskInput}</h4>
-        <p>${status === "Done" ? '' : `Deadline: ${new Date().toLocaleDateString()}`}</p>
-        <button onclick="moveToInProgress('${taskId}')" ${status === "To Do" ? '' : 'style="display:none;"'}>Move to In Progress</button>
-        <button onclick="moveToDone('${taskId}')" ${status === "In Progress" ? '' : 'style="display:none;"'}>Move to Done</button>
-        <button onclick="removeTask('${taskId}')" ${status === "Done" || status === "Delayed" ? '' : 'style="display:none;"'}>Remove</button>
-        <button onclick="moveToToDo('${taskId}')" ${status === "Delayed" ? '' : 'style="display:none;"'}>Move to To Do</button>
-    `;
-
-    return taskCard;
-}
-
-// Get column ID by status
-function getColumnIdByStatus(status) {
-    switch (status) {
-        case "To Do":
-            return "todoTasks";
-        case "In Progress":
-            return "inProgressTasks";
-        case "Done":
-            return "doneTasks";
-        case "Delayed":
-            return "delayedTasks";
-        default:
-            return "todoTasks"; // Default to To Do
-    }
-}
-
-function updateThemes() {
-    const categorySelect = document.getElementById("category");
-    const themeSelect = document.getElementById("theme");
-
-    // Get selected category
-    const selectedCategory = categorySelect.value;
-
-    // Clear current themes
-    themeSelect.innerHTML = '';
-
-    // Get themes for selected category
-    const themes = themesByCategory[selectedCategory] || [];
-
-    // Fill theme dropdown
-    themes.forEach(theme => {
-        const option = document.createElement("option");
-        option.value = theme.value; // Use the value from the theme object
-        option.textContent = theme.value; // Use the value from the theme object
-        themeSelect.appendChild(option);
-    });
-}
-
-// Function to add task to the table
-function addTaskToTable(category, theme, task, project, startDate, deadline, executor, status) {
-    const tableRow = document.createElement("tr");
-    const taskId = `task-${Date.now()}`; // Unique identifier for table row
-    tableRow.id = taskId;
-
-    tableRow.innerHTML = `
-        <td>${category}</td>
-        <td>${theme}</td>
-        <td>${task}</td>
-        <td>${project}</td>
-        <td>${startDate.toLocaleDateString()}</td>
-        <td>${deadline.toLocaleDateString()}</td>
-        <td>${executor}</td>
-        <td>${status}</td>
-        <td>
-            <button onclick="editTask('${taskId}')">Edit</button>
-        </td>
-        <td>
-            <button onclick="removeTaskFromTable('${taskId}')">Remove</button>
-        </td>
-    `;
-    document.getElementById("taskTableBody").appendChild(tableRow);
-}
-
-// Move tasks to In Progress
-function moveToInProgress(taskId) {
-    const taskCard = document.getElementById(taskId);
-    document.getElementById("inProgressTasks").appendChild(taskCard);
-    updateButtons(taskCard, "In Progress");
-}
-
-// Move tasks to Done
-function moveToDone(taskId) {
-    const taskCard = document.getElementById(taskId);
-    document.getElementById("doneTasks").appendChild(taskCard);
-    updateButtons(taskCard, "Done");
-}
-
-// Move tasks to To Do
-function moveToToDo(taskId) {
-    const taskCard = document.getElementById(taskId);
-    document.getElementById("todoTasks").appendChild(taskCard);
-    updateButtons(taskCard, "To Do");
-}
-
-// Remove a task
-function removeTask(taskId) {
-    const taskCard = document.getElementById(taskId);
-    taskCard.parentNode.removeChild(taskCard);
-    removeTaskFromTable(taskId); // Also remove from the task table
-}
-
-// Update button visibility based on task status
-function updateButtons(taskCard, status) {
-    const moveToInProgressBtn = taskCard.querySelector("button[onclick^='moveToInProgress']");
-    const moveToDoneBtn = taskCard.querySelector("button[onclick^='moveToDone']");
-    const removeBtn = taskCard.querySelector("button[onclick^='removeTask']");
-    const moveToToDoBtn = taskCard.querySelector("button[onclick^='moveToToDo']");
-
-    if (status === "To Do") {
-        moveToInProgressBtn.style.display = "";
-        moveToDoneBtn.style.display = "none";
-        removeBtn.style.display = "";
-        moveToToDoBtn.style.display = "none";
-    } else if (status === "In Progress") {
-        moveToInProgressBtn.style.display = "none";
-        moveToDoneBtn.style.display = "";
-        removeBtn.style.display = "none";
-        moveToToDoBtn.style.display = "none";
-    } else if (status === "Done") {
-        moveToInProgressBtn.style.display = "none";
-        moveToDoneBtn.style.display = "none";
-        removeBtn.style.display = "";
-        moveToToDoBtn.style.display = "none";
-    } else if (status === "Delayed") {
-        moveToInProgressBtn.style.display = "none";
-        moveToDoneBtn.style.display = "none";
-        removeBtn.style.display = "";
-        moveToToDoBtn.style.display = "";
-    }
-}
-
-// Remove a task from the table
-function removeTaskFromTable(taskId) {
-    const tableRow = document.getElementById(taskId);
-    if (tableRow) {
-        tableRow.parentNode.removeChild(tableRow);
-    }
-}
-
-// Clear input fields
-function clearInputFields() {
-    document.getElementById("task").value = '';
-    document.getElementById("project-name").value = '';
-    document.getElementById("start-date").value = '';
-    document.getElementById("deadline").value = '';
-    document.getElementById("category").value = '';
-    document.getElementById("theme").value = '';
-    document.getElementById("executorSelect").value = '';
-}
-
-const API_URL = "http://localhost:10000";
-
-function login(username, password) {
-    return fetch(`${API_URL}/login`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ username, password })
-    })
-    .then(response => response.json())
-    .then(data => console.log(data))
-    .catch(error => console.error('Error:', error));
-}
-
-// Экспортируем функцию login, чтобы она могла быть использована в других скриптах
-export { login };
-
-</script>
 </body>
 </html>
+
 
