@@ -107,60 +107,63 @@ document.addEventListener("DOMContentLoaded", function () {
             image: "images/image3.jpg"
         }
     ];
-
+    
     const chatBox = document.getElementById('animation-box');
     const imageContainer = document.getElementById('image-container');
-
+    
     async function typeText(text, delay) {
         return new Promise(resolve => {
             let index = 0;
-            chatBox.innerHTML = '';
+            chatBox.innerHTML = ''; // Очистить предыдущий текст
             const typingInterval = setInterval(() => {
                 chatBox.innerHTML += text.charAt(index);
                 index++;
                 if (index === text.length) {
                     clearInterval(typingInterval);
-                    setTimeout(resolve, delay);
+                    setTimeout(resolve, delay); // Задержка перед следующей анимацией
                 }
             }, 100);
         });
     }
-
+    
     async function showDialogues() {
         for (const dialogue of dialogues) {
-            // Создание и отображение изображения
+            // Создать и добавить изображение
             const img = document.createElement('img');
             img.src = dialogue.image;
             img.className = 'image';
             imageContainer.appendChild(img);
-
+    
+            // Анимация текста и изображения
             await Promise.all([
                 typeText(dialogue.text, 3000),
                 new Promise(resolve => {
                     setTimeout(() => {
-                        img.classList.add('visible');
+                        img.classList.add('visible'); // Показать изображение с анимацией
                         resolve();
                     }, 0);
                 })
             ]);
-
-            // Убираем текст и изображение через 3 секунды
+    
+            // Удалить текст и изображение через 3 секунды
             setTimeout(() => {
                 chatBox.innerHTML = '';
-                img.classList.remove('visible');
+                img.classList.remove('visible'); // Убрать изображение с анимацией
                 setTimeout(() => {
-                    imageContainer.removeChild(img);
+                    imageContainer.removeChild(img); // Удалить картинку
                 }, 500);
             }, 3000);
-
+    
             await new Promise(resolve => setTimeout(resolve, 3000));
         }
-
+    
+        // Повторить анимацию
         setTimeout(showDialogues, 3000);
     }
-
-    // Запуск анимации
+    
+    // Запустить анимацию
     showDialogues();
+    
 
 
 
