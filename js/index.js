@@ -165,32 +165,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
-    // Chat bot message sending
-    const sendMessageBtn = document.getElementById("sendMessage");
-    const userMessageInput = document.getElementById("userMessage");
-    const chatMessages = document.querySelector(".chat-messages");
-
-    if (sendMessageBtn && userMessageInput && chatMessages) {
-        sendMessageBtn.addEventListener("click", () => {
-            const userMessage = userMessageInput.value.trim();
-            if (userMessage !== "") {
-                const userMsgElem = document.createElement("p");
-                userMsgElem.textContent = `You: ${userMessage}`;
-                chatMessages.appendChild(userMsgElem);
-                userMessageInput.value = '';
-
-                const botResponseElem = document.createElement("p");
-                botResponseElem.classList.add("bot-message");
-                botResponseElem.textContent = `AI: Thanks for your message!`;
-                chatMessages.appendChild(botResponseElem);
-
-                window.location.href = "core.html";
-            }
-        });
-    }
-
-
-    // Modal functions
+   // Modal functions
     function openModal(modalId) {
         var modal = document.getElementById(modalId);
         if (modal) {
