@@ -1,6 +1,7 @@
 document.addEventListener("DOMContentLoaded", function () {
 
-    // Service Worker Registration
+    document.addEventListener("DOMContentLoaded", function() {
+    // Проверяем поддержку Service Worker
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', function () {
             navigator.serviceWorker.register('/service-worker.js')
@@ -11,7 +12,11 @@ document.addEventListener("DOMContentLoaded", function () {
                     console.error('Error registering Service Worker:', error);
                 });
         });
+    } else {
+        console.log('Service Workers are not supported in this browser.');
     }
+});
+
 
     // Menu toggle functionality
     const menuIcon = document.getElementById("menu-icon");
