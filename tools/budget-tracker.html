@@ -179,15 +179,14 @@
         const ctx = document.getElementById('budgetChart').getContext('2d');
         const currentBalanceDisplay = document.getElementById('currentBalance');
         const transactionBody = document.getElementById('transactionBody');
-        
+
         function showForm(formId) {
             const forms = ['incomeForm', 'expenseForm', 'budgetForm', 'goalForm'];
             forms.forEach(form => {
                 document.getElementById(form).style.display = form === formId ? 'block' : 'none';
             });
         }
-    
-    
+
         function addIncome() {
             const date = document.getElementById('incomeDate').value;
             const category = document.getElementById('incomeCategory').value;
@@ -201,8 +200,7 @@
                 document.getElementById('incomeForm').reset();
             }
         }
-    
-    
+
         function addExpense() {
             const date = document.getElementById('expenseDate').value;
             const category = document.getElementById('expenseCategory').value;
@@ -216,8 +214,7 @@
                 document.getElementById('expenseForm').reset();
             }
         }
-    
-    
+
         function setBudget() {
             const category = document.getElementById('budgetCategory').value;
             const amount = parseFloat(document.getElementById('budgetAmount').value);
@@ -227,8 +224,7 @@
                 showChart();
             }
         }
-    
-    
+
         function setSavingsGoal() {
             const name = document.getElementById('goalName').value;
             const amount = parseFloat(document.getElementById('goalAmount').value);
@@ -238,96 +234,57 @@
                 document.getElementById('goalForm').reset();
             }
         }
-    
-    
-        let currentCurrency = 'KGS'; // По умолчанию - сомы
-let exchangeRate = 1; // Курс обмена по умолчанию
 
+        function updateBalance() {
+            let totalIncome = incomes.reduce((acc, income) => acc + income.amount, 0);
+            let totalExpense = expenses.reduce((acc, expense) => acc + expense.amount, 0);
+            let balance = totalIncome - totalExpense;
+            currentBalanceDisplay.textContent = balance.toFixed(2);
+        }
 
-// Объект для хранения информации о валюте
-const currencies = {
-    KGS: { symbol: 'сом', position: 'end' },  // Сомы
-    KZT: { symbol: 'тг', position: 'end' },   // Тенге
-    RUB: { symbol: 'руб', position: 'end' },  // Рубли
-    USD: { symbol: '$', position: 'start' },  // Доллары
-    EUR: { symbol: '€', position: 'start' },  // Евро
-    GBP: { symbol: '£', position: 'start' }    // Фунты
-};
-
-
-// Функция для обновления текущей валюты
-function setCurrency(currencyCode) {
-    currentCurrency = currencyCode;
-    updateBalance();
-}
-
-
-// Функция для обновления баланса
-function updateBalance() {
-    const totalIncome = incomes.reduce((sum, income) => sum + income.amount, 0);
-    const totalExpenses = expenses.reduce((sum, expense) => sum + expense.amount, 0);
-    const currentBalance = totalIncome - totalExpenses;
-
-
-    // Получаем символ и позицию для текущей валюты
-    const { symbol, position } = currencies[currentCurrency];
-
-
-    // Форматируем строку с балансом в зависимости от позиции символа
-    const formattedBalance = position === 'start' ? `${symbol}${(currentBalance * exchangeRate).toFixed(2)}` : `${(currentBalance * exchangeRate).toFixed(2)} ${symbol}`;
-    
-    currentBalanceDisplay.innerText = formattedBalance;
-}
-
-
-// Пример выбора валюты
-document.getElementById('currencySelector').addEventListener('change', function() {
-    setCurrency(this.value); // this.value - код выбранной валюты (например, 'KGS', 'USD' и т.д.)
-});
-
-    
         function addTransactionToTable(date, category, amount, type, tags) {
             const row = document.createElement('tr');
             row.innerHTML = `
                 <td>${date}</td>
                 <td>${category}</td>
                 <td>${tags.join(', ')}</td>
-                <td>${currencySymbol}${amount.toFixed(2)}</td>
+                <td>${amount.toFixed(2)}</td>
                 <td>${type}</td>
-                <td>${currencySymbol}${(parseFloat(currentBalanceDisplay.innerText.replace(currencySymbol, '')) + amount).toFixed(2)}</td>
+                <td>${(parseFloat(currentBalanceDisplay.textContent) + amount).toFixed(2)}</td>
             `;
             transactionBody.appendChild(row);
         }
-    
-    
+
         function showChart() {
-            const chartLabels = [...new Set([...incomes.map(i => i.category), ...expenses.map(e => e.category)])];
-            const chartData = {
-                labels: chartLabels,
+            const categories = Object.keys(budgets);
+            const budgetValues = categories.map(category => budgets[category] || 0);
+            const expenseValues = categories.map(category => {
+                return expenses.filter(exp => exp.category === category).reduce((acc, expense) => acc + expense.amount, 0);
+            });
+
+            const data = {
+                labels: categories,
                 datasets: [{
-                    label: 'Income & Expenses',
-                    data: chartLabels.map(label => {
-                        const incomeTotal = incomes.filter(i => i.category === label).reduce((sum, i) => sum + i.amount, 0);
-                        const expenseTotal = expenses.filter(e => e.category === label).reduce((sum, e) => sum + e.amount, 0);
-                        return incomeTotal + expenseTotal;
-                    }),
-                    backgroundColor: 'rgba(75, 192, 192, 0.6)',
+                    label: 'Budget',
+                    data: budgetValues,
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
                     borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                },
+                {
+                    label: 'Expenses',
+                    data: expenseValues,
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                    borderColor: 'rgba(255, 99, 132, 1)',
                     borderWidth: 1
                 }]
             };
-    
-    
-            // Clear the previous chart if it exists
-            if (window.budgetChart) {
-                window.budgetChart.destroy();
-            }
-    
-    
-            window.budgetChart = new Chart(ctx, {
+
+            new Chart(ctx, {
                 type: 'bar',
-                data: chartData,
+                data: data,
                 options: {
+                    responsive: true,
                     scales: {
                         y: {
                             beginAtZero: true
@@ -335,6 +292,16 @@ document.getElementById('currencySelector').addEventListener('change', function(
                     }
                 }
             });
-        }        
+        }
+
+        function showTransactions() {
+            // For now, this function just shows all the transactions in the table
+            transactionBody.innerHTML = '';
+            incomes.concat(expenses).forEach(transaction => {
+                addTransactionToTable(transaction.date, transaction.category, transaction.amount, transaction.amount > 0 ? 'Income' : 'Expense', transaction.tags);
+            });
+        }
     </script>
-    
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</body>
+</html>
