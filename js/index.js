@@ -3,7 +3,7 @@ import { API_URL } from 'js/config.js';
 document.addEventListener("DOMContentLoaded", function () {
     // Регистрация Service Worker
     if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('/service-worker.js')
+        navigator.serviceWorker.register('service-worker.js')
             .then(reg => console.log('Service Worker зарегистрирован:', reg.scope))
             .catch(err => console.error('Ошибка регистрации Service Worker:', err));
     }
@@ -40,7 +40,9 @@ document.addEventListener("DOMContentLoaded", function () {
     // Чат-бот
     const dialogues = [
         { text: "AI: Let's create a plan for your day. What do you need to accomplish?", image: "images/image1.png" },
-        { text: "AI: Don't forget your meeting at 3 PM.", image: "images/image2.png" }
+        { text: "AI: Don't forget your meeting at 3 PM.", image: "images/image2.png" },
+        { text: "AI: How can I assist you with family event planning?", image: "images/image3.png" }
+
     ];
 
     const chatIcon = document.getElementById("chatIcon");
