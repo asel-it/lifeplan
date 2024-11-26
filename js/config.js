@@ -15,5 +15,3 @@ function login(username, password) {
     .catch(error => console.error('Error:', error));
 }
 
-// Экспортируем функцию login, чтобы она могла быть использована в других скриптах
-export { login };
