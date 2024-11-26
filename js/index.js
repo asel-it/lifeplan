@@ -94,20 +94,23 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Chatbot and AI dialogues
     const dialogues = [
-        { text: "AI: Let's create a plan for your day. What do you need to accomplish?", image: "/images/image1.png" },
-        { text: "AI: Don't forget your meeting at 3 PM.", image: "/images/image2.png" },
-        { text: "AI: How can I assist you with family event planning?", image: "/images/image3.png" }
+        {
+            text: "AI: Let's create a plan for your day. What do you need to accomplish?",
+            image: "images/image1.jpg"
+        },
+        {
+            text: "AI: Don't forget your meeting at 3 PM.",
+            image: "images/image2.jpg"
+        },
+        {
+            text: "AI: How can I assist you with the family event planning?",
+            image: "images/image3.jpg"
+        }
     ];
+
     const chatBox = document.getElementById('animation-box');
     const imageContainer = document.getElementById('image-container');
-    const img = document.createElement('img');
-    img.className = 'image';
-    imageContainer.appendChild(img);
 
-
-
-
-    // Typing effect for dialogues
     async function typeText(text, delay) {
         return new Promise(resolve => {
             let index = 0;
@@ -123,83 +126,69 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-
-
-
-    // Show dialogues with animation
     async function showDialogues() {
         for (const dialogue of dialogues) {
+            // Создание и отображение изображения
+            const img = document.createElement('img');
             img.src = dialogue.image;
-            img.classList.add('visible');
-            await typeText(dialogue.text, 3000);
+            img.className = 'image';
+            imageContainer.appendChild(img);
+
+            await Promise.all([
+                typeText(dialogue.text, 3000),
+                new Promise(resolve => {
+                    setTimeout(() => {
+                        img.classList.add('visible');
+                        resolve();
+                    }, 0);
+                })
+            ]);
+
+            // Убираем текст и изображение через 3 секунды
             setTimeout(() => {
                 chatBox.innerHTML = '';
                 img.classList.remove('visible');
+                setTimeout(() => {
+                    imageContainer.removeChild(img);
+                }, 500);
             }, 3000);
-            await new Promise(resolve => setTimeout(resolve, 4000));
+
+            await new Promise(resolve => setTimeout(resolve, 3000));
         }
+
         setTimeout(showDialogues, 3000);
     }
+
+    // Запуск анимации
     showDialogues();
 
 
 
-    // Chat toggle
-    const chatContainer = document.getElementById('chat-container');
-    const chatIcon = document.getElementById('chatIcon');
-    const closeChatBot = document.getElementById('close-chat-bot');
-    chatIcon.addEventListener('click', () => {
-        chatContainer.style.display = chatContainer.style.display === 'flex' ? 'none' : 'flex';
-    });
-    closeChatBot.addEventListener('click', () => {
-        chatContainer.style.display = 'none';
-    });
 
-    // Handle user input
-    document.getElementById('sendButton').addEventListener('click', processUserInput);
+    // Chat bot message sending
+    const sendMessageBtn = document.getElementById("sendMessage");
+    const userMessageInput = document.getElementById("userMessage");
+    const chatMessages = document.querySelector(".chat-messages");
 
-    async function processUserInput() {
-        await sendMessage();
-    }
+    if (sendMessageBtn && userMessageInput && chatMessages) {
+        sendMessageBtn.addEventListener("click", () => {
+            const userMessage = userMessageInput.value.trim();
+            if (userMessage !== "") {
+                const userMsgElem = document.createElement("p");
+                userMsgElem.textContent = `You: ${userMessage}`;
+                chatMessages.appendChild(userMsgElem);
+                userMessageInput.value = '';
 
-    async function sendMessage() {
-        const input = document.getElementById('user-input');
-        if (!input) {
-            console.error('Input field not found');
-            return;
-        }
+                const botResponseElem = document.createElement("p");
+                botResponseElem.classList.add("bot-message");
+                botResponseElem.textContent = `AI: Thanks for your message!`;
+                chatMessages.appendChild(botResponseElem);
 
-        const inputValue = input.value;
-        if (!inputValue) {
-            console.error('Input field is empty');
-            return;
-        }
-
-        try {
-            const response = await fetch(`${API_URL}/chat`, {  // Using the imported API_URL
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ input: inputValue })
-            });
-
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
+                window.location.href = "core.html";
             }
-
-            const data = await response.json();
-            console.log(data.response);
-
-            const messagesDiv = document.getElementById('messages');
-            messagesDiv.innerHTML += `<div class="message user-message">${inputValue}</div>`;
-            messagesDiv.innerHTML += `<div class="message ai-message">${data.response}</div>`;
-
-            input.value = '';
-        } catch (error) {
-            console.error('Error sending message:', error);
-        }
+        });
     }
+
 
     // Modal functions
     function openModal(modalId) {
