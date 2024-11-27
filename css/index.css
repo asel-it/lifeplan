@@ -579,105 +579,75 @@ html, body {
     background-color: #0b9191;
 }
 
+
 /* Иконка чата */
 .chat-icon {
     position: fixed;
     bottom: 20px;
     right: 20px;
-    background-color: #0078d7;
-    width: 60px;
-    height: 60px;
+    background-color: #007bff;
     border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    padding: 15px;
     cursor: pointer;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
 }
 
-/* Окно чата */
-.chat-window {
+.chat-icon img {
+    width: 30px;
+    height: 30px;
+    object-fit: cover;
+    filter: brightness(0) invert(1);
+}
+
+/* Контейнер для чата */
+.chat-container {
     position: fixed;
-    bottom: 80px;
+    bottom: 70px; /* Расстояние от нижнего края */
     right: 20px;
-    width: 300px;
-    max-height: 400px;
-    background-color: #ffffff;
-    border: 1px solid #ccc;
-    border-radius: 10px;
+    width: 100%;
+    max-width: 600px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
     display: flex;
     flex-direction: column;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    display: none; /* Изначально чат скрыт */
 }
 
-/* Скрыть окно чата по умолчанию */
-.hidden {
-    display: none;
+.chat-box {
+    padding: 20px;
+    height: 300px;
+    overflow-y: scroll;
+    border-bottom: 1px solid #ddd;
+    flex-grow: 1;
 }
 
-/* Заголовок чата */
-.chat-header {
-    background-color: #0078d7;
-    color: #fff;
-    padding: 10px;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-    font-size: 16px;
-    text-align: center;
-}
-
-/* Тело чата */
-.chat-body {
-    flex: 1;
-    padding: 10px;
-    overflow-y: auto;
-    font-size: 14px;
-}
-
-/* Сообщения */
-.message {
-    margin: 5px 0;
-    padding: 10px;
-    border-radius: 5px;
-}
-
-.message.user {
-    background-color: #0078d7;
-    color: white;
-    align-self: flex-end;
-}
-
-.message.ai {
-    background-color: #f1f1f1;
-    color: black;
-    align-self: flex-start;
-}
-
-/* Подвал чата */
-.chat-footer {
+.input-container {
     display: flex;
     padding: 10px;
-    border-top: 1px solid #ccc;
+    background-color: #f9f9f9;
 }
 
-#chat-input {
-    flex: 1;
-    padding: 5px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+#user-input {
+    width: 80%;
+    padding: 10px;
     font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
 }
 
-#send-btn {
-    background-color: #0078d7;
+#send-button {
+    width: 18%;
+    padding: 10px;
+    background-color: #007bff;
     color: white;
+    font-size: 14px;
     border: none;
-    padding: 5px 10px;
-    margin-left: 5px;
-    border-radius: 5px;
+    border-radius: 4px;
     cursor: pointer;
 }
 
-#send-btn:hover {
-    background-color: #005bb5;
+#send-button:hover {
+    background-color: #0056b3;
 }
