@@ -227,10 +227,11 @@ html, body {
 
 /* Стили для контейнера с картинкой */
 #image-container {
-    width: 150px; /* Увеличиваем ширину контейнера */
-    height: 150px; /* Увеличиваем высоту контейнера */
+    width: 250px; /* Увеличиваем ширину контейнера */
+    height: 250px; /* Увеличиваем высоту контейнера */
     position: relative;
     overflow: hidden;
+    margin-left: 20px;
 }
 
 .image {
