@@ -93,15 +93,15 @@ document.addEventListener("DOMContentLoaded", function () {
      const dialogues = [
         {
             text: "AI: Let's create a plan for your day. What do you need to accomplish?",
-            image: "images/image1.jpg" // Замените на правильный путь к изображению
+            image: "images/image1.png" // Замените на правильный путь к изображению
         },
         {
             text: "AI: Don't forget your meeting at 3 PM.",
-            image: "images/image2.jpg" // Замените на правильный путь к изображению
+            image: "images/image2.png" // Замените на правильный путь к изображению
         },
         {
             text: "AI: How can I assist you with the family event planning?",
-            image: "images/image3.jpg" // Замените на правильный путь к изображению
+            image: "images/image3.png" // Замените на правильный путь к изображению
         }
     ];
 
