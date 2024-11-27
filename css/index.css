@@ -208,7 +208,7 @@ html, body {
 /* Основные стили для анимации */
 #chat-box {
     width: 600px;
-    height: auto;
+    height: 200px;
     border: 1px solid #ccc;
     padding: 10px;
     margin-bottom: 20px;
@@ -218,8 +218,9 @@ html, body {
 }
 
 #image-container {
-    width: 150px;
-    height: 150px;
+    width: 200px;
+    height: 200px;
+    margin-top: 10px;
     position: relative;
     overflow: hidden;
 }
