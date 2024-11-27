@@ -105,15 +105,15 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     ];
 
-    const chatBox = document.getElementById('chat-box');
+    const animationBox = document.getElementById('animation-box');
     const imageContainer = document.getElementById('image-container');
 
     async function typeText(text, delay) {
         return new Promise(resolve => {
             let index = 0;
-            chatBox.innerHTML = ''; // Очистить чат перед вводом текста
+            animationBox.innerHTML = ''; // Очистить чат перед вводом текста
             const typingInterval = setInterval(() => {
-                chatBox.innerHTML += text.charAt(index);
+                animationBox.innerHTML += text.charAt(index);
                 index++;
                 if (index === text.length) {
                     clearInterval(typingInterval);
@@ -143,7 +143,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
             // Убираем текст и изображение одновременно через 3 секунды
             setTimeout(() => {
-                chatBox.innerHTML = '';
+                animationBox.innerHTML = '';
                 img.classList.remove('visible');
                 setTimeout(() => {
                     imageContainer.removeChild(img);
@@ -183,3 +183,38 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     };
 });
+
+document.getElementById('send-button').addEventListener('click', function() {
+    let userInput = document.getElementById('user-input').value;
+    if (userInput.trim() !== "") {
+        appendMessage('user', userInput);  // Отображаем сообщение пользователя
+        document.getElementById('user-input').value = '';  // Очищаем поле ввода
+
+        // Отправляем запрос на сервер Flask
+        fetch('http://localhost:10000/generate', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ prompt: userInput })
+        })
+        .then(response => response.json())
+        .then(data => {
+            let aiResponse = data.response;
+            appendMessage('ai', aiResponse);  // Отображаем ответ ИИ
+        })
+        .catch(error => {
+            console.error('Ошибка:', error);
+        });
+    }
+});
+
+// Функция для добавления сообщений в чат
+function appendMessage(sender, message) {
+    let chatBox = document.getElementById('chat-box');
+    let messageElement = document.createElement('div');
+    messageElement.classList.add(sender);
+    messageElement.innerText = message;
+    chatBox.appendChild(messageElement);
+    chatBox.scrollTop = chatBox.scrollHeight;  // Прокручиваем чат вниз
+}
