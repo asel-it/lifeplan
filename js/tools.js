@@ -116,7 +116,7 @@ function updateSubcategories() {
             subcategoryDropdown.appendChild(option);
         });
     }
-    highlightCards(category);
+    highlightCards(category);  // Обновление карточек при выборе категории
 }
 
 // Подсветить карточки инструментов
@@ -131,8 +131,10 @@ function highlightCards(category, subcategory = null) {
             (!category && !subcategory)
         ) {
             card.classList.add('highlighted');
+            card.style.display = 'block';  // Убедимся, что карточка отображается
         } else {
             card.classList.remove('highlighted');
+            card.style.display = 'none';  // Скрываем карточки, которые не соответствуют категории
         }
     });
 }
@@ -141,8 +143,16 @@ function highlightCards(category, subcategory = null) {
 document.getElementById('subcategoryDropdown').addEventListener('change', () => {
     const category = document.getElementById('categoryDropdown').value;
     const subcategory = document.getElementById('subcategoryDropdown').value;
-    highlightCards(category, subcategory);
+    highlightCards(category, subcategory);  // Обновление карточек при изменении подкатегории
 });
+
+// Показать карточки при загрузке страницы
+window.onload = function () {
+    loadActiveTab();
+    const categoryDropdown = document.getElementById('categoryDropdown');
+    categoryDropdown.addEventListener('change', updateSubcategories);
+    updateSubcategories();  // Изначально показываем карточки при загрузке страницы
+};
 
 // Показать вкладку Tools
 function showTab(tabName) {
