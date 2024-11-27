@@ -224,6 +224,7 @@ html, body {
     line-height: 1.5; /* Улучшение читаемости */
     color: #333;
     max-width: 600px; /* Ограничиваем ширину текста */
+    word-wrap: break-word; /* Обеспечиваем перенос длинных слов */
 }
 
 /* Стили для контейнера с картинкой */
@@ -247,7 +248,7 @@ html, body {
     opacity: 1;
 }
 
-/* Анимация для контейнера */
+/* Стили для анимации, чтобы блоки отображались рядом */
 .animation-section {
     margin-top: 50px;
     width: 100%;
@@ -260,6 +261,13 @@ html, body {
     margin-bottom: 20px;
 }
 
+/* Дополнительный стиль для правильного выравнивания */
+#chat-box .message-container {
+    display: flex;
+    align-items: center; /* Центрирование по вертикали */
+    justify-content: flex-start; /* Размещение элементов по левому краю */
+    width: 100%;
+}
 
 /* Видеоконтейнер */
 .video-section, .video-container {
