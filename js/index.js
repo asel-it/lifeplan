@@ -184,6 +184,12 @@ document.addEventListener("DOMContentLoaded", function () {
     };
 });
 
+document.getElementById('chat-icon').addEventListener('click', function() {
+    // Показать или скрыть окно чата
+    const chatContainer = document.getElementById('chat-container');
+    chatContainer.style.display = chatContainer.style.display === 'none' ? 'flex' : 'none';
+});
+
 document.getElementById('send-button').addEventListener('click', function() {
     let userInput = document.getElementById('user-input').value;
     if (userInput.trim() !== "") {
