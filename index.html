@@ -55,7 +55,7 @@
         
         <div id="dialogue-container">
             <div class="dialogue">
-                <p id="chat-box"></p>
+                <p id="animation-box"></p>
                 <div id="image-container"></div>
             </div>
         </div>
@@ -165,7 +165,16 @@
                 </a>
             </div>
         </div>
-
+        <div class="chat-container">
+            <div id="chat-box" class="chat-box">
+                <!-- Сообщения будут отображаться здесь -->
+            </div>
+            <div class="input-container">
+                <input type="text" id="user-input" placeholder="Введите сообщение..." />
+                <button id="send-button">Отправить</button>
+            </div>
+        </div>
+    
        
     <script type="module" src="js/index.js"></script>
     <script type="module" src="js/config.js"></script>
