@@ -1,3 +1,6 @@
+// Import API_URL from config.js
+import { API_URL } from './config.js';
+
 document.addEventListener("DOMContentLoaded", function () {
 
     document.addEventListener("DOMContentLoaded", function() {
@@ -95,7 +98,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     setInterval(updateTimeAndDate, 1000);
 
-    // Chatbot and AI dialogues
+    // Animation-section
     document.addEventListener("DOMContentLoaded", function () {
         const texts = [
             "AI: Let's create a plan for your day. What do you need to accomplish?",
@@ -104,7 +107,7 @@ document.addEventListener("DOMContentLoaded", function () {
         ];
     
         const images = [
-            "images/image1.png",  // Убедитесь, что пути к изображениям правильные
+            "images/image1.png",
             "images/image2.png",
             "images/image3.png"
         ];
@@ -119,17 +122,15 @@ document.addEventListener("DOMContentLoaded", function () {
             return new Promise(resolve => {
                 let index = 0;
                 animationBox.innerHTML = ''; // Очистить предыдущий текст
-                animationBox.style.opacity = 1;
-                animationBox.style.transform = "translateY(0)";
-    
+                animationBox.style.opacity = 1; // Делает текст видимым
                 const typingInterval = setInterval(() => {
                     animationBox.innerHTML += text.charAt(index);
                     index++;
                     if (index === text.length) {
                         clearInterval(typingInterval);
-                        setTimeout(resolve, 1500); // Задержка перед переходом к следующей анимации
+                        setTimeout(resolve, 1000); // Задержка перед переходом к следующей анимации
                     }
-                }, 100);
+                }, 50); // Скорость печати (50 мс на символ)
             });
         }
     
@@ -144,10 +145,8 @@ document.addEventListener("DOMContentLoaded", function () {
     
                 // После загрузки картинки плавно сделать её видимой
                 image.onload = () => {
-                    setTimeout(() => {
-                        image.classList.add('visible');
-                        resolve();
-                    }, 500);
+                    image.classList.add('visible');
+                    resolve();
                 };
             });
         }
@@ -155,16 +154,18 @@ document.addEventListener("DOMContentLoaded", function () {
         // Функция для запуска анимации
         async function animateSequence() {
             while (true) {
-                await showImage(images[currentIndex]);
-                await typeText(texts[currentIndex]);
+                await showImage(images[currentIndex]); // Показать картинку
+                await typeText(texts[currentIndex]); // Напечатать текст
     
                 // Переход к следующему индексу (цикличность)
                 currentIndex = (currentIndex + 1) % texts.length;
             }
         }
     
-        animateSequence(); // Запуск анимации
+        // Запуск анимации
+        animateSequence();
     });
+    
     
     
 
