@@ -1,6 +1,5 @@
-module.exports = {
-    API_URL: "http://localhost:10000/api"
-};
+export const API_URL = 'http://localhost:10000/api';
+
 
 function login(username, password) {
     return fetch(`${API_URL}/login`, {
