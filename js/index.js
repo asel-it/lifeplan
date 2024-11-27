@@ -1,20 +1,19 @@
-const { API_URL } = require('./config.js');
+import { API_URL } from './config.js';
 
 document.addEventListener("DOMContentLoaded", function () {
-    // Register Service Worker
+    // Проверка Service Worker
     if ('serviceWorker' in navigator) {
-        window.addEventListener('load', function () {
-            navigator.serviceWorker.register('/service-worker.js')
-                .then(function (registration) {
-                    console.log('Service Worker registered with scope:', registration.scope);
-                })
-                .catch(function (error) {
-                    console.error('Error registering Service Worker:', error);
-                });
-        });
+        navigator.serviceWorker.register('/service-worker.js')
+            .then(registration => {
+                console.log('Service Worker registered with scope:', registration.scope);
+            })
+            .catch(error => {
+                console.error('Error registering Service Worker:', error);
+            });
     } else {
         console.log('Service Workers are not supported in this browser.');
     }
+
 
     // Menu toggle functionality
     const menuIcon = document.getElementById("menu-icon");
@@ -90,8 +89,8 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     setInterval(updateTimeAndDate, 1000);
 
-    // Animation-section
-    const texts = [
+     // Анимация текста и изображений
+     const texts = [
         "AI: Let's create a plan for your day. What do you need to accomplish?",
         "AI: Don't forget your meeting at 3 PM.",
         "AI: How can I assist you with the family event planning?"
@@ -105,14 +104,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const animationBox = document.getElementById('animation-box');
     const imageContainer = document.getElementById('image-container');
-
     let currentIndex = 0;
 
     function typeText(text) {
         return new Promise(resolve => {
             let index = 0;
             animationBox.innerHTML = '';
-            animationBox.style.opacity = 1;
             const typingInterval = setInterval(() => {
                 animationBox.innerHTML += text.charAt(index);
                 index++;
@@ -148,6 +145,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     animateSequence();
+
 
     // Modal functions
     function openModal(modalId) {
