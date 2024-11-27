@@ -184,43 +184,51 @@ document.addEventListener("DOMContentLoaded", function () {
     };
 });
 
-document.getElementById('chat-icon').addEventListener('click', function() {
-    // Показать или скрыть окно чата
-    const chatContainer = document.getElementById('chat-container');
-    chatContainer.style.display = chatContainer.style.display === 'none' ? 'flex' : 'none';
+// Открытие/закрытие чата
+document.getElementById('chat-icon').addEventListener('click', () => {
+    const chatWindow = document.getElementById('chat-window');
+    chatWindow.classList.toggle('hidden');
 });
 
-document.getElementById('send-button').addEventListener('click', function() {
-    let userInput = document.getElementById('user-input').value;
-    if (userInput.trim() !== "") {
-        appendMessage('user', userInput);  // Отображаем сообщение пользователя
-        document.getElementById('user-input').value = '';  // Очищаем поле ввода
+// Отправка сообщений
+document.getElementById('send-btn').addEventListener('click', sendMessage);
 
-        // Отправляем запрос на сервер Flask
-        fetch('http://localhost:10000/generate', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ prompt: userInput })
-        })
-        .then(response => response.json())
-        .then(data => {
-            let aiResponse = data.response;
-            appendMessage('ai', aiResponse);  // Отображаем ответ ИИ
-        })
-        .catch(error => {
-            console.error('Ошибка:', error);
-        });
-    }
+document.getElementById('chat-input').addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') sendMessage();
 });
 
-// Функция для добавления сообщений в чат
-function appendMessage(sender, message) {
-    let chatBox = document.getElementById('chat-box');
-    let messageElement = document.createElement('div');
-    messageElement.classList.add(sender);
-    messageElement.innerText = message;
-    chatBox.appendChild(messageElement);
-    chatBox.scrollTop = chatBox.scrollHeight;  // Прокручиваем чат вниз
+function sendMessage() {
+    const input = document.getElementById('chat-input');
+    const chatBody = document.getElementById('chat-body');
+    const message = input.value.trim();
+
+    if (!message) return;
+
+    // Добавляем сообщение пользователя
+    const userMessage = document.createElement('div');
+    userMessage.className = 'message user';
+    userMessage.textContent = message;
+    chatBody.appendChild(userMessage);
+
+    // Отправляем запрос на бэкенд
+    fetch('http://localhost:10000/generate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ prompt: message }),
+    })
+        .then((response) => response.json())
+        .then((data) => {
+            // Добавляем сообщение от ИИ
+            const aiMessage = document.createElement('div');
+            aiMessage.className = 'message ai';
+            aiMessage.textContent = data.response || 'AI не ответил.';
+            chatBody.appendChild(aiMessage);
+
+            // Прокручиваем вниз
+            chatBody.scrollTop = chatBody.scrollHeight;
+        })
+        .catch((err) => console.error(err));
+
+    // Очищаем поле ввода
+    input.value = '';
 }
