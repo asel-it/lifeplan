@@ -1,4 +1,4 @@
- // Import API_URL from config.js
+// Import API_URL from config.js
 import { API_URL } from './config.js';
 
 // Update time and date
@@ -103,6 +103,26 @@ const tools = {
     "Project Management": ["Career", "Education"]
 };
 
+// Пути к инструментам
+const toolPaths = {
+    "Life Balance Wheel": "tools/life_balance_wheel.html",
+    "Budget Tracker": "tools/budget_tracker.html",
+    "Daily Planner": "tools/daily_planner.html",
+    "Eisenhower Matrix": "tools/eisenhower_matrix.html",
+    "Geo Task": "tools/geo_task.html",
+    "Goal Tracker": "tools/goal_tracker.html",
+    "Habits Tracker": "tools/habits_tracker.html",
+    "Kanban Board": "tools/kanban_board.html",
+    "Lists": "tools/lists.html",
+    "Progress Chart": "tools/progress_chart.html",
+    "Roadmap": "tools/roadmap.html",
+    "Schedules": "tools/schedules.html",
+    "Task Calendar": "tools/task_calendar.html",
+    "Task Tracker": "tools/task_tracker.html",
+    "To Do List": "tools/to_do_list.html",
+    "Project Management": "tools/project_management.html"
+};
+
 // Показать подкатегории на основе выбранной категории
 function updateSubcategories() {
     const category = document.getElementById('categoryDropdown').value;
@@ -116,7 +136,7 @@ function updateSubcategories() {
             subcategoryDropdown.appendChild(option);
         });
     }
-    highlightCards(category);  // Обновление карточек при выборе категории
+    highlightCards(category);
 }
 
 // Подсветить карточки инструментов
@@ -131,10 +151,8 @@ function highlightCards(category, subcategory = null) {
             (!category && !subcategory)
         ) {
             card.classList.add('highlighted');
-            card.style.display = 'block';  // Убедимся, что карточка отображается
         } else {
             card.classList.remove('highlighted');
-            card.style.display = 'none';  // Скрываем карточки, которые не соответствуют категории
         }
     });
 }
@@ -143,16 +161,8 @@ function highlightCards(category, subcategory = null) {
 document.getElementById('subcategoryDropdown').addEventListener('change', () => {
     const category = document.getElementById('categoryDropdown').value;
     const subcategory = document.getElementById('subcategoryDropdown').value;
-    highlightCards(category, subcategory);  // Обновление карточек при изменении подкатегории
+    highlightCards(category, subcategory);
 });
-
-// Показать карточки при загрузке страницы
-window.onload = function () {
-    loadActiveTab();
-    const categoryDropdown = document.getElementById('categoryDropdown');
-    categoryDropdown.addEventListener('change', updateSubcategories);
-    updateSubcategories();  // Изначально показываем карточки при загрузке страницы
-};
 
 // Показать вкладку Tools
 function showTab(tabName) {
@@ -163,9 +173,14 @@ function showTab(tabName) {
 document.addEventListener('DOMContentLoaded', () => showTab('toolsTab'));
 
 // Открытие инструмента
-function openTool(toolPath) {
-    document.getElementById('toolContainer').style.display = 'flex';
-    document.getElementById('toolContent').innerHTML = `<iframe src="${toolPath}" width="100%" height="100%" style="border:none;"></iframe>`;
+function openTool(toolName) {
+    const toolPath = toolPaths[toolName];
+    if (toolPath) {
+        document.getElementById('toolContainer').style.display = 'flex';
+        document.getElementById('toolContent').innerHTML = `<iframe src="${toolPath}" width="100%" height="100%" style="border:none;"></iframe>`;
+    } else {
+        alert("Путь к инструменту не найден.");
+    }
 }
 
 // Закрытие инструмента
@@ -175,71 +190,131 @@ function closeTool() {
 }
 
 // Обработка событий открытия/закрытия модального окна
-function toggleModal(open) {
-    document.body.classList.toggle("modal-open", open);
-    document.querySelector(".modal").style.display = open ? "block" : "none";
+function toggleModal(modalId) {
+    const modal = document.getElementById(modalId);
+    modal.style.display = (modal.style.display === 'block') ? 'none' : 'block';
 }
 
-document.querySelector(".open-modal-btn").addEventListener("click", () => toggleModal(true));
-document.querySelector(".close-modal-btn").addEventListener("click", () => toggleModal(false));
-
-// Сохранить и загрузить данные инструмента
-function saveTool() {
-    localStorage.setItem("myPlan", document.getElementById("toolContent").innerHTML);
-    alert("Ваш график был сохранен в My Plans.");
-}
-
-function loadSavedTool() {
-    const savedData = localStorage.getItem("myPlan");
-    if (savedData) document.getElementById("toolContent").innerHTML = savedData;
-    else alert("Нет сохраненных данных.");
-}
-
-window.onload = loadSavedTool;
-
-// Сохранить активную вкладку
-function saveActiveTab(tabName) {
-    localStorage.setItem('activeTab', tabName);
-}
-
-// Загрузить активную вкладку
-function loadActiveTab() {
-    const activeTab = localStorage.getItem('activeTab') || 'toolsTab';
-    showTab(activeTab);
-    highlightActiveButton(activeTab);
-}
-
-// Показать вкладку и подсветить кнопку
-function showTab(tabName) {
-    document.querySelectorAll('.tab-content').forEach(tab => tab.style.display = 'none');
-    document.getElementById(tabName).style.display = 'block';
-
-    highlightActiveButton(tabName);
-}
-
-// Подсветить активную кнопку вкладки
-function highlightActiveButton(tabName) {
-    document.querySelectorAll('.tab-button').forEach(button => {
-        button.classList.remove('active');
-    });
-    document.querySelector(`#${tabName}-button`).classList.add('active');
-}
-
-// Сохранить активную вкладку при клике
-document.querySelectorAll('.tab-button').forEach(button => {
-    button.addEventListener('click', (e) => {
-        const tabName = e.target.id.replace('-button', '');
-        saveActiveTab(tabName);
-        showTab(tabName);
+// Закрытие всех модальных окон при клике за пределами модального окна
+window.addEventListener('click', function (event) {
+    const modals = document.querySelectorAll('.modal');
+    modals.forEach(modal => {
+        if (modal.style.display === 'block' && !modal.contains(event.target)) {
+            modal.style.display = 'none';
+        }
     });
 });
 
-// Загружаем активную вкладку при загрузке страницы
-window.onload = function() {
-    loadActiveTab();
-    // Обновляем подкатегории при выборе категории
+// Добавление задач
+function addTask() {
+    const taskInput = document.getElementById('taskInput');
+    const taskText = taskInput.value.trim();
+    if (taskText) {
+        const taskList = document.getElementById('taskList');
+        const taskItem = document.createElement('li');
+        taskItem.classList.add('task');
+        taskItem.textContent = taskText;
+
+        // Добавляем кнопку для удаления задачи
+        const deleteButton = document.createElement('button');
+        deleteButton.textContent = 'Удалить';
+        deleteButton.classList.add('delete-button');
+        deleteButton.onclick = () => taskItem.remove();
+        taskItem.appendChild(deleteButton);
+
+        taskList.appendChild(taskItem);
+        taskInput.value = ''; // Очищаем поле ввода
+    }
+}
+
+// Сохранение задачи в локальном хранилище
+function saveTasks() {
+    const tasks = [];
+    const taskItems = document.querySelectorAll('.task');
+    taskItems.forEach(taskItem => {
+        tasks.push(taskItem.textContent.replace('Удалить', '').trim());
+    });
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+}
+
+// Загрузка задач из локального хранилища
+function loadTasks() {
+    const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+    const taskList = document.getElementById('taskList');
+    tasks.forEach(taskText => {
+        const taskItem = document.createElement('li');
+        taskItem.classList.add('task');
+        taskItem.textContent = taskText;
+
+        const deleteButton = document.createElement('button');
+        deleteButton.textContent = 'Удалить';
+        deleteButton.classList.add('delete-button');
+        deleteButton.onclick = () => taskItem.remove();
+        taskItem.appendChild(deleteButton);
+
+        taskList.appendChild(taskItem);
+    });
+}
+
+// Загружаем задачи при загрузке страницы
+document.addEventListener('DOMContentLoaded', loadTasks);
+
+// Показать меню инструментов
+function showTools() {
+    const toolsContainer = document.getElementById('toolsContainer');
+    toolsContainer.style.display = 'block';
+}
+
+// Скрыть меню инструментов
+function hideTools() {
+    const toolsContainer = document.getElementById('toolsContainer');
+    toolsContainer.style.display = 'none';
+}
+
+// Функция для добавления нового инструмента
+function addNewTool() {
+    const toolName = document.getElementById('newToolName').value.trim();
+    if (toolName) {
+        const newToolCard = document.createElement('div');
+        newToolCard.classList.add('card');
+        newToolCard.setAttribute('data-tool', toolName);
+        newToolCard.innerHTML = `<h4>${toolName}</h4><button onclick="openTool('${toolName}')">Открыть</button>`;
+        
+        const toolsGrid = document.getElementById('toolsGrid');
+        toolsGrid.appendChild(newToolCard);
+
+        document.getElementById('newToolName').value = ''; // Очищаем поле ввода
+    }
+}
+
+// Открытие подкатегорий
+function openSubcategory(category, subcategory) {
+    const toolsGrid = document.getElementById('toolsGrid');
+    toolsGrid.innerHTML = ''; // Очищаем текущие инструменты
+
+    // Фильтруем инструменты по категории и подкатегории
+    const applicableTools = Object.keys(tools).filter(tool => {
+        return tools[tool].includes(category) && (!subcategory || tools[tool].includes(subcategory));
+    });
+
+    // Отображаем только соответствующие инструменты
+    applicableTools.forEach(tool => {
+        const toolCard = document.createElement('div');
+        toolCard.classList.add('card');
+        toolCard.setAttribute('data-tool', tool);
+        toolCard.innerHTML = `<h4>${tool}</h4><button onclick="openTool('${tool}')">Открыть</button>`;
+        toolsGrid.appendChild(toolCard);
+    });
+}
+
+// Сброс фильтров категорий и подкатегорий
+function resetFilters() {
     const categoryDropdown = document.getElementById('categoryDropdown');
-    categoryDropdown.addEventListener('change', updateSubcategories);
-    // Изначально показываем подкатегории
-    updateSubcategories();
-};
+    categoryDropdown.selectedIndex = 0;
+    const subcategoryDropdown = document.getElementById('subcategoryDropdown');
+    subcategoryDropdown.selectedIndex = 0;
+    const toolsGrid = document.getElementById('toolsGrid');
+    toolsGrid.innerHTML = ''; // Очистить сетку инструментов
+}
+
+
