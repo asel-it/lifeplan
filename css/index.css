@@ -206,55 +206,20 @@ html, body {
 
 
 /* Основные стили для анимации */
-.animation-section {
-    display: flex;
-    align-items: flex-start;
-    margin-top: 60px;
-    justify-content: center; /* Центрируем анимацию */
-}
-
-.animation-box {
-    width: 500px;
-    height: 200px;
-    font-size: 20px;
-    font-family: 'Orbitron', sans-serif;
-    color: #34495e;
-    background-color: transparent;
-    margin-right: 20px;
-    overflow: hidden;
-    opacity: 0;
-    transform: translateY(20px); /* Начальное смещение */
-    transition: opacity 0.5s, transform 0.5s;
-}
-
-.image-container {
-    position: relative;
-    width: 200px;
-    height: auto;
-    overflow: hidden;
-}
-
 .image {
-    width: 100%;
+    max-width: 100%;
     height: auto;
     opacity: 0;
-    transition: opacity 0.5s ease;
+    transition: opacity 0.5s ease-in-out;
 }
 
 .image.visible {
     opacity: 1;
 }
 
-.image-container::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 50%;
-    background: inherit;
-    filter: blur(100px);
-    z-index: 1;
+#animation-box {
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
 }
 
 /* Видеоконтейнер */
