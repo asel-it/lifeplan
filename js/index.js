@@ -90,64 +90,76 @@ document.addEventListener("DOMContentLoaded", function () {
     setInterval(updateTimeAndDate, 1000);
 
      // Анимация текста и изображений
-     const texts = [
-        "AI: Let's create a plan for your day. What do you need to accomplish?",
-        "AI: Don't forget your meeting at 3 PM.",
-        "AI: How can I assist you with the family event planning?"
+     const dialogues = [
+        {
+            text: "AI: Let's create a plan for your day. What do you need to accomplish?",
+            image: "images/image1.jpg" // Замените на правильный путь к изображению
+        },
+        {
+            text: "AI: Don't forget your meeting at 3 PM.",
+            image: "images/image2.jpg" // Замените на правильный путь к изображению
+        },
+        {
+            text: "AI: How can I assist you with the family event planning?",
+            image: "images/image3.jpg" // Замените на правильный путь к изображению
+        }
     ];
 
-    const images = [
-        "images/image1.png",
-        "images/image2.png",
-        "images/image3.png"
-    ];
+    const chatBox = document.getElementById('chat-box');
+    const imageContainer = document.getElementById('image-container');
 
-    const imageContainer = document.getElementById("image-container");
-const textContainer = document.getElementById("text-container");
-
-let currentIndex = 0;
-
-// Функция для отображения картинки
-function showImage(src) {
-    return new Promise((resolve) => {
-        const img = document.createElement("img");
-        img.src = src;
-        img.onload = () => {
-            imageContainer.innerHTML = ""; // Очистка контейнера
-            imageContainer.appendChild(img);
-            resolve();
-        };
-    });
-}
-
-// Функция для анимации текста
-function typeText(text) {
-    return new Promise((resolve) => {
-        textContainer.innerHTML = ""; // Очистка контейнера
-        let index = 0;
-        const interval = setInterval(() => {
-            if (index < text.length) {
-                textContainer.innerHTML += text[index];
+    async function typeText(text, delay) {
+        return new Promise(resolve => {
+            let index = 0;
+            chatBox.innerHTML = ''; // Очистить чат перед вводом текста
+            const typingInterval = setInterval(() => {
+                chatBox.innerHTML += text.charAt(index);
                 index++;
-            } else {
-                clearInterval(interval);
-                resolve();
-            }
-        }, 100); // Скорость появления текста (100 мс на символ)
-    });
-}
-
-// Основной цикл анимации
-async function animateSequence() {
-    while (true) {
-        await showImage(images[currentIndex]); // Показать картинку
-        await typeText(texts[currentIndex]);  // Анимация текста
-        currentIndex = (currentIndex + 1) % images.length; // Переключение на следующий слайд
+                if (index === text.length) {
+                    clearInterval(typingInterval);
+                    setTimeout(resolve, delay);
+                }
+            }, 100); // Скорость печати
+        });
     }
-}
 
-// Запуск анимации
-animateSequence();
+    async function showDialogues() {
+        for (const dialogue of dialogues) {
+            // Отобразить текст и изображение одновременно
+            const img = document.createElement('img');
+            img.src = dialogue.image;
+            img.className = 'image';
+            imageContainer.appendChild(img);
+
+            await Promise.all([
+                typeText(dialogue.text, 3000),
+                new Promise(resolve => {
+                    setTimeout(() => {
+                        img.classList.add('visible');
+                        resolve();
+                    }, 0);
+                })
+            ]);
+
+            // Убираем текст и изображение одновременно через 3 секунды
+            setTimeout(() => {
+                chatBox.innerHTML = '';
+                img.classList.remove('visible');
+                setTimeout(() => {
+                    imageContainer.removeChild(img);
+                }, 500); // Время для исчезновения изображения
+            }, 3000);
+
+            // Ожидание перед следующим диалогом
+            await new Promise(resolve => setTimeout(resolve, 3000));
+        }
+
+        // Перезапуск цикла
+        setTimeout(showDialogues, 3000);
+    }
+
+    // Запуск анимации на загрузке страницы
+    showDialogues();
 
 
 
