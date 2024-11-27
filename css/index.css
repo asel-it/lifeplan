@@ -580,17 +580,39 @@ html, body {
 }
 
 
-/* Основной контейнер чата */
+/* Иконка чата */
+.chat-icon {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #007bff;
+    border-radius: 50%;
+    padding: 15px;
+    cursor: pointer;
+    z-index: 1000;
+}
+
+.chat-icon img {
+    width: 30px;
+    height: 30px;
+    object-fit: cover;
+    filter: brightness(0) invert(1);
+}
+
+/* Контейнер для чата */
 .chat-container {
+    position: fixed;
+    bottom: 70px; /* Расстояние от нижнего края */
+    right: 20px;
     width: 100%;
     max-width: 600px;
-    margin: 50px auto;
     background-color: white;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     overflow: hidden;
     display: flex;
     flex-direction: column;
+    display: none; /* Изначально чат скрыт */
 }
 
 .chat-box {
