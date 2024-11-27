@@ -51,56 +51,46 @@ window.addEventListener("click", function (event) {
 function checkAuthStatus() {
 const isAuthenticated = localStorage.getItem('isAuthenticated') === 'true';
 
-
-
-
+// Определение элементов интерфейса
 const dashboardLink = document.getElementById('dashboard-link');
 const myPlansLink = document.getElementById('my-plans-link');
 const myProfileLink = document.getElementById('my-profile-link');
 const signUpLoginLink = document.getElementById('sign-up-login-link');
 const signOutLink = document.getElementById('sign-out-link');
 
+// Функция для проверки состояния авторизации
+function checkAuthStatus() {
+    const isAuthenticated = localStorage.getItem('isAuthenticated') === 'true';
 
-
-
-// Для авторизованных пользователей показываем ссылки на страницы и ссылку на выход
-if (isAuthenticated) {
-    dashboardLink.style.display = 'block';
-    myPlansLink.style.display = 'block';
-    myProfileLink.style.display = 'block';
-    signUpLoginLink.style.display = 'none';
-    signOutLink.style.display = 'block';
-} else {
-    // Для неавторизованных показываем ссылку на вход и скрываем другие
-    dashboardLink.style.display = 'none';
-    myPlansLink.style.display = 'none';
-    myProfileLink.style.display = 'none';
-    signUpLoginLink.style.display = 'block';
-    signOutLink.style.display = 'none';
+    // Для авторизованных пользователей показываем ссылки на страницы и ссылку на выход
+    if (isAuthenticated) {
+        dashboardLink.style.display = 'block';
+        myPlansLink.style.display = 'block';
+        myProfileLink.style.display = 'block';
+        signUpLoginLink.style.display = 'none';
+        signOutLink.style.display = 'block';
+    } else {
+        // Для неавторизованных показываем ссылку на вход и скрываем другие
+        dashboardLink.style.display = 'none';
+        myPlansLink.style.display = 'none';
+        myProfileLink.style.display = 'none';
+        signUpLoginLink.style.display = 'block';
+        signOutLink.style.display = 'none';
+    }
 }
-}
-
-
-
 
 // Функция для выхода
 function signOut() {
-// Удаляем информацию о том, что пользователь авторизован
-localStorage.removeItem('isAuthenticated');
-// Перезагружаем меню
-checkAuthStatus();
+    // Удаляем информацию о том, что пользователь авторизован
+    localStorage.removeItem('isAuthenticated');
+    // Перезагружаем меню
+    checkAuthStatus();
 }
-
-
-
 
 // Вызываем функцию при загрузке страницы
 document.addEventListener('DOMContentLoaded', function() {
-checkAuthStatus();
+    checkAuthStatus();
 });
-
-
-
 
 // Подкатегории для каждой категории
 const subcategories = {
@@ -112,9 +102,6 @@ const subcategories = {
     "Education": ["School", "College/University", "Professional Development", "Courses & Training", "Online Learning", "Study Projects", "Academic Achievements", "Research Activities", "Internships & Practicum", "Exam Preparation"],
     "Personal Development": ["Goal Setting", "Time Management", "Emotional Intelligence", "Stress Management", "Leadership Skills", "Communication Skills", "Self-Discipline", "Motivation & Productivity", "Decision-Making", "Creative Thinking"]
 };
-
-
-
 
 // Сопоставление инструментов категориям и подкатегориям
 const tools = {
@@ -136,10 +123,7 @@ const tools = {
     "Project Management": ["Career", "Education"]
 };
 
-
-
-
-// Показать подкатегории на основе выбранной категории
+// Функция для обновления подкатегорий на основе выбранной категории
 function updateSubcategories() {
     const category = document.getElementById('categoryDropdown').value;
     const subcategoryDropdown = document.getElementById('subcategoryDropdown');
@@ -155,10 +139,7 @@ function updateSubcategories() {
     highlightCards(category);
 }
 
-
-
-
-// Подсветить карточки инструментов
+// Функция для подсветки карточек инструментов
 function highlightCards(category, subcategory = null) {
     const cards = document.querySelectorAll('.card');
     cards.forEach(card => {
@@ -176,108 +157,73 @@ function highlightCards(category, subcategory = null) {
     });
 }
 
-
-
-
-// Обновить карточки при выборе подкатегории
+// Обновление карточек при изменении подкатегории
 document.getElementById('subcategoryDropdown').addEventListener('change', () => {
     const category = document.getElementById('categoryDropdown').value;
     const subcategory = document.getElementById('subcategoryDropdown').value;
     highlightCards(category, subcategory);
 });
 
-
-
-
-// Показать вкладку Tools
+// Функция для показа вкладки по имени
 function showTab(tabName) {
     document.querySelectorAll('.tab-content').forEach(tab => tab.style.display = 'none');
     document.getElementById(tabName).style.display = 'block';
 }
 
-
-
-
+// Установка вкладки по умолчанию
 document.addEventListener('DOMContentLoaded', () => showTab('toolsTab'));
 
-
-
-
-// Открытие инструмента
+// Функция для открытия инструмента
 function openTool(toolPath) {
     document.getElementById('toolContainer').style.display = 'flex';
     document.getElementById('toolContent').innerHTML = `<iframe src="${toolPath}" width="100%" height="100%" style="border:none;"></iframe>`;
 }
 
-
-
-
-// Закрытие инструмента
+// Функция для закрытия инструмента
 function closeTool() {
     document.getElementById('toolContainer').style.display = 'none';
     document.getElementById('toolContent').innerHTML = '';
 }
 
-
-
-
-// Обработка событий открытия/закрытия модального окна
+// Функция для обработки открытия/закрытия модального окна
 function toggleModal(open) {
     document.body.classList.toggle("modal-open", open);
     document.querySelector(".modal").style.display = open ? "block" : "none";
 }
 
-
-
-
+// Обработчики событий для модального окна
 document.querySelector(".open-modal-btn").addEventListener("click", () => toggleModal(true));
 document.querySelector(".close-modal-btn").addEventListener("click", () => toggleModal(false));
 
-
-
-
-// Сохранить и загрузить данные инструмента
+// Функция для сохранения данных инструмента
 function saveTool() {
     localStorage.setItem("myPlan", document.getElementById("toolContent").innerHTML);
     alert("Ваш график был сохранен в My Plans.");
 }
 
-
+// Функция для загрузки сохраненного инструмента
 function loadSavedTool() {
     const savedData = localStorage.getItem("myPlan");
     if (savedData) document.getElementById("toolContent").innerHTML = savedData;
     else alert("Нет сохраненных данных.");
 }
 
-
+// Загрузка сохраненных данных при загрузке страницы
 window.onload = loadSavedTool;
 
-
-
-
-// Сохранить активную вкладку
+// Сохранение активной вкладки
 function saveActiveTab(tabName) {
     localStorage.setItem('activeTab', tabName);
 }
 
-
-// Загрузить активную вкладку
+// Загрузка активной вкладки при загрузке страницы
 function loadActiveTab() {
     const activeTab = localStorage.getItem('activeTab') || 'toolsTab';
     showTab(activeTab);
     highlightActiveButton(activeTab);
 }
 
-
-// Показать вкладку и подсветить кнопку
-function showTab(tabName) {
-    document.querySelectorAll('.tab-content').forEach(tab => tab.style.display = 'none');
-    document.getElementById(tabName).style.display = 'block';
-    saveActiveTab(tabName);
-}
-
-
-// Подсветить активную кнопку
+// Подсветка активной кнопки вкладки
 function highlightActiveButton(tabName) {
     document.querySelectorAll('.tab-button').forEach(button => {
         button.classList.remove('active');
@@ -287,61 +233,58 @@ function highlightActiveButton(tabName) {
     });
 }
 
-
-// Загрузить активную вкладку при загрузке страницы
+// Загрузка активной вкладки при загрузке страницы
 document.addEventListener('DOMContentLoaded', loadActiveTab);
 
-
-// Вставка инструмента в текущую страницу
+// Вставка инструмента на текущую страницу
 function insertTool(toolId, toolName) {
     const toolContainer = document.getElementById('toolContainer');
     const toolContent = document.getElementById('toolContent');
-   
+
     // Очистить старый контент
     toolContent.innerHTML = '';
-   
+
     // Найти путь к инструменту
     const toolPath = `https://lifeplan-backend.onrender.com/tools/${toolId}`;
-   
-    // Вставить iframe с инструментом
+
+  // Вставить iframe с инструментом
     toolContent.innerHTML = `<iframe src="${toolPath}" width="100%" height="100%" style="border:none;"></iframe>`;
+
+    // Открыть контейнер с инструментом
     toolContainer.style.display = 'flex';
-   
-    // Обновить активность вкладки
-    saveActiveTab('toolsTab');
+}
+
+// Функция для загрузки и отображения доступных инструментов
+function loadTools() {
+    const toolsList = [
+        { id: 1, name: "Budget Tracker", category: "Finances" },
+        { id: 2, name: "Daily Planner", category: "Career" },
+        { id: 3, name: "Eisenhower Matrix", category: "Career" },
+        { id: 4, name: "Geo Task", category: "Career" },
+        { id: 5, name: "Goal Tracker", category: "Personal Development" },
+        { id: 6, name: "Kanban Board", category: "Career" },
+        { id: 7, name: "Lists", category: "Household" },
+        { id: 8, name: "Progress Chart", category: "Health" },
+        { id: 9, name: "Roadmap", category: "Career" },
+        { id: 10, name: "Task Calendar", category: "Career" }
+    ];
+
+    const toolsContainer = document.getElementById('toolsContainer');
+    toolsList.forEach(tool => {
+        const toolCard = document.createElement('div');
+        toolCard.classList.add('tool-card');
+        toolCard.innerHTML = `
+            <h3>${tool.name}</h3>
+            <p>Category: ${tool.category}</p>
+            <button onclick="insertTool(${tool.id}, '${tool.name}')">Open Tool</button>
+        `;
+        toolsContainer.appendChild(toolCard);
+    });
+}
+
+// Загрузка инструментов при загрузке страницы
+document.addEventListener('DOMContentLoaded', loadTools);
+
 }
 
 
-// Закрытие инструмента
-function closeTool() {
-    document.getElementById('toolContainer').style.display = 'none';
-    document.getElementById('toolContent').innerHTML = '';
-}
-
-
-// Обработка события открытия модального окна
-function toggleModal(open) {
-    document.body.classList.toggle("modal-open", open);
-    document.querySelector(".modal").style.display = open ? "block" : "none";
-}
-
-
-document.querySelector(".open-modal-btn").addEventListener("click", () => toggleModal(true));
-document.querySelector(".close-modal-btn").addEventListener("click", () => toggleModal(false));
-
-
-
-
-function openTab(tabId) {
-    // Закрываем все вкладки
-    var tabContents = document.getElementsByClassName('tab-content');
-    for (var i = 0; i < tabContents.length; i++) {
-        tabContents[i].style.display = 'none';
-    }
-    // Открываем выбранную вкладку
-    document.getElementById(tabId).style.display = 'block';
-}
-
-
-// Показываем вкладку Tools по умолчанию при загрузке страницы
-openTab('toolsTab');
