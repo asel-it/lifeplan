@@ -1,10 +1,7 @@
-// Import API_URL from config.js
-import { API_URL } from './config.js';
+const { API_URL } = require('./config.js');
 
 document.addEventListener("DOMContentLoaded", function () {
-
-    document.addEventListener("DOMContentLoaded", function() {
-    // Проверяем поддержку Service Worker
+    // Register Service Worker
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', function () {
             navigator.serviceWorker.register('/service-worker.js')
@@ -18,19 +15,17 @@ document.addEventListener("DOMContentLoaded", function () {
     } else {
         console.log('Service Workers are not supported in this browser.');
     }
-});
-
 
     // Menu toggle functionality
     const menuIcon = document.getElementById("menu-icon");
     const sideMenu = document.getElementById("side-menu");
     const content = document.getElementById("content");
+
     menuIcon.addEventListener("click", function () {
         sideMenu.classList.toggle("open");
         content.classList.toggle("menu-open");
     });
 
-    // Close menu when clicking outside of it
     window.addEventListener("click", function (event) {
         if (!sideMenu.contains(event.target) && !menuIcon.contains(event.target)) {
             sideMenu.classList.remove("open");
@@ -63,15 +58,12 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
-    // Sign out function
     function signOut() {
         localStorage.removeItem('isAuthenticated');
         checkAuthStatus();
     }
 
-    document.addEventListener('DOMContentLoaded', function() {
-        checkAuthStatus();
-    });
+    checkAuthStatus();
 
     // Animating blocks
     const allBlocks = document.querySelectorAll('.large, .small');
@@ -99,99 +91,81 @@ document.addEventListener("DOMContentLoaded", function () {
     setInterval(updateTimeAndDate, 1000);
 
     // Animation-section
-    document.addEventListener("DOMContentLoaded", function () {
-        const texts = [
-            "AI: Let's create a plan for your day. What do you need to accomplish?",
-            "AI: Don't forget your meeting at 3 PM.",
-            "AI: How can I assist you with the family event planning?"
-        ];
-    
-        const images = [
-            "images/image1.png",
-            "images/image2.png",
-            "images/image3.png"
-        ];
-    
-        const animationBox = document.getElementById('animation-box');
-        const imageContainer = document.getElementById('image-container');
-    
-        let currentIndex = 0;
-    
-        // Функция для анимации текста
-        function typeText(text) {
-            return new Promise(resolve => {
-                let index = 0;
-                animationBox.innerHTML = ''; // Очистить предыдущий текст
-                animationBox.style.opacity = 1; // Делает текст видимым
-                const typingInterval = setInterval(() => {
-                    animationBox.innerHTML += text.charAt(index);
-                    index++;
-                    if (index === text.length) {
-                        clearInterval(typingInterval);
-                        setTimeout(resolve, 1000); // Задержка перед переходом к следующей анимации
-                    }
-                }, 50); // Скорость печати (50 мс на символ)
-            });
-        }
-    
-        // Функция для показа картинки
-        function showImage(imageSrc) {
-            return new Promise(resolve => {
-                const image = document.createElement('img');
-                image.src = imageSrc;
-                image.classList.add('image');
-                imageContainer.innerHTML = ''; // Очистить предыдущую картинку
-                imageContainer.appendChild(image);
-    
-                // После загрузки картинки плавно сделать её видимой
-                image.onload = () => {
-                    image.classList.add('visible');
-                    resolve();
-                };
-            });
-        }
-    
-        // Функция для запуска анимации
-        async function animateSequence() {
-            while (true) {
-                await showImage(images[currentIndex]); // Показать картинку
-                await typeText(texts[currentIndex]); // Напечатать текст
-    
-                // Переход к следующему индексу (цикличность)
-                currentIndex = (currentIndex + 1) % texts.length;
-            }
-        }
-    
-        // Запуск анимации
-        animateSequence();
-    });
-    
-    
-    
+    const texts = [
+        "AI: Let's create a plan for your day. What do you need to accomplish?",
+        "AI: Don't forget your meeting at 3 PM.",
+        "AI: How can I assist you with the family event planning?"
+    ];
 
-   // Modal functions
-    function openModal(modalId) {
-        var modal = document.getElementById(modalId);
-        if (modal) {
-            modal.style.display = "block";
+    const images = [
+        "images/image1.png",
+        "images/image2.png",
+        "images/image3.png"
+    ];
+
+    const animationBox = document.getElementById('animation-box');
+    const imageContainer = document.getElementById('image-container');
+
+    let currentIndex = 0;
+
+    function typeText(text) {
+        return new Promise(resolve => {
+            let index = 0;
+            animationBox.innerHTML = '';
+            animationBox.style.opacity = 1;
+            const typingInterval = setInterval(() => {
+                animationBox.innerHTML += text.charAt(index);
+                index++;
+                if (index === text.length) {
+                    clearInterval(typingInterval);
+                    setTimeout(resolve, 1000);
+                }
+            }, 50);
+        });
+    }
+
+    function showImage(imageSrc) {
+        return new Promise(resolve => {
+            const image = document.createElement('img');
+            image.src = imageSrc;
+            image.classList.add('image');
+            imageContainer.innerHTML = '';
+            imageContainer.appendChild(image);
+
+            image.onload = () => {
+                image.classList.add('visible');
+                resolve();
+            };
+        });
+    }
+
+    async function animateSequence() {
+        while (true) {
+            await showImage(images[currentIndex]);
+            await typeText(texts[currentIndex]);
+            currentIndex = (currentIndex + 1) % texts.length;
         }
+    }
+
+    animateSequence();
+
+    // Modal functions
+    function openModal(modalId) {
+        const modal = document.getElementById(modalId);
+        if (modal) modal.style.display = "block";
     }
 
     function closeModal(modalId) {
-        var modal = document.getElementById(modalId);
-        if (modal) {
-            modal.style.display = "none";
-        }
+        const modal = document.getElementById(modalId);
+        if (modal) modal.style.display = "none";
     }
 
-    // Close modal when clicking outside
-    window.onclick = function(event) {
+    window.onclick = function (event) {
         const modals = document.querySelectorAll(".modal");
         modals.forEach(modal => {
             if (event.target === modal) {
                 modal.style.display = "none";
             }
         });
-    }
-
+    };
 });
