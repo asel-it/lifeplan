@@ -205,69 +205,50 @@ html, body {
 
 /* Основные стили для chat-box: сообщения слева, картинка справа */
 #chat-box {
-    display: flex; /* Используем flexbox для выравнивания сообщений и картинок */
-    align-items: center; /* Выравниваем по вертикали */
-    justify-content: flex-start; /* Выравнивание по левому краю */
+    display: flex; /* Flexbox для выравнивания текста и картинки */
+    align-items: center; /* Центрируем по вертикали */
+    justify-content: space-between; /* Равномерное распределение текста и картинки */
     width: 100%;
-    max-width: 1000px; /* Увеличиваем максимальную ширину */
+    max-width: 1000px; /* Устанавливаем максимальную ширину */
     padding: 10px;
     margin-bottom: 20px;
-    font-size: 22px; /* Увеличиваем шрифт сообщений */
+    font-size: 22px; /* Увеличиваем размер шрифта сообщений */
     background-color: #f5f5f5;
     border: none;
 }
 
-/* Стили для текста сообщения */
+/* Стили для текста */
 #chat-box p {
-    margin-right: 20px; /* Отступ от картинки */
-    font-size: 22px; /* Увеличиваем шрифт для сообщений */
-    line-height: 1.5; /* Улучшение читаемости */
+    font-size: 22px; /* Увеличенный шрифт */
+    line-height: 1.5; /* Межстрочный интервал для читаемости */
     color: #333;
-    max-width: 600px; /* Ограничиваем ширину текста */
-    word-wrap: break-word; /* Обеспечиваем перенос длинных слов */
+    margin: 0;
+    flex: 1; /* Позволяем тексту занимать доступное пространство */
 }
 
 /* Стили для контейнера с картинкой */
 #image-container {
     width: 300px; /* Увеличиваем ширину контейнера */
     height: 300px; /* Увеличиваем высоту контейнера */
+    margin-left: 20px; /* Добавляем отступ между текстом и картинкой */
     position: relative;
     overflow: hidden;
+    flex-shrink: 0; /* Запрещаем уменьшение контейнера с изображением */
 }
 
-/* Стили для картинки */
+/* Стили для изображения */
 .image {
     width: 100%;
     height: 100%; /* Картинка занимает весь контейнер */
     opacity: 0;
     transition: opacity 0.5s ease-in-out;
-    object-fit: cover; /* Заполнение контейнера без искажения */
+    object-fit: cover; /* Обеспечиваем масштабирование без искажений */
 }
 
 .visible {
     opacity: 1;
 }
 
-/* Стили для анимации, чтобы блоки отображались рядом */
-.animation-section {
-    margin-top: 50px;
-    width: 100%;
-    max-width: 1024px;
-    height: auto;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: flex-start;
-    margin-bottom: 20px;
-}
-
-/* Дополнительный стиль для правильного выравнивания */
-#chat-box .message-container {
-    display: flex;
-    align-items: center; /* Центрирование по вертикали */
-    justify-content: flex-start; /* Размещение элементов по левому краю */
-    width: 100%;
-}
 
 /* Видеоконтейнер */
 .video-section, .video-container {
