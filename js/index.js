@@ -102,49 +102,53 @@ document.addEventListener("DOMContentLoaded", function () {
         "images/image3.png"
     ];
 
-    const animationBox = document.getElementById('animation-box');
-    const imageContainer = document.getElementById('image-container');
-    let currentIndex = 0;
+    const imageContainer = document.getElementById("image-container");
+const textContainer = document.getElementById("text-container");
 
-    function typeText(text) {
-        return new Promise(resolve => {
-            let index = 0;
-            animationBox.innerHTML = '';
-            const typingInterval = setInterval(() => {
-                animationBox.innerHTML += text.charAt(index);
+let currentIndex = 0;
+
+// Функция для отображения картинки
+function showImage(src) {
+    return new Promise((resolve) => {
+        const img = document.createElement("img");
+        img.src = src;
+        img.onload = () => {
+            imageContainer.innerHTML = ""; // Очистка контейнера
+            imageContainer.appendChild(img);
+            resolve();
+        };
+    });
+}
+
+// Функция для анимации текста
+function typeText(text) {
+    return new Promise((resolve) => {
+        textContainer.innerHTML = ""; // Очистка контейнера
+        let index = 0;
+        const interval = setInterval(() => {
+            if (index < text.length) {
+                textContainer.innerHTML += text[index];
                 index++;
-                if (index === text.length) {
-                    clearInterval(typingInterval);
-                    setTimeout(resolve, 1000);
-                }
-            }, 50);
-        });
-    }
-
-    function showImage(imageSrc) {
-        return new Promise(resolve => {
-            const image = document.createElement('img');
-            image.src = imageSrc;
-            image.classList.add('image');
-            imageContainer.innerHTML = '';
-            imageContainer.appendChild(image);
-
-            image.onload = () => {
-                image.classList.add('visible');
+            } else {
+                clearInterval(interval);
                 resolve();
-            };
-        });
-    }
+            }
+        }, 100); // Скорость появления текста (100 мс на символ)
+    });
+}
 
-    async function animateSequence() {
-        while (true) {
-            await showImage(images[currentIndex]);
-            await typeText(texts[currentIndex]);
-            currentIndex = (currentIndex + 1) % texts.length;
-        }
+// Основной цикл анимации
+async function animateSequence() {
+    while (true) {
+        await showImage(images[currentIndex]); // Показать картинку
+        await typeText(texts[currentIndex]);  // Анимация текста
+        currentIndex = (currentIndex + 1) % images.length; // Переключение на следующий слайд
     }
+}
 
-    animateSequence();
+// Запуск анимации
+animateSequence();
+
 
 
     // Modal functions
