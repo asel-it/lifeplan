@@ -1,6 +1,6 @@
-// config.js
-
-const API_URL = "http://localhost:10000";
+module.exports = {
+    API_URL: "http://localhost:10000/api"
+};
 
 function login(username, password) {
     return fetch(`${API_URL}/login`, {
