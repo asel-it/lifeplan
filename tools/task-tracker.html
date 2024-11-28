@@ -9,96 +9,115 @@
     <script type="module" src="js/save.js"></script>
     <style>
         /* Общие стили */
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f9f9f9;
-            margin: 0;
-            padding: 20px;
-            display: flex;
-            justify-content: center;
-        }
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+}
+/* Контейнер для задачи */
+.container {
+    background-color: #fff;
+    border-radius: 15px; /* Закругленные углы */
+    padding: 20px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    width: 60%; /* Ширина 60% */
+}
+/* Стили для форм */
+.task-form, .stage-form {
+    margin-bottom: 20px;
+}
+/* Поля ввода */
+input[type="text"],
+input[type="date"],
+select {
+    border-radius: 10px; /* Закругленные углы */
+    border: 1px solid #ccc;
+    padding: 10px;
+    width: calc(100% - 22px); /* Учитываем padding и border */
+    background-color: #f9f9f9; /* Светлый фон */
+    box-sizing: border-box;
+    margin-bottom: 10px;
+}
+/* Кнопки */
+button {
+    border-radius: 10px; /* Закругленные углы */
+    border: none;
+    background-color: #007bff; /* Цвет кнопки */
+    color: white;
+    padding: 10px 15px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    width: 100%; /* Занимает всю ширину */
+}
+button:hover {
+    background-color: #0056b3; /* Цвет при наведении */
+}
+/* Стили для таблицы */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+th, td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ccc;
+}
+th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+/* Прогресс-бар */
+/* Стили для контейнера прогресс-бара */
+.progress-container {
+    width: 100%; /* Ширина контейнера */
+    background-color: #e0e0e0; /* Цвет фона контейнера */
+    border-radius: 5px; /* Скругление углов */
+    margin: 5px 0; /* Отступ сверху и снизу */
+    height: 20px; /* Высота прогресс-бара */
+}
+/* Стили для самого прогресс-бара */
+.progress-bar {
+    height: 100%; /* Высота прогресс-бара равна высоте контейнера */
+    background-color: #9db8b5; /* Цвет прогресс-бара */
+    border-radius: 5px; /* Скругление углов */
+    transition: width 0.5s ease; /* Плавный переход при изменении ширины */
+}
+/* Стили для дорожки прогресса (выделенный цвет) */
+.progress-track {
+    height: 100%; /* Высота дорожки прогресса */
+    background-color: #e63333; /* Цвет дорожки прогресса */
+    position: absolute; /* Позиционирование внутри контейнера */
+    z-index: 0; /* Понижаем дорожку ниже прогресс-бара */
+}
 
-        /* Контейнер для задачи */
-        .container {
-            background-color: #fff;
-            border-radius: 15px; /* Закругленные углы */
-            padding: 20px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            width: 60%; /* Ширина 60% */
-        }
 
-        /* Стили для форм */
-        .task-form, .stage-form {
-            margin-bottom: 20px;
-        }
+/* Кнопки */
+button {
+    border-radius: 10px; /* Закругленные углы */
+    border: none;
+    background-color: #007bff; /* Цвет кнопки */
+    color: white;
+    padding: 10px 15px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    width: 100%; /* Занимает всю ширину */
+}
 
-        /* Поля ввода */
-        input[type="text"],
-        input[type="date"],
-        select {
-            border-radius: 10px; /* Закругленные углы */
-            border: 1px solid #ccc;
-            padding: 10px;
-            width: calc(100% - 22px); /* Учитываем padding и border */
-            background-color: #f9f9f9; /* Светлый фон */
-            box-sizing: border-box;
-            margin-bottom: 10px;
-        }
 
-        /* Кнопки */
-        button {
-            border-radius: 10px; /* Закругленные углы */
-            border: none;
-            background-color: #007bff; /* Цвет кнопки */
-            color: white;
-            padding: 10px 15px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-            width: 100%; /* Занимает всю ширину */
-        }
-        button:hover {
-            background-color: #0056b3; /* Цвет при наведении */
-        }
+button:hover {
+    background-color: #0056b3; /* Цвет при наведении */
+}
 
-        /* Стили для таблицы */
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-        th, td {
-            padding: 12px;
-            text-align: left;
-            border-bottom: 1px solid #ccc;
-        }
-        th {
-            background-color: #f2f2f2;
-            font-weight: bold;
-        }
 
-        /* Прогресс-бар */
-        /* Стили для контейнера прогресс-бара */
-        .progress-container {
-            width: 100%; /* Ширина контейнера */
-            background-color: #e0e0e0; /* Цвет фона контейнера */
-            border-radius: 5px; /* Скругление углов */
-            margin: 5px 0; /* Отступ сверху и снизу */
-            height: 20px; /* Высота прогресс-бара */
-        }
-
-        /* Стили для самого прогресс-бара */
-        .progress-bar {
-            height: 100%; /* Высота прогресс-бара равна высоте контейнера */
-            background-color: #9db8b5; /* Цвет прогресс-бара */
-            border-radius: 5px; /* Скругление углов */
-            transition: width 0.5s ease; /* Плавный переход при изменении ширины */
-        }
-
-        /* Кнопки */
-        .button-group {
-            display: flex;
-            gap: 10px; /* Отступ между кнопками */
-        }
+/* Отступ между кнопками "Show Stages" и "Delete" */
+.button-group {
+    display: flex;
+    gap: 10px; /* Отступ между кнопками */
+}
         .stage-buttons {
             display: flex;
             gap: 5px; /* Пробел между кнопками */
@@ -116,7 +135,7 @@
     <div class="task-form">
         <h2>Add a Task</h2>
         <input type="text" id="taskName" placeholder="Task Name" required>
-        <input type="date" id="taskDeadline" placeholder="Set a deadline date" required>
+        <input type="text" id="taskDeadline" placeholder="Set a deadline date" required>
         <button id="addTaskButton">Add Task</button>
     </div>
     <div class="stage-form" id="stageForm" style="display: none;">
@@ -148,7 +167,9 @@
             <!-- Здесь будут отображаться задачи -->
         </tbody>
     </table>
+    <canvas id="progressChart" width="400" height="200"></canvas>
 </div>
+
 
 <!-- Подключение Flatpickr и скриптов -->
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
@@ -160,11 +181,11 @@
         const addStageButton = document.getElementById('addStageButton');
         const stageForm = document.getElementById('stageForm');
         const taskTableBody = document.getElementById('taskTableBody');
-
+   
         let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
         let currentTask = null;
         let editingStageIndex = null; // Индекс редактируемого этапа
-
+   
         const effortWeights = {
             1: 1,
             2: 2,
@@ -172,16 +193,16 @@
             4: 4,
             5: 5
         };
-
+   
         function saveTasksToLocalStorage() {
             localStorage.setItem('tasks', JSON.stringify(tasks));
         }
-
+   
         addTaskButton.addEventListener('click', (event) => {
             event.preventDefault();
             const taskName = taskNameInput.value.trim();
             const taskDeadline = taskDeadlineInput.value;
-
+   
             if (taskName && taskDeadline) {
                 const task = {
                     name: taskName,
@@ -201,12 +222,12 @@
                 alert('Please enter a task name and deadline!');
             }
         });
-
+   
         addStageButton.addEventListener('click', (event) => {
             event.preventDefault();
             const stageName = document.getElementById('stageName').value.trim();
             const effortLevel = parseInt(document.getElementById('effortLevel').value);
-
+   
             if (stageName && effortLevel && currentTask) {
                 const stageWeight = effortWeights[effortLevel];
                 if (editingStageIndex !== null) {
@@ -227,58 +248,17 @@
                 alert('Please fill in all fields!');
             }
         });
-
+   
         function recalculateStageWeights(task) {
             let totalWeight = task.stages.reduce((total, stage) => total + stage.weight, 0);
             task.totalWeight = totalWeight;
             task.completedWeight = task.stages.reduce((total, stage) => total + (stage.completed ? stage.weight : 0), 0);
-            task.progress = (task.totalWeight > 0) ? (task.completedWeight / task.totalWeight) * 100 : 0;
-        }
-
-        function displayStages(taskIndex) {
-            const stageList = document.getElementById('stageList');
-            stageList.innerHTML = '';
-
-            currentTask.stages.forEach((stage, index) => {
-                const stageItem = document.createElement('div');
-                stageItem.classList.add('stage-item');
-                stageItem.innerHTML = `
-                    <span>${stage.name} - ${stageWeightLabel(stage.weight)} (${stage.completed ? 'Completed' : 'Not Completed'})</span>
-                    <div class="stage-buttons">
-                        <button onclick="toggleStageCompletion(${taskIndex}, ${index})">Toggle Completion</button>
-                        <button onclick="editStage(${taskIndex}, ${index})">Edit</button>
-                        <button onclick="removeStage(${taskIndex}, ${index})">Remove</button>
-                    </div>
-                `;
-                stageList.appendChild(stageItem);
-            });
-        }
-
-        function toggleStageCompletion(taskIndex, stageIndex) {
-            const stage = tasks[taskIndex].stages[stageIndex];
-            stage.completed = !stage.completed;
-            recalculateStageWeights(tasks[taskIndex]);
-            updateTaskTable();
+            task.progress = totalWeight ? (task.completedWeight / totalWeight) * 100 : 0;
             saveTasksToLocalStorage();
         }
-
-        function editStage(taskIndex, stageIndex) {
-            const stage = tasks[taskIndex].stages[stageIndex];
-            document.getElementById('stageName').value = stage.name;
-            document.getElementById('effortLevel').value = stage.weight;
-            editingStageIndex = stageIndex;
-        }
-
-        function removeStage(taskIndex, stageIndex) {
-            tasks[taskIndex].stages.splice(stageIndex, 1);
-            recalculateStageWeights(tasks[taskIndex]);
-            updateTaskTable();
-            saveTasksToLocalStorage();
-        }
-
+   
         function updateTaskTable() {
             taskTableBody.innerHTML = '';
-
             tasks.forEach((task, taskIndex) => {
                 const row = document.createElement('tr');
                 row.innerHTML = `
@@ -286,42 +266,126 @@
                     <td>${task.deadline}</td>
                     <td>
                         <div class="progress-container">
-                            <div class="progress-bar" style="width: ${task.progress}%;"></div>
+                            <div class="progress-bar" style="width: ${task.progress}%"></div>
                         </div>
-                        ${task.progress.toFixed(2)}%
+                        <span>${Math.round(task.progress)}%</span>
                     </td>
                     <td>
-                        <button onclick="toggleTaskStagesVisibility(${taskIndex})">Show/Hide Stages</button>
+                        <div class="button-group">
+                            <button class="toggleStagesButton" data-task-index="${taskIndex}">${task.stagesVisible ? 'Hide Stages' : 'Show Stages'}</button>
+                            <button class="deleteTaskButton" data-task-index="${taskIndex}">Delete</button>
+                        </div>
                     </td>
                 `;
                 taskTableBody.appendChild(row);
-
-                if (task.stagesVisible) {
-                    displayStages(taskIndex);
-                }
+   
+                const toggleStagesButton = row.querySelector('.toggleStagesButton');
+                toggleStagesButton.addEventListener('click', () => toggleStages(taskIndex, toggleStagesButton));
+   
+                const deleteTaskButton = row.querySelector('.deleteTaskButton');
+                deleteTaskButton.addEventListener('click', () => deleteTask(taskIndex));
             });
         }
-
-        function toggleTaskStagesVisibility(taskIndex) {
+   
+        function deleteTask(taskIndex) {
+            tasks.splice(taskIndex, 1);
+            updateTaskTable();
+            saveTasksToLocalStorage();
+        }
+   
+        function toggleStages(taskIndex, button) {
             const task = tasks[taskIndex];
             task.stagesVisible = !task.stagesVisible;
-            updateTaskTable();
+            button.textContent = task.stagesVisible ? 'Hide Stages' : 'Show Stages';
+            task.stagesVisible ? displayStages(taskIndex) : hideStages(taskIndex);
         }
-
-        function stageWeightLabel(weight) {
-            switch (weight) {
-                case 1: return "Easy";
-                case 2: return "Moderately Easy";
-                case 3: return "Challenging";
-                case 4: return "Hard";
-                case 5: return "Very Hard";
-                default: return "Unknown";
+   
+        function displayStages(taskIndex) {
+            const task = tasks[taskIndex];
+            hideStages(taskIndex);
+   
+            const row = document.createElement('tr');
+            row.id = `stages-${taskIndex}`;
+            const cell = document.createElement('td');
+            cell.setAttribute('colspan', '4');
+            cell.innerHTML = task.stages.map((stage, stageIndex) => `
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span style="${stage.completed ? 'text-decoration: line-through;' : ''}">
+                ${stage.name} (${Math.round((stage.weight / task.totalWeight) * 100)}%)
+            </span>
+            <div style="display: flex; gap: 5px;">
+                <button class="completeStageButton" data-task-index="${taskIndex}" data-stage-index="${stageIndex}" style="padding: 10px; width: 120px;">
+                    ${stage.completed ? 'Uncomplete' : 'Complete'}
+                </button>
+                <button class="editStageButton" data-task-index="${taskIndex}" data-stage-index="${stageIndex}" style="padding: 10px; width: 120px;">
+                    Edit
+                </button>
+                <button class="deleteStageButton" data-task-index="${taskIndex}" data-stage-index="${stageIndex}" style="padding: 10px; width: 120px;">
+                    Delete
+                </button>
+            </div>
+        </div>
+    `).join('');
+   
+            row.appendChild(cell);
+            taskTableBody.appendChild(row);
+   
+            // Добавление обработчиков событий для новых кнопок
+            cell.querySelectorAll('.completeStageButton').forEach(button => {
+                button.addEventListener('click', (event) => {
+                    const taskIndex = event.target.dataset.taskIndex;
+                    const stageIndex = event.target.dataset.stageIndex;
+                    const task = tasks[taskIndex];
+                    const stage = task.stages[stageIndex];
+                    stage.completed = !stage.completed; // Переключение состояния выполнения
+                    recalculateStageWeights(task);
+                    updateTaskTable();
+                    saveTasksToLocalStorage();
+                });
+            });
+   
+            cell.querySelectorAll('.editStageButton').forEach(button => {
+                button.addEventListener('click', (event) => {
+                    const taskIndex = event.target.dataset.taskIndex;
+                    const stageIndex = event.target.dataset.stageIndex;
+                    const stage = tasks[taskIndex].stages[stageIndex];
+   
+                    // Заполнение поля Stage Name для редактирования
+                    document.getElementById('stageName').value = stage.name;
+                    document.getElementById('effortLevel').value = Object.keys(effortWeights).find(key => effortWeights[key] === stage.weight) || '1'; // Установка веса
+   
+                    // Устанавливаем индекс редактируемого этапа
+                    editingStageIndex = stageIndex; // Устанавливаем индекс редактирования
+                });
+            });
+   
+            cell.querySelectorAll('.deleteStageButton').forEach(button => {
+                button.addEventListener('click', (event) => {
+                    const taskIndex = event.target.dataset.taskIndex;
+                    const stageIndex = event.target.dataset.stageIndex;
+                    const task = tasks[taskIndex];
+                    task.stages.splice(stageIndex, 1); // Удалить этап
+                    recalculateStageWeights(task); // Пересчитать проценты
+                    updateTaskTable();
+                    saveTasksToLocalStorage();
+                });
+            });
+        }
+   
+        function hideStages(taskIndex) {
+            const stagesRow = document.querySelector(`#stages-${taskIndex}`);
+            if (stagesRow) {
+                stagesRow.remove();
             }
         }
-
+   
         updateTaskTable();
-    });
-</script>
+    });    
+    flatpickr("#taskDeadline", { dateFormat: "Y-m-d" });
+
+
+    </script>
 </body>
 </html>
 
+Теперь улучши и оьнови код task-tracker.html
