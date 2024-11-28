@@ -7,7 +7,81 @@
     <title>Fitness Tracker</title>
     <script type="module" src="js/save.js"></script>
     <style>
-        /* Your existing styles remain unchanged */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa; /* Светлый фон */
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+       
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            border-radius: 10px;
+            background-color: #ffffff; /* Белый фон для контейнера */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Легкая тень */
+        }
+       
+        h2 {
+            text-align: center; /* Центрирование заголовка */
+        }
+       
+        .section {
+            margin-bottom: 20px;
+        }
+       
+        input[type="text"],
+        input[type="number"],
+        select {
+            width: calc(100% - 22px); /* Учитываем отступы */
+            padding: 10px;
+            border-radius: 10px; /* Закругленные углы */
+            border: 1px solid #ccc;
+            margin-bottom: 10px;
+        }
+       
+        button {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 20px; /* Овальные кнопки */
+            background-color: #007bff; /* Основной цвет кнопки */
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-top: 10px; /* Отступ сверху */
+            width: 100%; /* Кнопка занимает 100% ширины */
+        }
+       
+        button:hover {
+            background-color: #0056b3; /* Цвет при наведении */
+        }
+       
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+       
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+       
+        th {
+            background-color: #f1f1f1; /* Цвет фона для заголовков таблицы */
+        }
+       
+        #summary {
+            margin-top: 20px;
+            padding: 10px;
+            border-radius: 10px; /* Закругленные углы */
+            background-color: #f1f1f1; /* Светлый фон для сводки */
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); /* Легкая тень */
+        }
+    
     </style>
 </head>
 <body>
