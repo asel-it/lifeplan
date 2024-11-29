@@ -196,58 +196,43 @@ html, body {
 }
 
 /* Общие стили для каруселей */
-.carousel-wrapper {
+/* Элементы слайдера */
+.carousel-item {
+  flex: 0 0 auto; /* Без сжатия и растяжения */
+  width: 30%; /* Ширина карточек */
+  height: 100%; /* Высота карточки на всю высоту */
+  padding: 10px; /* Отступы внутри карточки */
   display: flex;
-  align-items: center;
   justify-content: center;
-  position: relative;
-  overflow: hidden;
-  width: 100%;
-  max-width: 900px;
-  margin: 20px auto;
+  align-items: center;
+  background-color: #f5f5f7; /* Светлый фон */
+  box-sizing: border-box;
+  border-radius: 15px; /* Скругление углов карточек */
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Плавная анимация */
+  box-shadow: 0 0 20px rgba(169, 169, 169, 0.5), 0 0 10px rgba(255, 255, 255, 0.3); /* Серое свечение по краям */
 }
 
+/* Эффект при наведении на карточку */
+.carousel-item:hover {
+  transform: scale(1.05); /* Увеличение карточки при наведении */
+  box-shadow: 0 0 30px rgba(169, 169, 169, 0.7), 0 0 15px rgba(255, 255, 255, 0.5); /* Усиленное серое свечение */
+}
+
+/* Стили для самого слайдера (обертки) */
+.carousel-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  overflow: hidden; /* Скрываем лишнее содержимое */
+  margin-bottom: 40px;
+  width: 100%; /* Слайдер будет растягиваться на всю ширину */
+  height: auto; /* Позволяет слайдеру быть гибким по высоте */
+  margin-bottom: 60px; /* Отступ снизу для второго слайдера */
+}
+
+/* Карусель (обертка всех элементов слайдера) */
 .carousel {
   display: flex;
-  gap: 10px;
-  overflow-x: scroll;
-  scroll-behavior: smooth;
-  padding: 10px;
-}
-
-.carousel::-webkit-scrollbar {
-  display: none; /* Убираем полосу прокрутки */
-}
-
-.carousel-item {
-  flex: 0 0 auto;
-  width: 150px;
-  height: 150px;
-  background-color: #f0f0f0;
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-}
-
-.carousel-button {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  background-color: rgba(0, 0, 0, 0.5);
-  color: white;
-  border: none;
-  font-size: 18px;
-  padding: 10px;
-  cursor: pointer;
-  z-index: 1;
-}
-
-.carousel-button.left {
-  left: 10px;
-}
-
-.carousel-button.right {
-  right: 10px;
+  transition: transform 0.5s ease;
+  width: 100%; /* Растягиваем карусель на 100% */
 }
