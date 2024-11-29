@@ -196,46 +196,50 @@
   }
   
   /* Весь контейнер карусели */
-  .carousel-wrapper {
+.carousel-wrapper {
     position: relative;
     width: 100%; /* На всю ширину экрана */
     overflow: hidden;
     display: flex;
     align-items: center;
     justify-content: center;
-  }
-  
-  /* Контейнер карусели */
-  .carousel-container {
+    margin-bottom: 20px; /* Отступ между каруселями */
+}
+
+/* Контейнер карусели */
+.carousel-container {
     width: 100%; /* На всю ширину экрана */
     overflow: hidden;
-  }
-  
-  /* Сама карусель */
-  .carousel {
+    height: 250px; /* Явная высота контейнера */
+}
+
+/* Сама карусель */
+.carousel {
     display: flex;
     transition: transform 0.5s ease-in-out;
     width: max-content;
-  }
-  
-  /* Карточки карусели */
-  .carousel-item {
+    height: 100%; /* Карусель растягивается на весь контейнер */
+}
+
+/* Карточки карусели */
+.carousel-item {
     flex: 0 0 calc(20% - 20px); /* Каждая карточка занимает 20% ширины экрана минус отступы */
     margin: 0 10px; /* Промежуток между карточками */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     border-radius: 10px;
     overflow: hidden;
     background-color: #fff;
-  }
-  
-  .carousel-item img {
+    height: 100%; /* Высота карточек равна высоте контейнера */
+}
+
+.carousel-item img {
     width: 100%;
-    height: auto;
-    display: block;
-  }
-  
-  /* Кнопки прокрутки */
-  .carousel-button {
+    height: 100%; /* Изображение масштабируется по карточке */
+    object-fit: cover; /* Сохраняем пропорции изображения */
+}
+
+/* Кнопки прокрутки */
+.carousel-button {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
@@ -247,17 +251,16 @@
     z-index: 10;
     padding: 10px;
     border-radius: 50%;
-  }
-  
-  .carousel-button.left {
+}
+
+.carousel-button.left {
     left: 10px;
-  }
-  
-  .carousel-button.right {
+}
+
+.carousel-button.right {
     right: 10px;
-  }
-  
-  .carousel-button:hover {
+}
+
+.carousel-button:hover {
     background-color: rgba(0, 0, 0, 0.7);
-  }
-  
+}
