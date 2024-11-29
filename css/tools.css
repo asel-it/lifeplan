@@ -625,30 +625,25 @@ select:focus {
   }
   
   /* Модальное окно */
-  #toolModal {
+#toolModal {
     display: none;
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    z-index: 1001; /* Модальное окно должно быть выше затемнения */
+    z-index: 1001;
     background-color: white;
-    width: 80%;
-    height: 80%;
+    width: 80%; /* Ширина модального окна */
+    height: 80%; /* Высота модального окна */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     border-radius: 10px;
-    overflow: hidden;
+    overflow: hidden; /* Чтобы содержимое не выходило за рамки */
   }
   
-  /* Кнопка закрытия */
-  #closeModalBtn {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    background: none;
-    border: none;
-    font-size: 24px;
-    cursor: pointer;
-    z-index: 1002; /* Выше модального окна, если нужно */
+  /* Встроенный iframe */
+  #toolFrame {
+    width: 100%; /* Полная ширина */
+    height: 100%; /* Полная высота */
+    border: none; /* Убираем рамку */
   }
   
