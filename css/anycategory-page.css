@@ -193,10 +193,8 @@
     font-size: 3.5em;
     margin: 20px 0;
     margin-top: 80px;
-  }
+  }  
   
-  /* Весь контейнер карусели */
-
 /* Весь контейнер карусели */
 .carousel-wrapper {
     position: relative;
@@ -206,6 +204,7 @@
     align-items: center;
     justify-content: center;
     margin-bottom: 20px;
+    margin-top: 20px;
 }
 
 /* Контейнер карусели */
@@ -218,8 +217,8 @@
 /* Сама карусель */
 .carousel {
     display: flex;
-    transition: transform 0.5s ease-in-out;
     height: 100%;
+    transition: transform 0.5s ease-in-out; /* Плавная анимация движения */
 }
 
 /* Карточки карусели */
@@ -230,6 +229,7 @@
     border-radius: 10px;
     overflow: hidden;
     background-color: #fff;
+    transition: transform 0.3s ease-in-out; /* Для улучшения анимации */
 }
 
 .carousel-item img {
