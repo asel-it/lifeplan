@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Список задач</title>
+    <title>To Do List</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script type="module" src="js/save.js"></script>
@@ -99,14 +99,14 @@
 </head>
 <body>
     <div id="todo-list">
-        <h2>Список задач</h2>
+        <h2>To Do List</h2>
         <input type="text" id="task-input" class="input-field" placeholder="Добавить задачу">
-        <button onclick="addTask()">Добавить</button>
+        <button onclick="addTask()">Add a task</button>
         <table id="tasks" class="task-container">
             <thead>
                 <tr>
-                    <th>Задача</th>
-                    <th>Статус</th>
+                    <th>Task</th>
+                    <th>Status</th>
                 </tr>
             </thead>
             <tbody id="task-body">
@@ -136,7 +136,7 @@
                 // Создаем ячейку для кнопки статуса
                 const statusCell = document.createElement('td');
                 const markButton = document.createElement('button');
-                markButton.textContent = 'Выполнено';
+                markButton.textContent = 'Completed';
                
                 markButton.onclick = function() {
                     row.classList.toggle('completed'); // Меняем класс для отметки выполнения
@@ -150,7 +150,7 @@
                 // Очищаем поле ввода
                 taskInput.value = '';
             } else {
-                alert("Введите задачу");
+                alert("Ented a task");
             }
         }
     </script>
