@@ -55,18 +55,34 @@ function signOut() {
     window.location.href = '/index.html'; // Перенаправляем на главную страницу
 }
 
- // Прокрутка карусели
-function scrollCarousel(carouselId, direction) {
-    const carousel = document.getElementById(carouselId);
-    const itemWidth = carousel.querySelector('.carousel-item').offsetWidth;
+function scrollCarousel(id, direction) {
+    const carousel = document.getElementById(id);
+    const items = carousel.children;
+    const totalItems = items.length;
 
-    carousel.scrollBy({
-        left: direction * itemWidth,
-        behavior: 'smooth'
-    });
+    // Определяем текущую позицию
+    const itemWidth = items[0].offsetWidth;
+    const currentTransform = getComputedStyle(carousel).transform;
+    const currentPosition = currentTransform !== "none" ? parseInt(currentTransform.split(",")[4]) : 0;
+
+    // Рассчитываем новое смещение
+    let newPosition = currentPosition - direction * itemWidth;
+
+    // Зацикливание
+    if (newPosition < -itemWidth * (totalItems - 3)) {
+        newPosition = 0;
+    } else if (newPosition > 0) {
+        newPosition = -itemWidth * (totalItems - 3);
+    }
+
+    // Применяем смещение
+    carousel.style.transform = `translateX(${newPosition}px)`;
 }
 
-// Функция для перехода на страницу tools.html
-function goToToolsPage(selectedId) {
-    window.location.href = '/tools.html?selected=' + selectedId;
+function goToToolsPage(toolId) {
+    alert(`Перейти к инструменту ${toolId}`);
+}
+
+function goToTemplatesPage(templateId) {
+    alert(`Перейти к шаблону ${templateId}`);
 }
