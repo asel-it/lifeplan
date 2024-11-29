@@ -202,12 +202,13 @@ html, body {
   overflow: hidden;
   display: flex;
   align-items: center;
+  justify-content: center;
 }
 
 /* Контейнер карусели */
 .carousel-container {
+  width: 100%; /* На всю ширину экрана */
   overflow: hidden;
-  width: 100%; /* На всю ширину */
 }
 
 /* Сама карусель */
@@ -219,11 +220,12 @@ html, body {
 
 /* Карточки карусели */
 .carousel-item {
-  flex: 0 0 20%; /* Ширина карточки — 20% для 5 карточек на экране */
+  flex: 0 0 calc(20% - 20px); /* Каждая карточка занимает 20% ширины экрана минус отступы */
   margin: 0 10px; /* Промежуток между карточками */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   border-radius: 10px;
   overflow: hidden;
+  background-color: #fff;
 }
 
 .carousel-item img {
