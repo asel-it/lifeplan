@@ -78,6 +78,10 @@ document.getElementById(tabName).style.display = 'block';
 
 document.addEventListener('DOMContentLoaded', () => showTab('toolsTab'));
 
+document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('closeModalBtn').addEventListener('click', closeTool);
+});
+
 
 // Открытие инструмента в модальном окне
 function openTool(toolPath) {
