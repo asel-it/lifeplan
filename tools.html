@@ -41,10 +41,10 @@
         <h1 class="page-title">Tools</h1>
 
         <!-- Кнопки для переключения вкладок -->
-        <div class="tabs">
-            <button class="tab-button" onclick="openTab('toolsTab')">Tools</button>
-            <button class="tab-button" onclick="openTab('templatesTab')">Templates</button>
-        </div>
+<div class="tabs">
+    <button class="tab-button" onclick="openTab('toolsTab')">Tools</button>
+    <button class="tab-button" onclick="openTab('templatesTab')">Templates</button>
+</div>
 
         <!-- Выпадающие меню для категорий и подкатегорий -->
         <div class="dropdowns">
@@ -71,40 +71,29 @@
                     <div class="card" data-tool="budget-tracker" onclick="openTool('tools/budget-tracker.html')">Budget Tracker</div>
                     <div class="card" data-tool="daily-planner" onclick="openTool('tools/daily-planner.html')">Daily Planner</div>
                     <div class="card" data-tool="eisenhower-matrix" onclick="openTool('tools/eis-matrix.html')">Eisenhower Matrix</div>
-                    <div class="card" data-tool="fitness-tracker" onclick="openTool('tools/fitness-tracker.html')">Fitness Tracker</div>
-                    <div class="card" data-tool="geotask" onclick="openTool('tools/geotask.html')">Geo Task</div>
-                    <div class="card" data-tool="goal-tracker" onclick="openTool('tools/goal-tracker.html')">Goal Tracker</div>
-                    <div class="card" data-tool="habits-tracker" onclick="openTool('tools/habits-tracker.html')">Habits Tracker</div>
-                    <div class="card" data-tool="kanban" onclick="openTool('tools/kanban.html')">Kanban Board</div>
-                    <div class="card" data-tool="lists" onclick="openTool('tools/lists.html')">Lists</div>
-                    <div class="card" data-tool="progress-chart" onclick="openTool('tools/progress-chart.html')">Progress Chart</div>
-                    <div class="card" data-tool="roadmap" onclick="openTool('tools/roadmap.html')">Roadmap</div>
-                    <div class="card" data-tool="schedules" onclick="openTool('tools/schedules.html')">Schedules</div>
-                    <div class="card" data-tool="task-calendar" onclick="openTool('tools/task-calendar.html')">Task Calendar</div>
-                    <div class="card" data-tool="task-tracker" onclick="openTool('tools/task-tracker.html')">Task Tracker</div>
-                    <div class="card" data-tool="todo-list" onclick="openTool('tools/todo-list.html')">To Do List</div>
-                    <!-- Добавьте другие карточки по аналогии -->
+                    <!-- Добавьте остальные карточки -->
                 </div>
             </div>
-       
-       
-          <!-- Контейнер для отображения инструмента -->
-<div id="toolContainer">
-    <div id="toolContent"></div>
-    <button onclick="closeTool()" style="position: absolute; top: 10px; right: 10px; background-color: #ff3333; color: #fff; padding: 8px 12px; border: none; border-radius: 4px; cursor: pointer;">
-        Закрыть
-    </button>
-    <button onclick="saveTool()" style="position: absolute; top: 10px; right: 80px; background-color: #4CAF50; color: #fff; padding: 8px 12px; border: none; border-radius: 4px; cursor: pointer;">
-        Сохранить
-    </button>
-</div>
+        
+            <!-- Контейнер для отображения инструмента -->
+            <div id="toolContainer" style="display: none; position: relative;">
+                <div id="toolContent"></div>
+                <button onclick="closeTool()" style="position: absolute; top: 10px; right: 10px; background-color: #ff3333; color: #fff; padding: 8px 12px; border: none; border-radius: 4px; cursor: pointer;">
+                    Закрыть
+                </button>
+                <button onclick="saveTool()" style="position: absolute; top: 10px; right: 80px; background-color: #4CAF50; color: #fff; padding: 8px 12px; border: none; border-radius: 4px; cursor: pointer;">
+                    Сохранить
+                </button>
+            </div>
+        </div>
+        
 
         <!-- Контейнер для вкладки Templates -->
         <div id="templatesTab" class="tab-content">
             <p>Templates content will be here...</p>
         </div>
     </div>
-    <script type="module" src="js/tools.js"></script>   
+    <script src="js/tools.js"></script>  
     <script type="module" src="js/config.js"></script>
 </body>
 </html>
