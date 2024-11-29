@@ -79,23 +79,32 @@ document.getElementById(tabName).style.display = 'block';
 document.addEventListener('DOMContentLoaded', () => showTab('toolsTab'));
 
 
-// Открытие инструмента
+// Открытие модального окна с инструментом
 function openTool(toolPath) {
-document.getElementById('toolContainer').style.display = 'flex';
-document.getElementById('toolContent').innerHTML = `<iframe src="${toolPath}" width="100%" height="100%" style="border:none;"></iframe>`;
-}
-
-// Закрытие инструмента
-function closeTool() {
-document.getElementById('toolContainer').style.display = 'none';
-document.getElementById('toolContent').innerHTML = '';
-}
-
-// Обработка событий открытия/закрытия модального окна
-function toggleModal(open) {
-document.body.classList.toggle("modal-open", open);
-document.querySelector(".modal").style.display = open ? "block" : "none";
-}
+    const modal = document.getElementById('toolModal');
+    const overlay = document.getElementById('modalOverlay');
+    const iframe = document.getElementById('toolFrame');
+  
+    iframe.src = toolPath;
+    modal.style.display = 'block';
+    overlay.style.display = 'block';
+  }
+  
+  // Закрытие модального окна
+  function closeTool() {
+    const modal = document.getElementById('toolModal');
+    const overlay = document.getElementById('modalOverlay');
+    const iframe = document.getElementById('toolFrame');
+  
+    modal.style.display = 'none';
+    overlay.style.display = 'none';
+    iframe.src = ''; // Очистить iframe
+  }
+  
+  // Обработка кликов на затемнение или кнопку закрытия
+  document.getElementById('modalOverlay').addEventListener('click', closeTool);
+  document.getElementById('closeModalBtn').addEventListener('click', closeTool);
+  
 
 document.querySelector(".open-modal-btn").addEventListener("click", () => toggleModal(true));
 document.querySelector(".close-modal-btn").addEventListener("click", () => toggleModal(false));
