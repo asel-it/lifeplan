@@ -1,42 +1,36 @@
-// Update time and date
+// Обновление времени и даты
 function updateTimeAndDate() {
-  const now = new Date();
-  const day = now.getDate().toString().padStart(2, '0');
-  const month = (now.getMonth() + 1).toString().padStart(2, '0');
-  const year = now.getFullYear();
-  const hours = now.getHours();
-  const minutes = now.getMinutes().toString().padStart(2, '0');
-  const seconds = now.getSeconds().toString().padStart(2, '0');
-  const ampm = hours >= 12 ? 'PM' : 'AM';
-  const displayHours = (hours % 12 || 12).toString().padStart(2, '0');
-  document.getElementById('date').textContent = `${day}.${month}.${year}`;
-  document.getElementById('time').textContent = `${displayHours}:${minutes}:${seconds} ${ampm}`;
+    const now = new Date();
+    const day = now.getDate().toString().padStart(2, '0');
+    const month = (now.getMonth() + 1).toString().padStart(2, '0');
+    const year = now.getFullYear();
+    const hours = now.getHours();
+    const minutes = now.getMinutes().toString().padStart(2, '0');
+    const seconds = now.getSeconds().toString().padStart(2, '0');
+    const ampm = hours >= 12 ? 'PM' : 'AM';
+    const displayHours = (hours % 12 || 12).toString().padStart(2, '0');
+    document.getElementById('date').textContent = `${day}.${month}.${year}`;
+    document.getElementById('time').textContent = `${displayHours}:${minutes}:${seconds} ${ampm}`;
 }
 setInterval(updateTimeAndDate, 1000);
 
- // Menu toggle functionality
- const menuIcon = document.getElementById("menu-icon");
- const sideMenu = document.getElementById("side-menu");
- const content = document.getElementById("content");
- menuIcon.addEventListener("click", function () {
-     sideMenu.classList.toggle("open");
-     content.classList.toggle("menu-open");
- });
+// Открытие/закрытие бокового меню
+const menuIcon = document.getElementById("menu-icon");
+const sideMenu = document.getElementById("side-menu");
+menuIcon.addEventListener("click", function () {
+    sideMenu.classList.toggle("open");
+});
 
-// Функция для проверки авторизации
+// Проверка авторизации
 function checkAuth() {
-    // Предположим, что мы используем localStorage для хранения информации о сессии
-    const isAuthenticated = localStorage.getItem('authToken'); // Или любая другая логика проверки авторизации
-
+    const isAuthenticated = localStorage.getItem('authToken');
     if (isAuthenticated) {
-        // Если пользователь авторизован, показываем ссылки на личные страницы и Sign Out
         document.getElementById('dashboard-link').style.display = 'block';
         document.getElementById('my-plans-link').style.display = 'block';
         document.getElementById('my-profile-link').style.display = 'block';
         document.getElementById('sign-up-login-link').style.display = 'none';
         document.getElementById('sign-out-link').style.display = 'block';
     } else {
-        // Если пользователь не авторизован, показываем только "Sign Up/Login"
         document.getElementById('dashboard-link').style.display = 'none';
         document.getElementById('my-plans-link').style.display = 'none';
         document.getElementById('my-profile-link').style.display = 'none';
@@ -44,47 +38,27 @@ function checkAuth() {
         document.getElementById('sign-out-link').style.display = 'none';
     }
 }
-
-// Вызов функции для проверки авторизации при загрузке страницы
 document.addEventListener('DOMContentLoaded', checkAuth);
 
-// Функция выхода (удаление токена и перенаправление)
+// Выход из аккаунта
 function signOut() {
-    localStorage.removeItem('authToken'); // Удаляем токен (или другую информацию об авторизации)
-    checkAuth(); // Обновляем меню
-    window.location.href = '/index.html'; // Перенаправляем на главную страницу
+    localStorage.removeItem('authToken');
+    checkAuth();
+    window.location.href = '/index.html';
 }
 
-function scrollCarousel(id, direction) {
-    const carousel = document.getElementById(id);
-    const items = carousel.children;
-    const itemWidth = items[0].offsetWidth;
-    const visibleItems = 3; // Количество видимых карточек
-    const totalItems = items.length;
-    const maxOffset = -itemWidth * (totalItems - visibleItems); // Максимальное смещение
+// Прокрутка карусели
+function scrollCarousel(carouselId, direction) {
+    const carousel = document.getElementById(carouselId);
+    const itemWidth = carousel.querySelector('.carousel-item').offsetWidth;
 
-    // Текущая позиция
-    const currentTransform = getComputedStyle(carousel).transform;
-    const currentPosition = currentTransform !== "none" ? parseInt(currentTransform.split(",")[4]) : 0;
-
-    // Рассчитываем новое смещение
-    let newPosition = currentPosition - direction * itemWidth;
-
-    // Зацикливание
-    if (newPosition < maxOffset) {
-        newPosition = 0; // Возвращаемся к началу
-    } else if (newPosition > 0) {
-        newPosition = maxOffset; // Перемещаемся к концу
-    }
-
-    // Применяем смещение
-    carousel.style.transform = `translateX(${newPosition}px)`;
+    carousel.scrollBy({
+        left: direction * itemWidth,
+        behavior: 'smooth'
+    });
 }
 
-function goToToolsPage(toolId) {
-    alert(`Перейти к инструменту ${toolId}`);
-}
-
-function goToTemplatesPage(templateId) {
-    alert(`Перейти к шаблону ${templateId}`);
+// Функция для перехода на страницу tools.html
+function goToToolsPage(selectedId) {
+    window.location.href = '/tools.html?selected=' + selectedId;
 }
