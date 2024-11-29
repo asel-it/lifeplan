@@ -49,8 +49,8 @@ function signOut() {
 
 function scrollCarousel(carouselId, direction) {
     const carousel = document.getElementById(carouselId);
-    const containerWidth = carousel.parentElement.offsetWidth;
-    const itemWidth = containerWidth / 5; // Вычисляем ширину одной карточки (5 карточек на экран)
+    const container = carousel.parentElement; // Контейнер карусели
+    const itemWidth = container.offsetWidth / 5; // Ширина одной карточки (5 карточек на экран)
 
     // Скроллим карусель
     carousel.scrollBy({
@@ -58,7 +58,7 @@ function scrollCarousel(carouselId, direction) {
         behavior: 'smooth',
     });
 
-    // Если нужна бесконечная прокрутка:
+    // Для бесконечной прокрутки
     setTimeout(() => {
         if (direction === 1) {
             // Перемещаем первую карточку в конец
