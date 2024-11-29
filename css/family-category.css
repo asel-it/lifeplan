@@ -195,118 +195,73 @@ html, body {
   margin-top: 80px;
 }
 
-/* Общий контейнер для слайдеров */
-.container {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  height: 100vh; /* Высота экрана */
-  overflow: hidden; /* Скрываем все, что выходит за пределы экрана */
-}
-
-
-/* Контейнер с иконками и первым слайдером */
-.icon-slider-container {
-  flex: 1; /* Занимает всю доступную высоту, но не больше */
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  overflow: hidden; /* Оставляем только первый слайдер видимым */
-  padding: 10px;
-}
-
-
-/* Контейнер для второго слайдера */
-.second-carousel-container {
-  height: 100%; /* Высота второго слайдера */
-  overflow-y: auto; /* Добавляем вертикальную прокрутку */
-  padding: 10px;
-}
-
-
-
-/* Сам слайдер */
-.carousel {
-  display: flex;
-  transition: transform 0.5s ease;
-  width: 100%;
-  box-sizing: border-box;
-}
-
-
-/* Элементы слайдера */
-.carousel-item {
-  flex: 0 0 auto; /* Без сжатия и растяжения */
-  width: 30%; /* Ширина карточек */
-  height: 100%; /* Высота карточки на всю высоту */
-  padding: 10px; /* Отступы внутри карточки */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: #f5f5f7; /* Светлый фон */
-  box-sizing: border-box;
-  border-radius: 15px; /* Скругление углов карточек */
-  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Плавная анимация */
-  box-shadow: 0 0 20px rgba(169, 169, 169, 0.5), 0 0 10px rgba(255, 255, 255, 0.3); /* Серое свечение по краям */
-}
-
-
-/* Эффект при наведении на карточку */
-.carousel-item:hover {
-  transform: scale(1.05); /* Увеличение карточки при наведении */
-  box-shadow: 0 0 30px rgba(169, 169, 169, 0.7), 0 0 15px rgba(255, 255, 255, 0.5); /* Усиленное серое свечение */
-}
-
-
-/* Стили для самого слайдера (обертки) */
+/* Общие стили для каруселей */
 .carousel-wrapper {
   position: relative;
-  display: flex;
-  align-items: center;
-  overflow: hidden; /* Скрываем лишнее содержимое */
-  margin-bottom: 40px;
-  width: 100%; /* Слайдер будет растягиваться на всю ширину */
-  height: auto; /* Позволяет слайдеру быть гибким по высоте */
-  margin-bottom: 60px; /* Отступ снизу для второго слайдера */
+  width: 100%;
+  overflow: hidden;
+  margin: 20px 0;
 }
 
-
-/* Карусель (обертка всех элементов слайдера) */
 .carousel {
   display: flex;
-  transition: transform 0.5s ease;
-  width: 100%; /* Растягиваем карусель на 100% */
+  gap: 10px; /* Расстояние между карточками */
+  transition: transform 0.3s ease-in-out;
+  will-change: transform;
 }
 
-/* Изображения внутри карточек */
+.carousel-item {
+  flex: 0 0 auto; /* Фиксируем ширину карточек */
+  width: 150px; /* Ширина карточек */
+  height: 200px; /* Высота карточек */
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background: #fff;
+  text-align: center;
+}
+
 .carousel-item img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  border-radius: 10px;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  object-fit: cover; /* Чтобы изображение адаптировалось к карточке */
 }
 
-
-/* Кнопки слайдера */
 .carousel-button {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  background-color: rgba(255, 255, 255, 0.7);
+  background: rgba(0, 0, 0, 0.5);
+  color: #fff;
   border: none;
   border-radius: 50%;
-  padding: 10px;
+  width: 40px;
+  height: 40px;
   cursor: pointer;
   z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
-
 
 .carousel-button.left {
   left: 10px;
 }
 
-
 .carousel-button.right {
   right: 10px;
+}
+
+/* Стили для предотвращения вертикального движения */
+.carousel-wrapper .carousel {
+  height: auto; /* Автоматическая высота для выравнивания */
+}
+
+.second-carousel-container {
+  margin-top: 20px;
+}
+
+.second-carousel-container .carousel {
+  overflow: hidden; /* Убираем возможное вертикальное движение */
+  height: auto;
 }

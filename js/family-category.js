@@ -55,28 +55,17 @@ function signOut() {
     window.location.href = '/index.html'; // Перенаправляем на главную страницу
 }
 
- function scrollCarousel(carouselId, direction) {
-  const carousel = document.getElementById(carouselId);
-  const itemWidth = carousel.querySelector('.carousel-item').offsetWidth;
+function scrollCarousel(carouselId, direction) {
+    const carousel = document.getElementById(carouselId);
+    const scrollAmount = 160; // Ширина прокрутки в пикселях
 
-
-  carousel.scrollBy({
-      left: direction * itemWidth,
-      behavior: 'smooth'
-  });
-
-
-  // Для бесконечной прокрутки
-  if (direction === 1) {
-      setTimeout(() => {
-          carousel.appendChild(carousel.firstElementChild);
-      }, 300);
-  } else {
-      setTimeout(() => {
-          carousel.insertBefore(carousel.lastElementChild, carousel.firstElementChild);
-      }, 300);
-  }
+    if (direction === 1) {
+        carousel.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+    } else {
+        carousel.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+    }
 }
+
 
 // Функция для перехода на страницу tools.html с параметром selectedTool
 function goToToolsPage(selectedTool) {
