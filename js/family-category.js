@@ -58,10 +58,12 @@ function signOut() {
 function scrollCarousel(id, direction) {
     const carousel = document.getElementById(id);
     const items = carousel.children;
-    const totalItems = items.length;
-
-    // Определяем текущую позицию
     const itemWidth = items[0].offsetWidth;
+    const visibleItems = 3; // Количество видимых карточек
+    const totalItems = items.length;
+    const maxOffset = -itemWidth * (totalItems - visibleItems); // Максимальное смещение
+
+    // Текущая позиция
     const currentTransform = getComputedStyle(carousel).transform;
     const currentPosition = currentTransform !== "none" ? parseInt(currentTransform.split(",")[4]) : 0;
 
@@ -69,10 +71,10 @@ function scrollCarousel(id, direction) {
     let newPosition = currentPosition - direction * itemWidth;
 
     // Зацикливание
-    if (newPosition < -itemWidth * (totalItems - 3)) {
-        newPosition = 0;
+    if (newPosition < maxOffset) {
+        newPosition = 0; // Возвращаемся к началу
     } else if (newPosition > 0) {
-        newPosition = -itemWidth * (totalItems - 3);
+        newPosition = maxOffset; // Перемещаемся к концу
     }
 
     // Применяем смещение
