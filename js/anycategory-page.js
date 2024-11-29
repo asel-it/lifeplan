@@ -50,22 +50,26 @@ function signOut() {
 function scrollCarousel(carouselId, direction) {
     const carousel = document.getElementById(carouselId);
     const items = carousel.children;
-    const itemWidth = carousel.offsetWidth / 5; // Вычисляем ширину карточки (5 карточек на экране)
-
-    if (direction === 1) {
-        // Перемещение первой карточки в конец для бесшовной прокрутки
-        carousel.appendChild(items[0]);
-    } else if (direction === -1) {
-        // Перемещение последней карточки в начало для бесшовной прокрутки
-        carousel.insertBefore(items[items.length - 1], items[0]);
-    }
+    const itemWidth = carousel.offsetWidth / 5; // Ширина карточки (5 карточек на экране)
 
     // Анимация прокрутки
-    carousel.style.transition = 'none'; // Отключаем анимацию для перемещения карточек
+    carousel.style.transition = 'transform 0.5s ease-in-out';
     carousel.style.transform = `translateX(${direction * -itemWidth}px)`;
 
-    setTimeout(() => {
-        carousel.style.transition = 'transform 0.5s ease-in-out'; // Включаем анимацию
-        carousel.style.transform = 'translateX(0)'; // Возвращаем карусель в изначальное положение
-    }, 50);
+    // По завершении анимации обновляем порядок карточек
+    carousel.addEventListener('transitionend', function handleTransitionEnd() {
+        carousel.style.transition = 'none'; // Отключаем анимацию перед изменением DOM
+
+        if (direction === 1) {
+            // Перемещаем первую карточку в конец
+            carousel.appendChild(items[0]);
+        } else if (direction === -1) {
+            // Перемещаем последнюю карточку в начало
+            carousel.insertBefore(items[items.length - 1], items[0]);
+        }
+
+        // Сбрасываем смещение карусели
+        carousel.style.transform = 'translateX(0)';
+        carousel.removeEventListener('transitionend', handleTransitionEnd); // Убираем обработчик
+    });
 }
