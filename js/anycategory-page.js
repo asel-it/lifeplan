@@ -49,23 +49,23 @@ function signOut() {
 
 function scrollCarousel(carouselId, direction) {
     const carousel = document.getElementById(carouselId);
-    const container = carousel.parentElement; // Контейнер карусели
-    const itemWidth = container.offsetWidth / 5; // Ширина одной карточки (5 карточек на экран)
+    const items = carousel.children;
+    const itemWidth = carousel.offsetWidth / 5; // Вычисляем ширину карточки (5 карточек на экране)
 
-    // Скроллим карусель
-    carousel.scrollBy({
-        left: direction * itemWidth,
-        behavior: 'smooth',
-    });
+    if (direction === 1) {
+        // Перемещение первой карточки в конец для бесшовной прокрутки
+        carousel.appendChild(items[0]);
+    } else if (direction === -1) {
+        // Перемещение последней карточки в начало для бесшовной прокрутки
+        carousel.insertBefore(items[items.length - 1], items[0]);
+    }
 
-    // Для бесконечной прокрутки
+    // Анимация прокрутки
+    carousel.style.transition = 'none'; // Отключаем анимацию для перемещения карточек
+    carousel.style.transform = `translateX(${direction * -itemWidth}px)`;
+
     setTimeout(() => {
-        if (direction === 1) {
-            // Перемещаем первую карточку в конец
-            carousel.appendChild(carousel.firstElementChild);
-        } else {
-            // Перемещаем последнюю карточку в начало
-            carousel.insertBefore(carousel.lastElementChild, carousel.firstElementChild);
-        }
-    }, 500); // Ждем завершения анимации прокрутки
+        carousel.style.transition = 'transform 0.5s ease-in-out'; // Включаем анимацию
+        carousel.style.transform = 'translateX(0)'; // Возвращаем карусель в изначальное положение
+    }, 50);
 }
