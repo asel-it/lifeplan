@@ -55,24 +55,18 @@ function signOut() {
     window.location.href = '/index.html'; // Перенаправляем на главную страницу
 }
 
+ // Прокрутка карусели
 function scrollCarousel(carouselId, direction) {
     const carousel = document.getElementById(carouselId);
-    const scrollAmount = 160; // Ширина прокрутки в пикселях
+    const itemWidth = carousel.querySelector('.carousel-item').offsetWidth;
 
-    if (direction === 1) {
-        carousel.scrollBy({ left: scrollAmount, behavior: 'smooth' });
-    } else {
-        carousel.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
-    }
+    carousel.scrollBy({
+        left: direction * itemWidth,
+        behavior: 'smooth'
+    });
 }
 
-
-// Функция для перехода на страницу tools.html с параметром selectedTool
-function goToToolsPage(selectedTool) {
-    window.location.href = '/tools.html?selectedTool=' + selectedTool;
-}
-
-// Функция для перехода на страницу tools.html с параметром selectedTemplate
-function goToToolsPage(selectedTemplate) {
-    window.location.href = '/tools.html?selectedTemplate=' + selectedTemplate;
+// Функция для перехода на страницу tools.html
+function goToToolsPage(selectedId) {
+    window.location.href = '/tools.html?selected=' + selectedId;
 }
