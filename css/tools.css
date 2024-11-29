@@ -612,110 +612,48 @@ select:focus {
 
 
 
-/* Размытие страницы при открытом модальном окне */
-.modal-open .content {
-    filter: blur(5px); /* Настройте значение размытия по необходимости */
-    transition: filter 0.3s ease;
-}
-
-
-/* Закрыть кнопку */
-.close {
-    color: #aaa;
-    float: right;
-    font-size: 32px;
-    font-weight: bold;
-    cursor: pointer;
-}
-
-
-
-
-.close:hover,
-.close:focus {
-    color: black;
-    text-decoration: none;
-}
-
-
-
-
-/* Адаптация для мобильных устройств */
-@media (max-width: 768px) {
-    .modal-content {
-        width: 90%; /* Уменьшаем ширину на мобильных устройствах */
-        padding: 20px; /* Меньше отступов */
-    }
-}
-/* Стиль для страницы tools */
-.tools-page {
-    position: relative;
-    transition: filter 0.3s ease;
-}
-
-
-
-
-/* Контейнер модального окна */
-#toolContainer {
-    display: none; /* Модальное окно скрыто по умолчанию */
+/* Стиль модального окна */
+#toolModal {
+    display: none;
     position: fixed;
-    z-index: 1; /* Отображается поверх остального контента */
-    left: 0;
-    top: 0;
-    width: 100%; /* Занимает всю ширину экрана */
-    height: 100vh; /* Заполняет весь экран по высоте */
-    background-color: rgba(0, 0, 0, 0.5); /* Полупрозрачный фон */
-    overflow: auto; /* Добавляем прокрутку, если контент выходит за пределы */
-}
-
-
-
-
-/* Контент модального окна */
-#toolContent {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
     background-color: white;
-    margin: 5% auto; /* Отступ сверху и снизу */
-    padding: 40px;
-    border: 1px solid #888;
-    width: 80%; /* Ширина модального окна 80% от ширины экрана */
-    max-width: 1200px; /* Максимальная ширина окна */
-    border-radius: 12px; /* Закругленные углы */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Тень для красивого эффекта */
-}
-
-
-
-
-/* Кнопка закрытия */
-.close-btn {
+    width: 80%;
+    height: 80%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  
+  #toolModal iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+  }
+  
+  #modalOverlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+  }
+  
+  /* Кнопка закрытия модального окна */
+  #closeModalBtn {
     position: absolute;
-    top: 20px;
-    right: 20px;
-    padding: 10px;
-    background-color: #ff4d4d;
-    color: white;
+    top: 10px;
+    right: 10px;
+    background: none;
     border: none;
-    border-radius: 5px;
+    font-size: 24px;
     cursor: pointer;
-    font-size: 16px;
-}
-
-
-
-
-.close-btn:hover {
-    background-color: #ff3333;
-}
-
-
-/* Стиль для кнопки Save */
-#toolContainer button {
-    padding: 8px 12px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 14px;
-    color: white;
-}
-
+    z-index: 1001;
+  }
+  
