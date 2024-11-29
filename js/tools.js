@@ -79,13 +79,16 @@ document.getElementById(tabName).style.display = 'block';
 document.addEventListener('DOMContentLoaded', () => showTab('toolsTab'));
 
 
-// Открытие модального окна с инструментом
+// Открытие инструмента в модальном окне
 function openTool(toolPath) {
     const modal = document.getElementById('toolModal');
     const overlay = document.getElementById('modalOverlay');
     const iframe = document.getElementById('toolFrame');
   
+    // Устанавливаем URL инструмента
     iframe.src = toolPath;
+  
+    // Показываем модальное окно и затемнение
     modal.style.display = 'block';
     overlay.style.display = 'block';
   }
@@ -96,18 +99,17 @@ function openTool(toolPath) {
     const overlay = document.getElementById('modalOverlay');
     const iframe = document.getElementById('toolFrame');
   
+    // Скрываем модальное окно и затемнение
     modal.style.display = 'none';
     overlay.style.display = 'none';
-    iframe.src = ''; // Очистить iframe
+  
+    // Очищаем содержимое iframe
+    iframe.src = '';
   }
   
-  // Обработка кликов на затемнение или кнопку закрытия
-  document.getElementById('modalOverlay').addEventListener('click', closeTool);
+  // Добавляем обработчик событий для кнопки закрытия
   document.getElementById('closeModalBtn').addEventListener('click', closeTool);
   
-
-document.querySelector(".open-modal-btn").addEventListener("click", () => toggleModal(true));
-document.querySelector(".close-modal-btn").addEventListener("click", () => toggleModal(false));
 
 
 // Сохранить и загрузить данные инструмента
