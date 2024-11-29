@@ -195,17 +195,16 @@ html, body {
   margin-top: 80px;
 }
 
-/* Общий контейнер для карусели */
+/* Весь контейнер карусели */
 .carousel-wrapper {
   position: relative;
-  width: 100%;
-  max-width: 1200px; /* Максимальная ширина для больших экранов */
-  margin: 20px auto;
+  width: 100%; /* На всю ширину экрана */
+  overflow: hidden;
   display: flex;
   align-items: center;
 }
 
-/* Контейнер для карусели */
+/* Контейнер карусели */
 .carousel-container {
   overflow: hidden;
   width: 100%; /* На всю ширину */
@@ -214,31 +213,26 @@ html, body {
 /* Сама карусель */
 .carousel {
   display: flex;
-  transition: transform 0.3s ease-in-out;
-  gap: 10px;
+  transition: transform 0.5s ease-in-out;
+  width: max-content;
 }
 
-/* Карточки */
+/* Карточки карусели */
 .carousel-item {
-  flex: 0 0 calc((100% - 40px) / 5); /* 5 карточек на ширину экрана */
-  height: 200px; /* Высота карточек */
-  background-color: #f0f0f0;
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  flex: 0 0 20%; /* Ширина карточки — 20% для 5 карточек на экране */
+  margin: 0 10px; /* Промежуток между карточками */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
   overflow: hidden;
 }
 
 .carousel-item img {
   width: 100%;
-  height: 100%;
-  object-fit: cover;
+  height: auto;
+  display: block;
 }
 
-/* Кнопки пролистывания */
+/* Кнопки прокрутки */
 .carousel-button {
   position: absolute;
   top: 50%;
@@ -246,10 +240,11 @@ html, body {
   background-color: rgba(0, 0, 0, 0.5);
   color: white;
   border: none;
-  font-size: 18px;
-  padding: 10px;
+  font-size: 24px;
   cursor: pointer;
-  z-index: 1;
+  z-index: 10;
+  padding: 10px;
+  border-radius: 50%;
 }
 
 .carousel-button.left {
@@ -258,4 +253,8 @@ html, body {
 
 .carousel-button.right {
   right: 10px;
+}
+
+.carousel-button:hover {
+  background-color: rgba(0, 0, 0, 0.7);
 }
