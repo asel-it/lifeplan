@@ -196,46 +196,46 @@
   }
   
   /* Весь контейнер карусели */
+
+/* Весь контейнер карусели */
 .carousel-wrapper {
     position: relative;
-    width: 100%; /* На всю ширину экрана */
+    width: 100%;
     overflow: hidden;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 20px; /* Отступ между каруселями */
+    margin-bottom: 20px;
 }
 
 /* Контейнер карусели */
 .carousel-container {
-    width: 100%; /* На всю ширину экрана */
+    width: 100%;
     overflow: hidden;
-    height: 250px; /* Явная высота контейнера */
+    height: 250px;
 }
 
 /* Сама карусель */
 .carousel {
     display: flex;
     transition: transform 0.5s ease-in-out;
-    width: max-content;
-    height: 100%; /* Карусель растягивается на весь контейнер */
+    height: 100%;
 }
 
 /* Карточки карусели */
 .carousel-item {
-    flex: 0 0 calc(20% - 20px); /* Каждая карточка занимает 20% ширины экрана минус отступы */
-    margin: 0 10px; /* Промежуток между карточками */
+    flex: 0 0 calc(20%); /* Каждая карточка занимает ровно 20% ширины контейнера */
+    height: 100%;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     border-radius: 10px;
     overflow: hidden;
     background-color: #fff;
-    height: 100%; /* Высота карточек равна высоте контейнера */
 }
 
 .carousel-item img {
     width: 100%;
-    height: 100%; /* Изображение масштабируется по карточке */
-    object-fit: cover; /* Сохраняем пропорции изображения */
+    height: 100%;
+    object-fit: cover;
 }
 
 /* Кнопки прокрутки */
