@@ -49,23 +49,23 @@ function signOut() {
 
 function scrollCarousel(carouselId, direction) {
     const carousel = document.getElementById(carouselId);
-    const container = carousel.parentElement;
-    const itemWidth = container.offsetWidth / 5; // Ширина одной карточки
+    const containerWidth = carousel.parentElement.offsetWidth;
+    const itemWidth = containerWidth / 5; // Вычисляем ширину одной карточки (5 карточек на экран)
 
     // Скроллим карусель
-    const scrollAmount = direction * itemWidth;
-
     carousel.scrollBy({
-        left: scrollAmount,
+        left: direction * itemWidth,
         behavior: 'smooth',
     });
 
     // Если нужна бесконечная прокрутка:
     setTimeout(() => {
         if (direction === 1) {
+            // Перемещаем первую карточку в конец
             carousel.appendChild(carousel.firstElementChild);
         } else {
+            // Перемещаем последнюю карточку в начало
             carousel.insertBefore(carousel.lastElementChild, carousel.firstElementChild);
         }
-    }, 300);
+    }, 500); // Ждем завершения анимации прокрутки
 }
