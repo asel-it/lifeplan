@@ -197,51 +197,51 @@ html, body {
 
 /* Общие стили для каруселей */
 .carousel-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   position: relative;
-  width: 100%;
   overflow: hidden;
-  margin: 20px 0;
+  width: 100%;
+  max-width: 900px;
+  margin: 20px auto;
 }
 
 .carousel {
   display: flex;
-  gap: 10px; /* Расстояние между карточками */
-  transition: transform 0.3s ease-in-out;
-  will-change: transform;
+  gap: 10px;
+  overflow-x: scroll;
+  scroll-behavior: smooth;
+  padding: 10px;
+}
+
+.carousel::-webkit-scrollbar {
+  display: none; /* Убираем полосу прокрутки */
 }
 
 .carousel-item {
-  flex: 0 0 auto; /* Фиксируем ширину карточек */
-  width: 150px; /* Ширина карточек */
-  height: 200px; /* Высота карточек */
-  border-radius: 10px;
-  overflow: hidden;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  background: #fff;
+  flex: 0 0 auto;
+  width: 150px;
+  height: 150px;
+  background-color: #f0f0f0;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   text-align: center;
-}
-
-.carousel-item img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover; /* Чтобы изображение адаптировалось к карточке */
 }
 
 .carousel-button {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  background: rgba(0, 0, 0, 0.5);
-  color: #fff;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
   border: none;
-  border-radius: 50%;
-  width: 40px;
-  height: 40px;
+  font-size: 18px;
+  padding: 10px;
   cursor: pointer;
-  z-index: 10;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  z-index: 1;
 }
 
 .carousel-button.left {
@@ -250,18 +250,4 @@ html, body {
 
 .carousel-button.right {
   right: 10px;
-}
-
-/* Стили для предотвращения вертикального движения */
-.carousel-wrapper .carousel {
-  height: auto; /* Автоматическая высота для выравнивания */
-}
-
-.second-carousel-container {
-  margin-top: 20px;
-}
-
-.second-carousel-container .carousel {
-  overflow: hidden; /* Убираем возможное вертикальное движение */
-  height: auto;
 }
