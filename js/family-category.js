@@ -47,18 +47,25 @@ function signOut() {
     window.location.href = '/index.html';
 }
 
-// Прокрутка карусели
 function scrollCarousel(carouselId, direction) {
     const carousel = document.getElementById(carouselId);
-    const itemWidth = carousel.querySelector('.carousel-item').offsetWidth;
+    const container = carousel.parentElement;
+    const itemWidth = container.offsetWidth / 5; // Ширина одной карточки
+
+    // Скроллим карусель
+    const scrollAmount = direction * itemWidth;
 
     carousel.scrollBy({
-        left: direction * itemWidth,
-        behavior: 'smooth'
+        left: scrollAmount,
+        behavior: 'smooth',
     });
-}
 
-// Функция для перехода на страницу tools.html
-function goToToolsPage(selectedId) {
-    window.location.href = '/tools.html?selected=' + selectedId;
+    // Если нужна бесконечная прокрутка:
+    setTimeout(() => {
+        if (direction === 1) {
+            carousel.appendChild(carousel.firstElementChild);
+        } else {
+            carousel.insertBefore(carousel.lastElementChild, carousel.firstElementChild);
+        }
+    }, 300);
 }
