@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -137,11 +137,11 @@
     <div class="container">
         <h1>Geo Task</h1>
         <div id="map" class="map"></div>
-        <button id="startTaskBtn">Начать задачу</button>
+        <button id="startTaskBtn">Add a Task</button>
         <div id="taskInfo" class="task-info"></div>
-        <h2>Сохраненные локации:</h2>
+        <h2>Saving location:</h2>
         <ul id="locationList"></ul>
-        <h2>Задачи:</h2>
+        <h2>Tasks:</h2>
         <ul id="taskList"></ul>
     </div>
 
@@ -164,13 +164,13 @@
                     const accuracy = position.coords.accuracy;
 
                     const userMarker = L.marker([userLat, userLng]).addTo(map)
-                        .bindPopup(`Вы здесь! Погрешность: ${accuracy} м.`)
+                        .bindPopup(`We are here! Accuracy: ${accuracy} м.`)
                         .openPopup();
 
                     map.setView([userLat, userLng], 14);
                 },
                 function (error) {
-                    alert("Ошибка получения геолокации.");
+                    alert("Location setting error");
                     map.setView([20, 0], 2);
                 },
                 {
@@ -180,18 +180,18 @@
                 }
             );
         } else {
-            alert("Ваш браузер не поддерживает геолокацию.");
+            alert("Your browser does not support geolocation");
         }
 
         map.on('click', function (e) {
             const clickedLat = e.latlng.lat;
             const clickedLng = e.latlng.lng;
 
-            const locationName = prompt("Введите название локации:");
+            const locationName = prompt("Enter location name:");
 
             if (locationName) {
                 const marker = L.marker([clickedLat, clickedLng]).addTo(map)
-                    .bindPopup(`Название: ${locationName}<br>Координаты: ${clickedLat.toFixed(5)}, ${clickedLng.toFixed(5)}`)
+                    .bindPopup(`Name: ${locationName}<br>Coordinates: ${clickedLat.toFixed(5)}, ${clickedLng.toFixed(5)}`)
                     .openPopup();
 
                 locations.push({
@@ -202,7 +202,7 @@
 
                 updateLocationList();
             } else {
-                alert("Название локации не было указано.");
+                alert("No location name.");
             }
         });
 
@@ -212,10 +212,10 @@
 
             locations.forEach((location, index) => {
                 const listItem = document.createElement('li');
-                listItem.textContent = `${location.name} - Координаты: (${location.lat.toFixed(5)}, ${location.lng.toFixed(5)})`;
+                listItem.textContent = `${location.name} - Coordinates: (${location.lat.toFixed(5)}, ${location.lng.toFixed(5)})`;
 
                 const taskButton = document.createElement('button');
-                taskButton.textContent = 'Создать задачу';
+                taskButton.textContent = 'Set a Task';
                 taskButton.onclick = function () {
                     createTask(location);
                 };
@@ -226,17 +226,17 @@
         }
 
         function createTask(location) {
-            const taskName = prompt("Введите название задачи:");
+            const taskName = prompt("Enter Task Name:");
             if (taskName) {
                 const task = {
                     name: taskName,
                     location: location
                 };
                 tasks.push(task);
-                alert(`Задача "${taskName}" создана с отметкой локации "${location.name}"!`);
+                alert(`Task "${taskName}" created with location mark "${location.name}"!`);
                 updateTaskList();
             } else {
-                alert("Название задачи не было указано.");
+                alert("No task name.");
             }
         }
 
@@ -246,16 +246,16 @@
 
             tasks.forEach((task, index) => {
                 const listItem = document.createElement('li');
-                listItem.textContent = `Задача: ${task.name}, Локация: ${task.location.name} (${task.location.lat.toFixed(5)}, ${task.location.lng.toFixed(5)})`;
+                listItem.textContent = `Task: ${task.name}, Location: ${task.location.name} (${task.location.lat.toFixed(5)}, ${task.location.lng.toFixed(5)})`;
 
                 const markButton = document.createElement('button');
-                markButton.textContent = 'Отметить выполненной';
+                markButton.textContent = 'Mark as completed';
                 markButton.onclick = function () {
                     markTaskAsDone(index);
                 };
 
                 const deleteButton = document.createElement('button');
-                deleteButton.textContent = 'Удалить задачу';
+                deleteButton.textContent = 'Delete task';
                 deleteButton.onclick = function () {
                     deleteTask(index);
                 };
@@ -268,14 +268,14 @@
 
         function markTaskAsDone(index) {
             const task = tasks[index];
-            alert(`Задача "${task.name}" выполнена!`);
+            alert(`Task "${task.name}" completed!`);
             tasks.splice(index, 1);
             updateTaskList();
         }
 
         function deleteTask(index) {
             const task = tasks[index];
-            const confirmDelete = confirm(`Вы уверены, что хотите удалить задачу "${task.name}"?`);
+            const confirmDelete = confirm(`Do you really want to delete the task "${task.name}"?`);
             if (confirmDelete) {
                 tasks.splice(index, 1);
                 updateTaskList();
