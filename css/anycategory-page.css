@@ -197,7 +197,7 @@
   
   /* Весь контейнер карусели */
 
-  .carousel-container {
+.carousel-container {
     display: flex;
     align-items: center;
     justify-content: center;
