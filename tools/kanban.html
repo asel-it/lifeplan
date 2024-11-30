@@ -22,7 +22,18 @@
             overflow-x: hidden; /* Prevent horizontal scroll */
         }
        
-       
+       .container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+       }
+
+       .title {
+        color: #333;
+        font-size: 24px;
+        text-align: center;
+       }
+
         /* Board styles */
         .board {
             display: flex;
@@ -309,7 +320,8 @@
     </head>
 <body>
     <div class="container">
-        <h1>Kanban Board</h1>
+        <h1 class="title">Kanban Board</h1>
+    </div>
     <div class="board" id="board">
         <div class="column hologram" id="todo">
             <h3 data-i18n="todo">To Do</h3>
@@ -721,4 +733,4 @@ function clearInputFields() {
 </body>
 </html>
 
-Проверь,уоучши и оьнови полный код kanban.html
+
