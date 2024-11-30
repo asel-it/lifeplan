@@ -210,7 +210,7 @@
 .carousel-container {
   width: 100%;
   overflow: hidden;
-  height: 350px; /* Увеличиваем высоту контейнера */
+  height: 500px !important; /* Увеличиваем высоту контейнера */
 }
 
 /* Сама карусель */
@@ -223,7 +223,7 @@
 /* Карточки карусели */
 .carousel-item {
   flex: 0 0 calc(20%); /* Каждая карточка занимает ровно 20% ширины контейнера */
-  height: 100%; /* Карточки занимают всю высоту контейнера */
+  height: 100% !important; /* Карточки занимают всю высоту контейнера */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   border-radius: 10px;
   overflow: hidden;
@@ -262,4 +262,10 @@
 
 .carousel-button:hover {
   background-color: rgba(0, 0, 0, 0.7);
+}
+
+@media (max-width: 768px) {
+  .carousel-container {
+    height: 300px; /* Меньшая высота для мобильных устройств */
+  }
 }
